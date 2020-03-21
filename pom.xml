@@ -17,14 +17,14 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>configuration</module>
+        <module>sba</module>
         <module>eureka</module>
         <module>authorization</module>
-        <module>configuration</module>
         <module>zuul</module>
-        <module>client-a</module>
-        <module>client-b</module>
-        <module>sba</module>
-        <module>client-c</module>
+        <module>app-game</module>
+        <module>app-translation</module>
+        <module>app-reference</module>
     </modules>
 
     <properties>
@@ -32,6 +32,8 @@
         <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
+        <sba.version>2.2.2</sba.version>
+        <nimbus-jose-jwt.version>7.3</nimbus-jose-jwt.version>
     </properties>
 
     <repositories>
@@ -44,6 +46,7 @@
 
     <dependencyManagement>
         <dependencies>
+
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -51,6 +54,25 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <dependency>
+                <groupId>com.nimbusds</groupId>
+                <artifactId>nimbus-jose-jwt</artifactId>
+                <version>${nimbus-jose-jwt.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-server</artifactId>
+                <version>${sba.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-client</artifactId>
+                <version>${sba.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

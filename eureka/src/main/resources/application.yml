@@ -1,0 +1,33 @@
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: false
+server:
+  port: 8761
+spring:
+  application:
+    name: eureka
+  boot:
+    admin:
+      client:
+        url: sba-url
+        username: username
+        password: password
+        instance:
+          metadata:
+            user:
+              name: username
+              password: password
+management:
+  server:
+    port: 0 # random port
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    jmx:
+      exposure:
+        include: '*'
+    web:
+      exposure:
+        include: '*'
