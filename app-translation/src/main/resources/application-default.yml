@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:7001/translation
+    username: postgres
+    password: postgres
+  data:
+    rest:
+      base-path: /rest
