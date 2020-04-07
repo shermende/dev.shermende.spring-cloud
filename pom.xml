@@ -25,6 +25,7 @@
         <module>app-game</module>
         <module>app-translation</module>
         <module>app-reference</module>
+        <module>lib-db</module>
     </modules>
 
     <properties>
@@ -32,7 +33,11 @@
         <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
+
+        <lib-db.version>1.0-SNAPSHOT</lib-db.version>
+
         <sba.version>2.2.2</sba.version>
+        <jet-brains.version>17.0.0</jet-brains.version>
         <nimbus-jose-jwt.version>7.3</nimbus-jose-jwt.version>
     </properties>
 
@@ -53,6 +58,18 @@
                 <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>dev.shermende</groupId>
+                <artifactId>lib-db</artifactId>
+                <version>${lib-db.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jetbrains</groupId>
+                <artifactId>annotations</artifactId>
+                <version>${jet-brains.version}</version>
             </dependency>
 
             <dependency>
