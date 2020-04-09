@@ -3,7 +3,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -17,22 +16,21 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>configuration</module>
-        <module>sba</module>
-        <module>eureka</module>
-        <module>authorization</module>
-        <module>zuul</module>
-        <module>app-game</module>
-        <module>app-translation</module>
-        <module>app-reference</module>
         <module>lib-db</module>
+        <module>env-configuration</module>
+        <module>env-sba</module>
+        <module>env-eureka</module>
+        <module>env-authorization</module>
+        <module>env-zuul</module>
+        <module>app-game</module>
+        <module>app-reference</module>
     </modules>
 
     <properties>
         <java.version>1.8</java.version>
-        <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
+        <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
 
         <lib-db.version>1.0-SNAPSHOT</lib-db.version>
 
@@ -51,7 +49,6 @@
 
     <dependencyManagement>
         <dependencies>
-
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -89,24 +86,30 @@
                 <artifactId>spring-boot-admin-client</artifactId>
                 <version>${sba.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 
     <build>
-        <plugins>
-
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-
-        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.mysema.maven</groupId>
+                    <artifactId>apt-maven-plugin</artifactId>
+                    <version>1.1.3</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>process</goal>
+                            </goals>
+                            <configuration>
+                                <outputDirectory>target/generated-sources/java</outputDirectory>
+                                <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
 </project>
