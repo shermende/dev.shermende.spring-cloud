@@ -1,3 +1,5 @@
 spring:
   application:
     name: app-translation
+  jpa:
+    open-in-view: false
