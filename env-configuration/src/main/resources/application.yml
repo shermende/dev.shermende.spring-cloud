@@ -1,0 +1,29 @@
+server:
+  port: 8888
+spring:
+  profiles:
+    active: native
+  boot:
+    admin:
+      client:
+        url: http://127.0.0.1:8000
+        username: username
+        password: password
+  cloud:
+    config:
+      server:
+        native:
+          searchLocations: classpath:/git
+management:
+  server:
+    port: 0 # random port
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    jmx:
+      exposure:
+        include: '*'
+    web:
+      exposure:
+        include: '*'

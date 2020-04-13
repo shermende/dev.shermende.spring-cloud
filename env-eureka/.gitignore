@@ -44,5 +44,4 @@ buildNumber.properties
 .mvn/timing.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
-/docker-compose.yml
-/init.sql
+/src/main/resources/application-default.yml
