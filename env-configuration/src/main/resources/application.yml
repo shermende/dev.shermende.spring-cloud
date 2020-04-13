@@ -3,24 +3,17 @@ server:
 spring:
   profiles:
     active: native
-  application:
-    name: configuration
+  boot:
+    admin:
+      client:
+        url: http://127.0.0.1:8000
+        username: username
+        password: password
   cloud:
     config:
       server:
         native:
           searchLocations: classpath:/git
-  boot:
-    admin:
-      client:
-        url: sba-url
-        username: username
-        password: password
-        instance:
-          metadata:
-            user:
-              name: username
-              password: password
 management:
   server:
     port: 0 # random port

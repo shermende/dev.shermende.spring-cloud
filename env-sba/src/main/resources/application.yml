@@ -2,7 +2,11 @@ server:
   port: 8000
 spring:
   application:
-    name: sba
+    name: env-sba
+  security:
+    user:
+      name: username
+      password: password
   boot:
     admin:
       client:

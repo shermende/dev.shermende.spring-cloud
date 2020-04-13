@@ -1,23 +1,16 @@
+server:
+  port: 8761
+spring:
+  boot:
+    admin:
+      client:
+        url: http://127.0.0.1:8000
+        username: username
+        password: password
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: false
-server:
-  port: 8761
-spring:
-  application:
-    name: eureka
-  boot:
-    admin:
-      client:
-        url: sba-url
-        username: username
-        password: password
-        instance:
-          metadata:
-            user:
-              name: username
-              password: password
 management:
   server:
     port: 0 # random port

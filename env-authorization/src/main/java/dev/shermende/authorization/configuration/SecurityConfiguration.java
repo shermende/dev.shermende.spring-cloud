@@ -1,4 +1,4 @@
-package dev.shermende.authorization.config;
+package dev.shermende.authorization.configuration;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +21,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+            .antMatchers("/actuator/**").permitAll()
+            .antMatchers("/introspect/**").permitAll()
             .antMatchers("/registration/**").permitAll()
             .antMatchers("/.well-known/jwks.json").permitAll()
             .anyRequest().authenticated()

@@ -24,6 +24,7 @@
         <module>env-zuul</module>
         <module>app-game</module>
         <module>app-reference</module>
+        <module>lib-model</module>
     </modules>
 
     <properties>
@@ -33,6 +34,7 @@
         <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
 
         <lib-db.version>1.0-SNAPSHOT</lib-db.version>
+        <lib-model.version>1.0-SNAPSHOT</lib-model.version>
 
         <sba.version>2.2.2</sba.version>
         <jet-brains.version>17.0.0</jet-brains.version>
@@ -60,6 +62,12 @@
             <dependency>
                 <groupId>dev.shermende</groupId>
                 <artifactId>lib-db</artifactId>
+                <version>${lib-db.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>dev.shermende</groupId>
+                <artifactId>lib-model</artifactId>
                 <version>${lib-db.version}</version>
             </dependency>
 

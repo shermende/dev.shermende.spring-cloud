@@ -1,5 +1,8 @@
 spring:
   application:
-    name: authorization
-  jpa:
-    open-in-view: false
+    name: env-authorization
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: env-configuration

@@ -1,0 +1,28 @@
+#
+server:
+  port: 8100
+#
+spring:
+  datasource:
+    url: jdbc:h2:mem:auth
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+#
+management:
+  server:
+    port: 0 # random port
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    jmx:
+      exposure:
+        include: '*'
+    web:
+      exposure:
+        include: '*'

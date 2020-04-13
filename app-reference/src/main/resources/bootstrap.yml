@@ -1,5 +1,8 @@
 spring:
   application:
-    name: app-translation
-  jpa:
-    open-in-view: false
+    name: app-reference
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: env-configuration

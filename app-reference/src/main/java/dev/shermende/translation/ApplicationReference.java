@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ApplicationTranslation {
+public class ApplicationReference {
 
     public static void main(String... args) {
-        SpringApplication.run(ApplicationTranslation.class);
+        SpringApplication.run(ApplicationReference.class);
     }
 
 }

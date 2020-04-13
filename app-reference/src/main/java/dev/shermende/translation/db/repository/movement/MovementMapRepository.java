@@ -1,6 +1,6 @@
 package dev.shermende.translation.db.repository.movement;
 
-import dev.shermende.lib.jpa.repository.QueryDslRepository;
+import dev.shermende.lib.db.repository.QueryDslRepository;
 import dev.shermende.translation.db.entity.movement.MovementMap;
 import dev.shermende.translation.db.entity.movement.QMovementMap;
 import org.jetbrains.annotations.NotNull;

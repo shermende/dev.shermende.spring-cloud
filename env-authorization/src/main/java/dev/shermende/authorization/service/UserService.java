@@ -2,7 +2,7 @@ package dev.shermende.authorization.service;
 
 import dev.shermende.authorization.db.entity.User;
 import dev.shermende.authorization.resource.UserResource;
-import dev.shermende.lib.jpa.service.CrudService;
+import dev.shermende.lib.db.service.CrudService;
 
 import java.util.Optional;
 

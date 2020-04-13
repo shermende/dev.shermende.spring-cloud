@@ -1,6 +1,6 @@
 package dev.shermende.translation.db.entity;
 
-import dev.shermende.lib.jpa.entity.TimedEntity;
+import dev.shermende.lib.db.entity.TimedEntity;
 import lombok.*;
 
 import javax.persistence.Entity;
