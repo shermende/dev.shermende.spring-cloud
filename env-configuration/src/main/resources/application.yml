@@ -1,22 +1,25 @@
+#
 server:
   port: 8888
+#
 spring:
   profiles:
     active: native
-  boot:
-    admin:
-      client:
-        url: http://127.0.0.1:8000
-        username: username
-        password: password
   cloud:
     config:
       server:
         native:
           searchLocations: classpath:/git
+#
+eureka:
+  instance:
+    metadata-map:
+      management.port: ${management.server.port}
+      management.context-path: /actuator
+#
 management:
   server:
-    port: 0 # random port
+    port: 7888
   endpoint:
     health:
       show-details: always

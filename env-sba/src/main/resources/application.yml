@@ -1,26 +1,24 @@
+#
 server:
   port: 8000
+#
 spring:
-  application:
-    name: env-sba
   security:
     user:
       name: username
       password: password
-  boot:
-    admin:
-      client:
-        url: http://127.0.0.1:${server.port} # sba url
-        username: username # sba basic-auth username
-        password: password # sba basic-auth password
-        instance:
-          metadata:
-            user:
-              name: username # optional! client basic-auth username
-              password: password # optional! client basic-auth password
+#
+eureka:
+  instance:
+    metadata-map:
+      user.name: username
+      user.password: password
+      management.port: ${management.server.port}
+      management.context-path: /actuator
+#
 management:
   server:
-    port: 0 # random port
+    port: 7000
   endpoint:
     health:
       show-details: always

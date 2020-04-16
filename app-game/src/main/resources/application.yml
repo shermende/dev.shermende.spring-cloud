@@ -1,6 +1,6 @@
 #
 server:
-  port: 9200
+  port: 8500
 #
 spring:
   datasource:
@@ -13,9 +13,15 @@ spring:
     hibernate:
       ddl-auto: update
 #
+eureka:
+  instance:
+    metadata-map:
+      management.port: ${management.server.port}
+      management.context-path: /actuator
+#
 management:
   server:
-    port: 0 # random port
+    port: 7500 # random port
   endpoint:
     health:
       show-details: always

@@ -1,8 +1,16 @@
+#
 server:
-  port: 8200
+  port: 8999
+#
+eureka:
+  instance:
+    metadata-map:
+      management.port: ${management.server.port}
+      management.context-path: /actuator
+#
 management:
   server:
-    port: 0 # random port
+    port: 7999
   endpoint:
     health:
       show-details: always
@@ -13,3 +21,16 @@ management:
     web:
       exposure:
         include: '*'
+#
+zuul:
+  sensitiveHeaders: Cookie,Set-Cookie
+  routes:
+    clientA:
+      path: /a/**
+      serviceId: client-a
+    clientB:
+      path: /b/**
+      serviceId: client-b
+    clientC:
+      path: /c/**
+      serviceId: client-c

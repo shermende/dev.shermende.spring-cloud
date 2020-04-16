@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: env-sba
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: env-configuration
