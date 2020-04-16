@@ -38,7 +38,7 @@
 
         <sba.version>2.2.2</sba.version>
         <jet-brains.version>17.0.0</jet-brains.version>
-        <nimbus-jose-jwt.version>7.3</nimbus-jose-jwt.version>
+        <nimbus-jose-jwt.version>7.9</nimbus-jose-jwt.version>
     </properties>
 
     <repositories>
