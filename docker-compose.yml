@@ -3,56 +3,77 @@ version: '2.1'
 services:
   env-eureka:
     image: shermende/spring-cloud/env-eureka
+    mem_limit: 512mb
     environment:
       - spring.profiles.active=docker
   env-configuration:
     image: shermende/spring-cloud/env-configuration
+    mem_limit: 512mb
     environment:
       - spring.profiles.active=native
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
       - env-eureka
-  env-sba:
-    image: shermende/spring-cloud/env-sba
+  env-authorization:
+    image: shermende/spring-cloud/env-authorization
     restart: always
-    ports:
-      - 8081:8081
+    mem_limit: 512mb
     environment:
       - spring.profiles.active=docker
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
+      - env-eureka
       - env-configuration
+  app-game:
+    image: shermende/spring-cloud/app-game
+    restart: always
+    mem_limit: 512mb
+    environment:
+      - spring.profiles.active=docker
+      - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
+    depends_on:
+      - env-eureka
+      - env-configuration
+      - env-authorization
+  app-reference:
+    image: shermende/spring-cloud/app-reference
+    restart: always
+    mem_limit: 512mb
+    environment:
+      - spring.profiles.active=docker
+      - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
+    depends_on:
+      - env-eureka
+      - env-configuration
+      - env-authorization
   env-zuul:
     image: shermende/spring-cloud/env-zuul
     restart: always
+    mem_limit: 512mb
     ports:
       - 8080:8080
     environment:
       - spring.profiles.active=docker
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
+      - app-game
+      - app-reference
+      - env-eureka
       - env-configuration
-  env-authorization:
-    image: shermende/spring-cloud/env-authorization
+      - env-authorization
+  env-sba:
+    image: shermende/spring-cloud/env-sba
     restart: always
+    mem_limit: 512mb
+    ports:
+      - 8081:8081
     environment:
       - spring.profiles.active=docker
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
+      - app-game
+      - app-reference
+      - env-eureka
+      - env-authorization
       - env-configuration
-  app-reference:
-    image: shermende/spring-cloud/app-reference
-    restart: always
-    environment:
-      - spring.profiles.active=docker
-      - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
-    depends_on:
-      - env-configuration
-  app-game:
-    image: shermende/spring-cloud/app-game
-    restart: always
-    environment:
-      - spring.profiles.active=docker
-      - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
-    depends_on:
-      - env-configuration
+      - env-zuul
