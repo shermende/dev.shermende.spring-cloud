@@ -12,29 +12,26 @@ import org.springframework.security.config.annotation.web.configurers.oauth2.ser
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
-import org.springframework.stereotype.Component;
-import sun.security.rsa.RSAPublicKeyImpl;
 
 import java.math.BigInteger;
-import java.security.InvalidKeyException;
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.RSAPublicKeySpec;
 
-@Component
+@Configuration
 @EnableConfigurationProperties(SecurityConfiguration.KeyProperties.class)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-            .authorizeRequests()
+        http.authorizeRequests()
+            .antMatchers("/instances/**").permitAll()
             .antMatchers("/actuator/**").permitAll()
-            .anyRequest()
-            .authenticated()
-            .and()
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+            .anyRequest().authenticated()
+            .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and().oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
         ;
     }
 
@@ -49,9 +46,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         private final KeyProperties properties;
 
         @Bean
-        public RSAPublicKey rsaPublicKey() throws InvalidKeyException {
-            return new RSAPublicKeyImpl(new BigInteger(properties.getModulus()), new BigInteger(properties.getExponent()));
+        public RSAPublicKey rsaPublicKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
+            return (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(
+                new RSAPublicKeySpec(new BigInteger(properties.getModulus()), new BigInteger(properties.getExponent())));
         }
+
     }
 
     @Data

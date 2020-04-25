@@ -1,7 +1,4 @@
 #
-server:
-  port: 8600
-#
 spring:
   datasource:
     url: jdbc:h2:mem:reference
@@ -11,24 +8,4 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: update
-#
-eureka:
-  instance:
-    metadata-map:
-      management.port: ${management.server.port}
-      management.context-path: /actuator
-#
-management:
-  server:
-    port: 7600
-  endpoint:
-    health:
-      show-details: always
-  endpoints:
-    jmx:
-      exposure:
-        include: '*'
-    web:
-      exposure:
-        include: '*'
+      ddl-auto: validate

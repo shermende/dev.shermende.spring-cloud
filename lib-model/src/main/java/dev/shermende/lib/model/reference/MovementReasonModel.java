@@ -13,4 +13,7 @@ import org.springframework.hateoas.RepresentationModel;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MovementReasonModel extends RepresentationModel<MovementReasonModel> {
+
+    private Long id;
+
 }

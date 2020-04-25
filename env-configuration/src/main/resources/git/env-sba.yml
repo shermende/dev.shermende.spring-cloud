@@ -1,10 +1,5 @@
 spring:
   security:
     user:
-      name: username
-      password: password
-eureka:
-  instance:
-    metadata-map:
-      user.name: username
-      user.password: password
+      name: configuration
+      password: configuration

@@ -1,3 +1,28 @@
+#
+server:
+  port: 8888
+#
 spring:
   application:
     name: env-configuration
+#
+eureka:
+  instance:
+    prefer-ip-address: true
+    metadata-map:
+      management.port: ${management.server.port}
+      management.context-path: /actuator
+#
+management:
+  server:
+    port: 7888
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    jmx:
+      exposure:
+        include: '*'
+    web:
+      exposure:
+        include: '*'

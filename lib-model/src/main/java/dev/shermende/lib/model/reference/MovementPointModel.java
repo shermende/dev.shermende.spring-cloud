@@ -13,4 +13,7 @@ import org.springframework.hateoas.RepresentationModel;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MovementPointModel extends RepresentationModel<MovementPointModel> {
+
+    private Long id;
+
 }

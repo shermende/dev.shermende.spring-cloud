@@ -1,7 +1,4 @@
 #
-server:
-  port: 8500
-#
 spring:
   datasource:
     url: jdbc:h2:mem:game
@@ -12,23 +9,3 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: update
-#
-eureka:
-  instance:
-    metadata-map:
-      management.port: ${management.server.port}
-      management.context-path: /actuator
-#
-management:
-  server:
-    port: 7500 # random port
-  endpoint:
-    health:
-      show-details: always
-  endpoints:
-    jmx:
-      exposure:
-        include: '*'
-    web:
-      exposure:
-        include: '*'

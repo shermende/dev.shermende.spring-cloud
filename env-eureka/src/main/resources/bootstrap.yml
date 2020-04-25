@@ -1,3 +1,31 @@
+#
+server:
+  port: 8761
+#
 spring:
   application:
     name: env-eureka
+#
+eureka:
+  client:
+    fetch-registry: false
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+    metadata-map:
+      management.port: ${management.server.port}
+      management.context-path: /actuator
+#
+management:
+  server:
+    port: 7761
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    jmx:
+      exposure:
+        include: '*'
+    web:
+      exposure:
+        include: '*'

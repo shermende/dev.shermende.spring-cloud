@@ -1,12 +1,12 @@
 zuul:
   sensitiveHeaders: Cookie,Set-Cookie
   routes:
-    clientA:
-      path: /a/**
-      serviceId: client-a
-    clientB:
-      path: /b/**
-      serviceId: client-b
-    clientC:
-      path: /c/**
-      serviceId: client-c
+    authorization:
+      path: /authorization/**
+      serviceId: env-authorization
+    reference:
+      path: /reference/**
+      serviceId: app-reference
+    game:
+      path: /game/**
+      serviceId: app-game

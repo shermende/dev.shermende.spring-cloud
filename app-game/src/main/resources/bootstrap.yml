@@ -1,8 +1,41 @@
+#
+server:
+  port: 8200
+#
 spring:
   application:
     name: app-game
   cloud:
     config:
+      fail-fast: true
       discovery:
         enabled: true
         service-id: env-configuration
+#
+feign:
+  hystrix:
+    enabled: true
+#
+hystrix:
+  shareSecurityContext: true
+#
+eureka:
+  instance:
+    prefer-ip-address: true
+    metadata-map:
+      management.port: ${management.server.port}
+      management.context-path: /actuator
+#
+management:
+  server:
+    port: 7200
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    jmx:
+      exposure:
+        include: '*'
+    web:
+      exposure:
+        include: '*'
