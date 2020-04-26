@@ -30,8 +30,7 @@ public class MovementRouteController {
         @RequestParam("sourcePointId") Long sourcePointId,
         PagedResourcesAssembler<MovementRoute> pagedResourcesAssembler
     ) {
-        return pagedResourcesAssembler.toModel(
-            service.findAllBySourcePointId(pageable, sourcePointId), assembler);
+        return pagedResourcesAssembler.toModel(service.findAllBySourcePointId(pageable, sourcePointId), assembler);
     }
 
     @GetMapping("/custom/findOneBySourcePointIdAndReasonId")
@@ -40,8 +39,7 @@ public class MovementRouteController {
         @RequestParam("sourcePointId") Long sourcePointId,
         @RequestParam("reasonId") Long reasonId
     ) {
-        return assembler.toModel(service
-            .findOneBySourcePointIdAndReasonId(sourcePointId, reasonId)
+        return assembler.toModel(service.findOneBySourcePointIdAndReasonId(sourcePointId, reasonId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
     }
 

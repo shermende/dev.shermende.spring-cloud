@@ -32,6 +32,10 @@ management:
     web:
       exposure:
         include: '*'
+  metrics:
+    export:
+      influx:
+        db: ${spring.application.name}.${spring.profiles.active:default}.${spring.cloud.client.ip-address}.${server.port}
 #
 logging:
   file:
