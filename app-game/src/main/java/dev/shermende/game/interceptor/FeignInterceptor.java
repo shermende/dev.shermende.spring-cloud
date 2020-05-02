@@ -14,7 +14,6 @@ public class FeignInterceptor implements Interceptor {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void intercept(Object o) {
         log.info("{}", o);
     }

@@ -1,4 +1,4 @@
-package dev.shermende.reference.config;
+package dev.shermende.reference.configuration;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +13,9 @@ import org.springframework.security.config.annotation.web.configurers.oauth2.ser
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.math.BigInteger;
 import java.security.KeyFactory;
@@ -20,6 +23,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPublicKeySpec;
+import java.util.Collections;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -33,8 +37,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/actuator/**").permitAll()
             .anyRequest().authenticated()
             .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and().cors()
             .and().oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
         ;
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Collections.singletonList("*"));
+        configuration.setAllowedMethods(Collections.singletonList("*"));
+        configuration.setAllowedHeaders(Collections.singletonList("*"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
     @Bean

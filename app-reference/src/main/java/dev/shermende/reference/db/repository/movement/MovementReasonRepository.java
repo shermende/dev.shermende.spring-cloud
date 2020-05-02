@@ -7,12 +7,11 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.Optional;
 
-@RepositoryRestResource
+@RepositoryRestResource(collectionResourceRel = "data")
 public interface MovementReasonRepository extends QueryDslRepository<MovementReason, Long, QMovementReason> {
 
     @Override

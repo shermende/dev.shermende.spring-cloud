@@ -1,4 +1,4 @@
-package dev.shermende.game.config;
+package dev.shermende.game.configuration;
 
 import feign.RequestInterceptor;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 
 @Configuration
-public class ApplicationConfiguration {
+public class FeignClientConfiguration {
     private static final String BEARER = "Bearer %s";
 
     @Bean

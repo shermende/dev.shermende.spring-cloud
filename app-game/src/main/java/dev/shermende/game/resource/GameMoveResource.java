@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -13,8 +17,14 @@ import lombok.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GameMoveResource {
 
+    @NotNull
+    @Min(1)
+    @Max(10000000)
     private Long gameId;
 
+    @NotNull
+    @Min(1)
+    @Max(10000000)
     private Long reasonId;
 
 }

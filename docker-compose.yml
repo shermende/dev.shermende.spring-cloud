@@ -3,20 +3,30 @@ version: '2.1'
 services:
   influxdb:
     image: influxdb:1.7.6
+    networks:
+      - devshermendespringcloud
   chronograf:
     image: chronograf:1.7.17
+    networks:
+      - devshermendespringcloud
     ports:
       - 8888:8888
   env-eureka:
     image: shermende/spring-cloud/env-eureka
     mem_limit: 512mb
+    networks:
+      - devshermendespringcloud
     environment:
       - spring.profiles.active=docker
+      - management.metrics.export.influx.uri=http://influxdb:8086
   env-configuration:
     image: shermende/spring-cloud/env-configuration
     mem_limit: 512mb
+    networks:
+      - devshermendespringcloud
     environment:
       - spring.profiles.active=native
+      - management.metrics.export.influx.uri=http://influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
       - env-eureka
@@ -24,8 +34,11 @@ services:
     image: shermende/spring-cloud/env-authorization
     restart: always
     mem_limit: 512mb
+    networks:
+      - devshermendespringcloud
     environment:
       - spring.profiles.active=docker
+      - management.metrics.export.influx.uri=http://influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
       - env-eureka
@@ -34,6 +47,8 @@ services:
     image: shermende/spring-cloud/app-game
     restart: always
     mem_limit: 512mb
+    networks:
+      - devshermendespringcloud
     environment:
       - spring.profiles.active=docker
       - management.metrics.export.influx.uri=http://influxdb:8086
@@ -46,6 +61,8 @@ services:
     image: shermende/spring-cloud/app-reference
     restart: always
     mem_limit: 512mb
+    networks:
+      - devshermendespringcloud
     environment:
       - spring.profiles.active=docker
       - management.metrics.export.influx.uri=http://influxdb:8086
@@ -58,10 +75,13 @@ services:
     image: shermende/spring-cloud/env-zuul
     restart: always
     mem_limit: 512mb
+    networks:
+      - devshermendespringcloud
     ports:
       - 8080:8080
     environment:
       - spring.profiles.active=docker
+      - management.metrics.export.influx.uri=http://influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
       - app-game
@@ -73,10 +93,13 @@ services:
     image: shermende/spring-cloud/env-sba
     restart: always
     mem_limit: 512mb
+    networks:
+      - devshermendespringcloud
     ports:
       - 8081:8081
     environment:
       - spring.profiles.active=docker
+      - management.metrics.export.influx.uri=http://influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
       - app-game
@@ -85,3 +108,10 @@ services:
       - env-authorization
       - env-configuration
       - env-zuul
+#
+networks:
+  devshermendespringcloud:
+    name: devshermendespringcloud_network
+    ipam:
+      config:
+        - subnet: 172.64.0.0/16

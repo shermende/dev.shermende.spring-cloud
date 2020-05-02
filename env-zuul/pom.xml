@@ -32,6 +32,12 @@
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-client</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-influx</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>

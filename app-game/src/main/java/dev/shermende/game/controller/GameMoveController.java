@@ -6,6 +6,7 @@ import dev.shermende.game.service.GameService;
 import dev.shermende.lib.model.game.GameModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,7 @@ public class GameMoveController {
     @PutMapping("/move")
     public GameModel move(
         Authentication authentication,
-        @RequestBody GameMoveResource resource
+        @Validated @RequestBody GameMoveResource resource
     ) {
         return assembler.toModel(service.move(authentication, resource.getGameId(), resource.getReasonId()));
     }

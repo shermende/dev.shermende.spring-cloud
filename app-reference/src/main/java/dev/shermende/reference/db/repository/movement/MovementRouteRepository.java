@@ -11,7 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.Optional;
 
-@RepositoryRestResource
+@RepositoryRestResource(collectionResourceRel = "data")
 public interface MovementRouteRepository extends QueryDslRepository<MovementRoute, Long, QMovementRoute> {
 
     @Override

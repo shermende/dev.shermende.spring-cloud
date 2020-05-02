@@ -1,6 +1,8 @@
 package dev.shermende.game.service.feign;
 
+import dev.shermende.game.interceptor.FeignInterceptor;
 import dev.shermende.lib.model.reference.MovementScenarioModel;
+import dev.shermende.support.spring.component.annotation.InterceptResult;
 import feign.hystrix.FallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
@@ -13,6 +15,7 @@ import java.util.Optional;
 public interface MovementScenarioService {
 
     @GetMapping("/{id}")
+    @InterceptResult(FeignInterceptor.class)
     Optional<MovementScenarioModel> findById(
         @PathVariable Long id
     );
