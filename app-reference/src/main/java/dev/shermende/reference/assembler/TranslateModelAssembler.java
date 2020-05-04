@@ -1,8 +1,8 @@
 package dev.shermende.reference.assembler;
 
-import dev.shermende.lib.model.reference.TranslateModel;
 import dev.shermende.reference.controller.TranslateController;
 import dev.shermende.reference.db.entity.Translate;
+import dev.shermende.reference.model.TranslateModel;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;

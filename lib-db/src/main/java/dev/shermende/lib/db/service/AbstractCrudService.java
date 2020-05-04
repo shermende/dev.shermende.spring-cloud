@@ -64,11 +64,6 @@ public abstract class AbstractCrudService<E, I, Q extends EntityPath<?>> impleme
     }
 
     @Override
-    public Optional<E> findByIdWithDetails(I id) {
-        return queryDslRepository.findWithDetails(id);
-    }
-
-    @Override
     public Page<E> findAll(Pageable pageable) {
         return queryDslRepository.findAll(pageable);
     }

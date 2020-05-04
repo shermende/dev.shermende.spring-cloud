@@ -1,4 +1,4 @@
-package dev.shermende.lib.model.reference;
+package dev.shermende.game.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -14,20 +14,12 @@ import org.springframework.hateoas.server.core.Relation;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Relation(value = "item", collectionRelation = "data")
-public class MovementScenarioModel extends RepresentationModel<MovementScenarioModel> {
+public class MovementPointModel extends RepresentationModel<MovementPointModel> {
 
     private Long id;
 
     private String title;
 
     private String description;
-
-    private String reason;
-
-    private String point;
-
-    private Long reasonId;
-
-    private Long pointId;
 
 }

@@ -16,12 +16,11 @@
 
     <modules>
         <module>lib-db</module>
-        <module>lib-model</module>
-        <module>env-configuration</module>
-        <module>env-sba</module>
         <module>env-eureka</module>
+        <module>env-configuration</module>
         <module>env-authorization</module>
         <module>env-zuul</module>
+        <module>env-sba</module>
         <module>app-game</module>
         <module>app-reference</module>
     </modules>
@@ -68,12 +67,6 @@
             <dependency>
                 <groupId>dev.shermende</groupId>
                 <artifactId>lib-db</artifactId>
-                <version>${lib-db.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>dev.shermende</groupId>
-                <artifactId>lib-model</artifactId>
                 <version>${lib-db.version}</version>
             </dependency>
 

@@ -1,11 +1,9 @@
 package dev.shermende.reference.assembler;
 
-import dev.shermende.lib.model.reference.MovementScenarioModel;
 import dev.shermende.reference.controller.MovementScenarioController;
-import dev.shermende.reference.db.entity.movement.MovementPoint;
-import dev.shermende.reference.db.entity.movement.MovementReason;
 import dev.shermende.reference.db.entity.movement.MovementScenario;
-import dev.shermende.reference.db.repository.TranslateRepository;
+import dev.shermende.reference.model.MovementScenarioModel;
+import dev.shermende.reference.service.TranslateService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
@@ -13,9 +11,9 @@ import org.springframework.stereotype.Component;
 public class MovementScenarioModelAssembler extends AbstractTranslateAssembler<MovementScenario, MovementScenarioModel> {
 
     public MovementScenarioModelAssembler(
-        TranslateRepository translateRepository
+        TranslateService translateService
     ) {
-        super(translateRepository, MovementScenarioController.class, MovementScenarioModel.class);
+        super(translateService, MovementScenarioController.class, MovementScenarioModel.class);
     }
 
     @NotNull
@@ -23,12 +21,10 @@ public class MovementScenarioModelAssembler extends AbstractTranslateAssembler<M
     public MovementScenarioModel toModel(@NotNull MovementScenario entity) {
         return MovementScenarioModel.builder()
             .id(entity.getId())
-            .title(entity.getTitle())
-            .description(entity.getDescription())
+            .title(getTitle(MovementScenarioModel.class, entity.getId()))
+            .description(getDescription(MovementScenarioModel.class, entity.getId()))
             .reasonId(entity.getReasonId())
             .pointId(entity.getPointId())
-            .reason(getTranslate(MovementReason.class, entity.getReasonId()))
-            .point(getTranslate(MovementPoint.class, entity.getPointId()))
             .build();
     }
 

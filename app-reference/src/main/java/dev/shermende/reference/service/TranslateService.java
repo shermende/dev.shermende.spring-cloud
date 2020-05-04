@@ -8,6 +8,9 @@ import java.util.Optional;
 
 public interface TranslateService extends CrudService<Translate, Long> {
 
-    Optional<Translate> findOneByLocaleAndKey(@NotNull String locale, @NotNull String key);
+    Optional<Translate> findOneByLocaleAndKey(
+        @NotNull String locale,
+        @NotNull String key
+    );
 
 }

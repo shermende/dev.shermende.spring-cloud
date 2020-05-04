@@ -1,7 +1,7 @@
 package dev.shermende.game.service.feign;
 
 import dev.shermende.game.interceptor.FeignInterceptor;
-import dev.shermende.lib.model.reference.MovementScenarioModel;
+import dev.shermende.game.model.MovementScenarioModel;
 import dev.shermende.support.spring.component.annotation.InterceptResult;
 import feign.hystrix.FallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;

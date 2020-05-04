@@ -8,14 +8,18 @@ import dev.shermende.game.exception.AuthNotFoundException;
 import dev.shermende.game.exception.GameNotFoundException;
 import dev.shermende.game.exception.RouteNotFoundException;
 import dev.shermende.game.exception.ScenarioNotFoundException;
+import dev.shermende.game.model.MovementRouteModel;
+import dev.shermende.game.model.MovementScenarioModel;
+import dev.shermende.game.model.UserModel;
+import dev.shermende.game.resource.GameCreateResource;
+import dev.shermende.game.resource.GameMoveResource;
 import dev.shermende.game.service.GameService;
 import dev.shermende.game.service.feign.AuthorizationService;
 import dev.shermende.game.service.feign.MovementRouteService;
 import dev.shermende.game.service.feign.MovementScenarioService;
 import dev.shermende.lib.db.service.AbstractCrudService;
-import dev.shermende.lib.model.authorization.UserModel;
-import dev.shermende.lib.model.reference.MovementRouteModel;
-import dev.shermende.lib.model.reference.MovementScenarioModel;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -41,43 +45,56 @@ public class GameServiceImpl extends AbstractCrudService<Game, Long, QGame> impl
     }
 
     @Override
-    public Page<Game> findAll(Authentication authentication, Predicate predicate, Pageable pageable) {
-        final UserModel auth = getAuth();
+    public @NotNull Page<Game> findAll(
+        @NotNull Authentication authentication,
+        @Nullable Predicate predicate,
+        @NotNull Pageable pageable
+    ) {
+        final UserModel auth = authorizationService.introspect().orElseThrow(AuthNotFoundException::new);
         return findAll(QGame.game.userId.eq(auth.getId()).and(predicate), pageable);
     }
 
     @Override
-    public Game create(Authentication authentication, Long scenarioId) {
-        final UserModel auth = getAuth();
-        final MovementScenarioModel scenario = getScenario(scenarioId);
+    public @NotNull Game create(
+        @NotNull Authentication authentication,
+        @NotNull GameCreateResource resource
+    ) {
+        final UserModel auth = authorizationService.introspect().orElseThrow(AuthNotFoundException::new);
+        final MovementScenarioModel scenario = getScenario(resource.getScenarioId());
         return save(Game.builder()
             .userId(auth.getId())
-            .scenarioId(scenarioId)
+            .scenarioId(scenario.getId())
             .reasonId(scenario.getReasonId())
             .pointId(scenario.getPointId())
             .build());
     }
 
     @Override
-    public Game move(Authentication authentication, Long gameId, Long reasonId) {
+    public @NotNull Game move(
+        @NotNull Authentication authentication,
+        @NotNull Long gameId,
+        @NotNull GameMoveResource resource
+    ) {
+        final MovementRouteModel route = getRoute(resource.getRouteId());
         final Game game = findById(gameId).orElseThrow(GameNotFoundException::new);
-        final MovementRouteModel map = getRoute(reasonId, game);
-        game.setReasonId(map.getReasonId());
-        game.setPointId(map.getTargetPointId());
+        game.setRouteId(route.getId());
+        game.setReasonId(route.getReasonId());
+        game.setPointId(route.getTargetPointId());
         return save(game);
     }
 
-    private UserModel getAuth() {
-        return authorizationService.introspect().orElseThrow(AuthNotFoundException::new);
-    }
-
-    private MovementScenarioModel getScenario(Long scenarioId) {
+    @NotNull
+    private MovementScenarioModel getScenario(
+        @NotNull Long scenarioId
+    ) {
         return scenarioService.findById(scenarioId).orElseThrow(ScenarioNotFoundException::new);
     }
 
-    private MovementRouteModel getRoute(Long reasonId, Game game) {
-        return movementRouteService.findBySourcePointIdAndReasonId(game.getPointId(), reasonId)
-            .orElseThrow(RouteNotFoundException::new);
+    @NotNull
+    private MovementRouteModel getRoute(
+        @NotNull Long routeId
+    ) {
+        return movementRouteService.findById(routeId).orElseThrow(RouteNotFoundException::new);
     }
 
 }

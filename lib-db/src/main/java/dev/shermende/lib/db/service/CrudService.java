@@ -27,15 +27,7 @@ public interface CrudService<E, I> {
 
     Optional<E> findById(I id);
 
-    /**
-     * entity lazy load. only id except fields
-     */
     E getById(I id);
-
-    /**
-     * entity graph
-     */
-    Optional<E> findByIdWithDetails(I id);
 
     Page<E> findAll(Pageable pageable);
 

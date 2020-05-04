@@ -1,4 +1,4 @@
-package dev.shermende.lib.model.reference;
+package dev.shermende.game.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -24,10 +24,8 @@ public class MovementRouteModel extends RepresentationModel<MovementRouteModel> 
 
     private Long targetPointId;
 
-    private String sourcePoint;
+    private String title;
 
-    private String reason;
-
-    private String targetPoint;
+    private String description;
 
 }

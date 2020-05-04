@@ -15,7 +15,7 @@ public class FeignInterceptor implements Interceptor {
 
     @Override
     public void intercept(Object o) {
-        log.info("{}", o);
+        log.debug("{}", o);
     }
 
 }

@@ -2,10 +2,10 @@ package dev.shermende.authorization.controller;
 
 import dev.shermende.authorization.assembler.IntrospectAssembler;
 import dev.shermende.authorization.assembler.UserAssembler;
+import dev.shermende.authorization.model.UserModel;
 import dev.shermende.authorization.resource.UserResource;
 import dev.shermende.authorization.service.UserService;
 import dev.shermende.authorization.validator.UserValidator;
-import dev.shermende.lib.model.authorization.UserModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.validation.annotation.Validated;

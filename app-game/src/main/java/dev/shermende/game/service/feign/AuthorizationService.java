@@ -1,7 +1,7 @@
 package dev.shermende.game.service.feign;
 
 import dev.shermende.game.interceptor.FeignInterceptor;
-import dev.shermende.lib.model.authorization.UserModel;
+import dev.shermende.game.model.UserModel;
 import dev.shermende.support.spring.component.annotation.InterceptResult;
 import feign.hystrix.FallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;

@@ -1,11 +1,13 @@
 package dev.shermende.reference.controller;
 
-import dev.shermende.lib.model.reference.MovementScenarioModel;
+import com.querydsl.core.types.Predicate;
 import dev.shermende.reference.assembler.MovementScenarioModelAssembler;
 import dev.shermende.reference.db.entity.movement.MovementScenario;
-import dev.shermende.reference.db.repository.movement.MovementScenarioRepository;
+import dev.shermende.reference.model.MovementScenarioModel;
+import dev.shermende.reference.service.MovementScenarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedModel;
@@ -18,15 +20,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/movementScenarios")
 public class MovementScenarioController {
 
-    private final MovementScenarioRepository repository;
+    private final MovementScenarioService service;
     private final MovementScenarioModelAssembler assembler;
 
-    @GetMapping("/custom/findAll")
+    @GetMapping
     public PagedModel<MovementScenarioModel> findAll(
         @PageableDefault Pageable pageable,
+        @QuerydslPredicate(root = MovementScenario.class) Predicate predicate,
         PagedResourcesAssembler<MovementScenario> pagedResourcesAssembler
     ) {
-        return pagedResourcesAssembler.toModel(repository.findAll(pageable), assembler);
+        return pagedResourcesAssembler.toModel(service.findAll(predicate, pageable), assembler);
     }
 
 }

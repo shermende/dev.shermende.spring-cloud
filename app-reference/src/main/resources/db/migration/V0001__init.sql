@@ -25,13 +25,11 @@ create table if not exists movement_point
 
 create table if not exists movement_scenario
 (
-    id          bigint primary key auto_increment,
-    created_at  timestamp     not null default now(),
-    updated_at  timestamp,
-    title       varchar(255)  not null,
-    description varchar(2048) not null,
-    reason_id   bigint        not null,
-    point_id    bigint        not null
+    id         bigint primary key auto_increment,
+    created_at timestamp not null default now(),
+    updated_at timestamp,
+    reason_id  bigint    not null,
+    point_id   bigint    not null
 );
 
 create table if not exists movement_route
@@ -56,9 +54,9 @@ values (now());
 insert into movement_point(created_at)
 values (now());
 
-insert into movement_scenario(title, description, reason_id, point_id)
-values ('title', 'description', 1, 1);
+insert into movement_scenario(reason_id, point_id)
+values (1, 1);
 
-insert into movement_route(source_point_id, reason_id, target_point_id)
-values (1, 1, 1),
-       (1, 2, 2);
+insert into movement_route(id, source_point_id, reason_id, target_point_id)
+values (1, 1, 1, 1),
+       (2, 1, 2, 2);

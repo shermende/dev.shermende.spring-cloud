@@ -20,11 +20,6 @@ public class GameMoveResource {
     @NotNull
     @Min(1)
     @Max(10000000)
-    private Long gameId;
-
-    @NotNull
-    @Min(1)
-    @Max(10000000)
-    private Long reasonId;
+    private Long routeId;
 
 }

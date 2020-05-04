@@ -1,7 +1,7 @@
 package dev.shermende.game.service.feign;
 
 import dev.shermende.game.interceptor.FeignInterceptor;
-import dev.shermende.lib.model.reference.TranslateModel;
+import dev.shermende.game.model.TranslateModel;
 import dev.shermende.support.spring.component.annotation.InterceptResult;
 import feign.hystrix.FallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -14,10 +14,9 @@ import java.util.Optional;
 @FeignClient(contextId = "translate", name = "app-reference", path = "/translates", fallbackFactory = TranslateService.TranslateServiceFallback.class)
 public interface TranslateService {
 
+    @GetMapping("/findOneByKey")
     @InterceptResult(FeignInterceptor.class)
-    @GetMapping("/custom/findOneByLocaleAndKey")
-    Optional<TranslateModel> findByLocaleAndKey(
-        @RequestParam(value = "locale") String locale,
+    Optional<TranslateModel> findOneByKey(
         @RequestParam(value = "key") String key
     );
 
@@ -25,7 +24,7 @@ public interface TranslateService {
     class TranslateServiceFallback implements FallbackFactory<TranslateService> {
         @Override
         public TranslateService create(Throwable throwable) {
-            return (locale, key) -> Optional.empty();
+            return key -> Optional.empty();
         }
     }
 

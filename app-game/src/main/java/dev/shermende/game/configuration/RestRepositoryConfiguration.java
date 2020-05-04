@@ -1,9 +1,6 @@
-package dev.shermende.reference.configuration;
+package dev.shermende.game.configuration;
 
-import dev.shermende.reference.db.entity.movement.MovementPoint;
-import dev.shermende.reference.db.entity.movement.MovementReason;
-import dev.shermende.reference.db.entity.movement.MovementRoute;
-import dev.shermende.reference.db.entity.movement.MovementScenario;
+import dev.shermende.game.db.entity.Game;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
@@ -26,10 +23,7 @@ public class RestRepositoryConfiguration extends RepositoryRestMvcConfiguration 
     public ProfileResourceProcessor profileResourceProcessor(RepositoryRestConfiguration config) {
         return super.profileResourceProcessor(
             config
-                .exposeIdsFor(MovementRoute.class)
-                .exposeIdsFor(MovementPoint.class)
-                .exposeIdsFor(MovementReason.class)
-                .exposeIdsFor(MovementScenario.class)
+                .exposeIdsFor(Game.class)
         );
     }
 

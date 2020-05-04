@@ -2,6 +2,7 @@ package dev.shermende.game.db.entity;
 
 import dev.shermende.lib.db.entity.BaseEntity;
 import lombok.*;
+import org.jetbrains.annotations.Nullable;
 
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
@@ -14,6 +15,9 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = true)
 public class Game extends BaseEntity<Long> {
     private static final long serialVersionUID = 1425335737055233411L;
+
+    @Nullable
+    private Long routeId;
 
     @NotNull
     private Long userId;

@@ -6,8 +6,6 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.repository.NoRepositoryBean;
 
-import java.util.Optional;
-
 /**
  * @param <E> entity
  * @param <I> id
@@ -16,10 +14,5 @@ import java.util.Optional;
 @NoRepositoryBean
 public interface QueryDslRepository<E, I, Q extends EntityPath<?>>
         extends JpaRepository<E, I>, QuerydslPredicateExecutor<E>, QuerydslBinderCustomizer<Q> {
-
-    /**
-     * entity graph
-     */
-    Optional<E> findWithDetails(I id);
 
 }

@@ -1,11 +1,10 @@
 package dev.shermende.reference.assembler;
 
-import dev.shermende.lib.model.reference.MovementRouteModel;
 import dev.shermende.reference.controller.MovementRouteController;
 import dev.shermende.reference.db.entity.movement.MovementRoute;
-import dev.shermende.reference.db.entity.movement.MovementPoint;
-import dev.shermende.reference.db.entity.movement.MovementReason;
-import dev.shermende.reference.db.repository.TranslateRepository;
+import dev.shermende.reference.model.MovementReasonModel;
+import dev.shermende.reference.model.MovementRouteModel;
+import dev.shermende.reference.service.TranslateService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
@@ -13,9 +12,9 @@ import org.springframework.stereotype.Component;
 public class MovementRouteModelAssembler extends AbstractTranslateAssembler<MovementRoute, MovementRouteModel> {
 
     public MovementRouteModelAssembler(
-        TranslateRepository translateRepository
+        TranslateService translateService
     ) {
-        super(translateRepository, MovementRouteController.class, MovementRouteModel.class);
+        super(translateService, MovementRouteController.class, MovementRouteModel.class);
     }
 
     @NotNull
@@ -23,12 +22,11 @@ public class MovementRouteModelAssembler extends AbstractTranslateAssembler<Move
     public MovementRouteModel toModel(@NotNull MovementRoute entity) {
         return MovementRouteModel.builder()
             .id(entity.getId())
+            .title(getTitle(MovementReasonModel.class, entity.getReasonId()))
+            .description(getDescription(MovementReasonModel.class, entity.getReasonId()))
             .sourcePointId(entity.getSourcePointId())
             .reasonId(entity.getReasonId())
             .targetPointId(entity.getTargetPointId())
-            .sourcePoint(getTranslate(MovementPoint.class, entity.getSourcePointId()))
-            .reason(getTranslate(MovementReason.class, entity.getReasonId()))
-            .targetPoint(getTranslate(MovementPoint.class, entity.getTargetPointId()))
             .build();
     }
 

@@ -2,8 +2,8 @@ package dev.shermende.authorization.assembler;
 
 import dev.shermende.authorization.controller.UserController;
 import dev.shermende.authorization.db.entity.User;
+import dev.shermende.authorization.model.UserModel;
 import dev.shermende.authorization.service.UserService;
-import dev.shermende.lib.model.authorization.UserModel;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

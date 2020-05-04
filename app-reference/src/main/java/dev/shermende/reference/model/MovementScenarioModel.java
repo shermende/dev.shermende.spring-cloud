@@ -1,4 +1,4 @@
-package dev.shermende.lib.model.authorization;
+package dev.shermende.reference.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -14,10 +14,16 @@ import org.springframework.hateoas.server.core.Relation;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Relation(value = "item", collectionRelation = "data")
-public class UserModel extends RepresentationModel<UserModel> {
+public class MovementScenarioModel extends RepresentationModel<MovementScenarioModel> {
 
     private Long id;
 
-    private String email;
+    private Long reasonId;
+
+    private Long pointId;
+
+    private String title;
+
+    private String description;
 
 }

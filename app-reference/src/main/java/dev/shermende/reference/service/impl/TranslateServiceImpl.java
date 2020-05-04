@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class TranslateServiceImpl extends AbstractCrudService<Translate, Long, QTranslate> implements TranslateService {
+public class TranslateServiceImpl extends AbstractCrudService<Translate, Long, QTranslate>
+    implements TranslateService {
 
     public TranslateServiceImpl(
         TranslateRepository repository
@@ -20,7 +21,10 @@ public class TranslateServiceImpl extends AbstractCrudService<Translate, Long, Q
     }
 
     @Override
-    public Optional<Translate> findOneByLocaleAndKey(@NotNull String locale, @NotNull String key) {
+    public Optional<Translate> findOneByLocaleAndKey(
+        @NotNull String locale,
+        @NotNull String key
+    ) {
         return findOne(QTranslate.translate.locale.eq(locale).and(QTranslate.translate.key.eq(key)));
     }
 

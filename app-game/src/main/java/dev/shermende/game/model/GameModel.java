@@ -1,27 +1,29 @@
-package dev.shermende.lib.model.reference;
+package dev.shermende.game.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Relation(value = "item", collectionRelation = "data")
-public class TranslateModel extends RepresentationModel<TranslateModel> {
+public class GameModel extends RepresentationModel<GameModel> {
 
     private Long id;
 
-    private String locale;
+    private MovementRouteModel route;
 
-    private String key;
+    private MovementScenarioModel scenario;
 
-    private String value;
+    private MovementReasonModel reason;
+
+    private MovementPointModel point;
 
 }
