@@ -1,6 +1,6 @@
 package dev.shermende.reference.service.impl;
 
-import dev.shermende.lib.db.service.AbstractCrudService;
+import dev.shermende.lib.support.service.AbstractCrudService;
 import dev.shermende.reference.db.entity.movement.MovementRoute;
 import dev.shermende.reference.db.entity.movement.QMovementRoute;
 import dev.shermende.reference.db.repository.movement.MovementRouteRepository;

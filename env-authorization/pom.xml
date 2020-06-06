@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>dev.shermende</groupId>
-            <artifactId>lib-db</artifactId>
+            <artifactId>lib-support</artifactId>
         </dependency>
 
         <dependency>
@@ -74,6 +74,18 @@
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-influx</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.danielwegener</groupId>
+            <artifactId>logback-kafka-appender</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
             <scope>provided</scope>
         </dependency>
     </dependencies>

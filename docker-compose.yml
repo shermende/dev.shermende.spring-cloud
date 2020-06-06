@@ -7,17 +7,75 @@ services:
     image: chronograf:1.7.17
     ports:
       - 8888:8888
+  zookeeper:
+    image: confluentinc/cp-zookeeper:5.3.1
+    expose:
+      - 2181
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+  kafka:
+    image: confluentinc/cp-kafka:5.3.1
+    expose:
+      - 9092
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ADVERTISED_HOST_NAME=kafka
+      - KAFKA_INTER_BROKER_LISTENER_NAME=LISTENER_INTERNAL
+      - KAFKA_ADVERTISED_LISTENERS=LISTENER_INTERNAL://kafka:9091,LISTENER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=LISTENER_INTERNAL:PLAINTEXT,LISTENER_EXTERNAL:PLAINTEXT
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+    depends_on:
+      - zookeeper
+  kafdrop:
+    image: obsidiandynamics/kafdrop:3.23.0
+    ports:
+      - 9000:9000
+    environment:
+      KAFKA_BROKERCONNECT: kafka:9091
+    depends_on:
+      - kafka
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
+    environment:
+      - discovery.type=single-node
+    expose:
+      - 9200
+    depends_on:
+      - kafka
+  fluentd:
+    build: xdocker-fluentd/
+    volumes:
+      - ./xdocker-fluentd/conf:/fluentd/etc
+    links:
+      - elasticsearch
+    depends_on:
+      - kafka
+  kibana:
+    image: kibana:7.2.0
+    links:
+      - elasticsearch
+    ports:
+      - 5601:5601
+    depends_on:
+      - kafka
   env-eureka:
     image: shermende/spring-cloud/env-eureka
     mem_limit: 512mb
     environment:
       - spring.profiles.active=docker
+      - logging.config=classpath:config/logback-spring.xml
       - management.metrics.export.influx.uri=http://influxdb:8086
+    depends_on:
+      - kafka
+      - elasticsearch
+      - fluentd
+      - kibana
   env-configuration:
     image: shermende/spring-cloud/env-configuration
     mem_limit: 512mb
     environment:
       - spring.profiles.active=native
+      - logging.config=classpath:config/logback-spring.xml
       - management.metrics.export.influx.uri=http://influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
@@ -28,6 +86,7 @@ services:
     mem_limit: 512mb
     environment:
       - spring.profiles.active=docker
+      - logging.config=classpath:config/logback-spring.xml
       - management.metrics.export.influx.uri=http://influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
@@ -39,6 +98,7 @@ services:
     mem_limit: 512mb
     environment:
       - spring.profiles.active=docker
+      - logging.config=classpath:config/logback-spring.xml
       - management.metrics.export.influx.uri=http://influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
@@ -51,6 +111,7 @@ services:
     mem_limit: 512mb
     environment:
       - spring.profiles.active=docker
+      - logging.config=classpath:config/logback-spring.xml
       - management.metrics.export.influx.uri=http://influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
@@ -65,6 +126,7 @@ services:
       - 8080:8080
     environment:
       - spring.profiles.active=docker
+      - logging.config=classpath:config/logback-spring.xml
       - management.metrics.export.influx.uri=http://influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
@@ -81,6 +143,7 @@ services:
       - 8081:8081
     environment:
       - spring.profiles.active=docker
+      - logging.config=classpath:config/logback-spring.xml
       - management.metrics.export.influx.uri=http://influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:

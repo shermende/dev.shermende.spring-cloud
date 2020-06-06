@@ -1,6 +1,6 @@
 package dev.shermende.authorization.db.entity;
 
-import dev.shermende.lib.db.entity.TimedEntity;
+import dev.shermende.lib.support.db.entity.TimedEntity;
 import lombok.*;
 
 import javax.persistence.Column;

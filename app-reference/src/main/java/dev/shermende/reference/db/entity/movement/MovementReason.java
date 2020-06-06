@@ -1,6 +1,6 @@
 package dev.shermende.reference.db.entity.movement;
 
-import dev.shermende.lib.db.entity.TimedEntity;
+import dev.shermende.lib.support.db.entity.TimedEntity;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -1,4 +1,4 @@
-package dev.shermende.lib.db.entity;
+package dev.shermende.lib.support.db.entity;
 
 import lombok.Data;
 
