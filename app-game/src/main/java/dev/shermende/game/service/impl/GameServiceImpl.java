@@ -17,7 +17,7 @@ import dev.shermende.game.service.GameService;
 import dev.shermende.game.service.feign.AuthorizationService;
 import dev.shermende.game.service.feign.MovementRouteService;
 import dev.shermende.game.service.feign.MovementScenarioService;
-import dev.shermende.lib.db.service.AbstractCrudService;
+import dev.shermende.lib.support.service.AbstractCrudService;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.data.domain.Page;

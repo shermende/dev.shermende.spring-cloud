@@ -2,7 +2,7 @@ package dev.shermende.authorization.db.repository;
 
 import dev.shermende.authorization.db.entity.QUser;
 import dev.shermende.authorization.db.entity.User;
-import dev.shermende.lib.db.repository.QueryDslRepository;
+import dev.shermende.lib.support.db.repository.QueryDslRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 
