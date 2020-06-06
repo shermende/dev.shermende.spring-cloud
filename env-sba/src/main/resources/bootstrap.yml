@@ -1,0 +1,42 @@
+#
+server:
+  port: 8081
+#
+spring:
+  application:
+    name: env-sba
+  cloud:
+    config:
+      fail-fast: true
+      discovery:
+        enabled: true
+        service-id: env-configuration
+#
+eureka:
+  instance:
+    prefer-ip-address: true
+    metadata-map:
+      management.port: ${management.server.port}
+      management.context-path: /actuator
+#
+management:
+  server:
+    port: 7081
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    jmx:
+      exposure:
+        include: '*'
+    web:
+      exposure:
+        include: '*'
+  metrics:
+    export:
+      influx:
+        db: ${spring.application.name}.${spring.profiles.active:default}.${spring.cloud.client.ip-address}.${server.port}
+#
+logging:
+  file:
+    name: ${spring.application.name}:${spring.profiles.active:default}:${spring.cloud.client.ip-address}:${server.port}.log

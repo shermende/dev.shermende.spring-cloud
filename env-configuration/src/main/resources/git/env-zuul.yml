@@ -1,0 +1,12 @@
+zuul:
+  sensitiveHeaders: Cookie,Set-Cookie
+  routes:
+    authorization:
+      path: /authorization/**
+      serviceId: env-authorization
+    reference:
+      path: /reference/**
+      serviceId: app-reference
+    game:
+      path: /game/**
+      serviceId: app-game

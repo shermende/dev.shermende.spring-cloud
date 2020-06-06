@@ -2,11 +2,12 @@ package dev.shermende.authorization.controller;
 
 import dev.shermende.authorization.assembler.IntrospectAssembler;
 import dev.shermende.authorization.assembler.UserAssembler;
+import dev.shermende.authorization.model.UserModel;
 import dev.shermende.authorization.resource.UserResource;
 import dev.shermende.authorization.service.UserService;
 import dev.shermende.authorization.validator.UserValidator;
-import dev.shermende.lib.model.authorization.UserModel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class UserController {
 
     @PostMapping("/introspect")
     public UserModel introspect(
-        @RequestParam String token
+        @RequestHeader(HttpHeaders.AUTHORIZATION) String token
     ) {
         return introspectAssembler.toModel(token);
     }

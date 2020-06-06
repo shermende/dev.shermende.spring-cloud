@@ -1,33 +1,6 @@
-server:
-  port: 8000
+#
 spring:
-  application:
-    name: env-sba
   security:
     user:
-      name: username
-      password: password
-  boot:
-    admin:
-      client:
-        url: http://127.0.0.1:${server.port} # sba url
-        username: username # sba basic-auth username
-        password: password # sba basic-auth password
-        instance:
-          metadata:
-            user:
-              name: username # optional! client basic-auth username
-              password: password # optional! client basic-auth password
-management:
-  server:
-    port: 0 # random port
-  endpoint:
-    health:
-      show-details: always
-  endpoints:
-    jmx:
-      exposure:
-        include: '*'
-    web:
-      exposure:
-        include: '*'
+      name: application
+      password: application

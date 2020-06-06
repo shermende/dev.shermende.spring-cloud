@@ -9,7 +9,6 @@
         <version>2.2.5.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-
     <groupId>dev.shermende</groupId>
     <artifactId>spring-cloud</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -17,28 +16,32 @@
 
     <modules>
         <module>lib-db</module>
-        <module>env-configuration</module>
-        <module>env-sba</module>
         <module>env-eureka</module>
+        <module>env-configuration</module>
         <module>env-authorization</module>
         <module>env-zuul</module>
+        <module>env-sba</module>
         <module>app-game</module>
         <module>app-reference</module>
-        <module>lib-model</module>
     </modules>
 
     <properties>
         <java.version>1.8</java.version>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
-        <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
+        <spring-cloud.version>Hoxton.SR4</spring-cloud.version>
 
+        <!--libraries-->
         <lib-db.version>1.0-SNAPSHOT</lib-db.version>
         <lib-model.version>1.0-SNAPSHOT</lib-model.version>
-
         <sba.version>2.2.2</sba.version>
-        <jet-brains.version>17.0.0</jet-brains.version>
+        <org.jetbrains.version>17.0.0</org.jetbrains.version>
         <nimbus-jose-jwt.version>7.9</nimbus-jose-jwt.version>
+        <support-spring.version>1.0.2</support-spring.version>
+
+        <!--plugins-->
+        <dockerfile-maven-plugin.version>1.4.13</dockerfile-maven-plugin.version>
+        <querydsl-apt-maven-plugin.version>1.1.3</querydsl-apt-maven-plugin.version>
     </properties>
 
     <repositories>
@@ -66,21 +69,21 @@
             </dependency>
 
             <dependency>
-                <groupId>dev.shermende</groupId>
-                <artifactId>lib-model</artifactId>
-                <version>${lib-db.version}</version>
-            </dependency>
-
-            <dependency>
                 <groupId>org.jetbrains</groupId>
                 <artifactId>annotations</artifactId>
-                <version>${jet-brains.version}</version>
+                <version>${org.jetbrains.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.nimbusds</groupId>
                 <artifactId>nimbus-jose-jwt</artifactId>
                 <version>${nimbus-jose-jwt.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>dev.shermende</groupId>
+                <artifactId>support-spring</artifactId>
+                <version>${support-spring.version}</version>
             </dependency>
 
             <dependency>
@@ -103,7 +106,7 @@
                 <plugin>
                     <groupId>com.mysema.maven</groupId>
                     <artifactId>apt-maven-plugin</artifactId>
-                    <version>1.1.3</version>
+                    <version>${querydsl-apt-maven-plugin.version}</version>
                     <executions>
                         <execution>
                             <goals>
@@ -115,6 +118,23 @@
                             </configuration>
                         </execution>
                     </executions>
+                </plugin>
+                <plugin>
+                    <groupId>com.spotify</groupId>
+                    <artifactId>dockerfile-maven-plugin</artifactId>
+                    <version>${dockerfile-maven-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>default</id>
+                            <goals>
+                                <goal>build</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <pullNewerImage>false</pullNewerImage>
+                        <repository>shermende/spring-cloud/${project.artifactId}</repository>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>

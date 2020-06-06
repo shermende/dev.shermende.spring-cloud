@@ -2,8 +2,8 @@ package dev.shermende.authorization.assembler;
 
 import dev.shermende.authorization.controller.UserController;
 import dev.shermende.authorization.db.entity.User;
+import dev.shermende.authorization.model.UserModel;
 import dev.shermende.authorization.service.UserService;
-import dev.shermende.lib.model.authorization.UserModel;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -31,9 +31,16 @@ public class IntrospectAssembler extends RepresentationModelAssemblerSupport<Str
     @NotNull
     @Override
     public UserModel toModel(@NotNull String token) {
-        final OAuth2Authentication authentication = getAuthentication(token);
+        final OAuth2Authentication authentication = getAuthentication(prepareToken(token));
         final User user = getUser(token, authentication);
         return UserModel.builder().id(user.getId()).email(user.getEmail()).build();
+    }
+
+    @NotNull
+    private String prepareToken(@NotNull String token) {
+        if (token.startsWith("Bearer "))
+            return token.substring("Bearer ".length());
+        return token;
     }
 
     private OAuth2Authentication getAuthentication(@NotNull String token) {

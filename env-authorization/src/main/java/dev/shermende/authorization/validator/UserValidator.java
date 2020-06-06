@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class UserValidator implements Validator {
@@ -23,7 +25,7 @@ public class UserValidator implements Validator {
     public void validate(@NotNull Object o, @NotNull Errors errors) {
         final UserResource resource = (UserResource) o;
 
-        if (service.findOneByEmail(resource.getEmail()).isPresent())
+        if (Optional.ofNullable(resource.getEmail()).filter(s -> service.findOneByEmail(s).isPresent()).isPresent())
             errors.rejectValue("email", "already-exist");
 
     }

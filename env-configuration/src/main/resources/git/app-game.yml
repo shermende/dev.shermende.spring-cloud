@@ -1,0 +1,7 @@
+#
+spring:
+  datasource:
+    url: jdbc:h2:file:~/spring-cloud/game
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
