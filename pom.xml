@@ -31,13 +31,11 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <spring-cloud.version>Hoxton.SR4</spring-cloud.version>
 
-        <!--local libraries-->
+        <!--libraries-->
         <lib-db.version>1.0-SNAPSHOT</lib-db.version>
         <lib-model.version>1.0-SNAPSHOT</lib-model.version>
-
-        <!--external libraries-->
         <sba.version>2.2.2</sba.version>
-        <jet-brains.version>17.0.0</jet-brains.version>
+        <org.jetbrains.version>17.0.0</org.jetbrains.version>
         <nimbus-jose-jwt.version>7.9</nimbus-jose-jwt.version>
         <support-spring.version>1.0.2</support-spring.version>
 
@@ -73,7 +71,7 @@
             <dependency>
                 <groupId>org.jetbrains</groupId>
                 <artifactId>annotations</artifactId>
-                <version>${jet-brains.version}</version>
+                <version>${org.jetbrains.version}</version>
             </dependency>
 
             <dependency>
