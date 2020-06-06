@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>lib-db</module>
+        <module>lib-support</module>
         <module>env-eureka</module>
         <module>env-configuration</module>
         <module>env-authorization</module>
@@ -32,12 +32,13 @@
         <spring-cloud.version>Hoxton.SR4</spring-cloud.version>
 
         <!--libraries-->
-        <lib-db.version>1.0-SNAPSHOT</lib-db.version>
-        <lib-model.version>1.0-SNAPSHOT</lib-model.version>
+        <lib-support.version>1.0-SNAPSHOT</lib-support.version>
         <sba.version>2.2.2</sba.version>
         <org.jetbrains.version>17.0.0</org.jetbrains.version>
         <nimbus-jose-jwt.version>7.9</nimbus-jose-jwt.version>
         <support-spring.version>1.0.2</support-spring.version>
+        <logback-kafka-appender.version>0.2.0-RC2</logback-kafka-appender.version>
+        <logstash-logback-encoder.version>6.4</logstash-logback-encoder.version>
 
         <!--plugins-->
         <dockerfile-maven-plugin.version>1.4.13</dockerfile-maven-plugin.version>
@@ -64,8 +65,8 @@
 
             <dependency>
                 <groupId>dev.shermende</groupId>
-                <artifactId>lib-db</artifactId>
-                <version>${lib-db.version}</version>
+                <artifactId>lib-support</artifactId>
+                <version>${lib-support.version}</version>
             </dependency>
 
             <dependency>
@@ -96,6 +97,18 @@
                 <groupId>de.codecentric</groupId>
                 <artifactId>spring-boot-admin-client</artifactId>
                 <version>${sba.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.danielwegener</groupId>
+                <artifactId>logback-kafka-appender</artifactId>
+                <version>${logback-kafka-appender.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash-logback-encoder.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

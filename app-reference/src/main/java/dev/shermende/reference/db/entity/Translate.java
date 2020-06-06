@@ -1,10 +1,9 @@
 package dev.shermende.reference.db.entity;
 
-import dev.shermende.lib.db.entity.TimedEntity;
+import dev.shermende.lib.support.db.entity.TimedEntity;
 import lombok.*;
 
 import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 

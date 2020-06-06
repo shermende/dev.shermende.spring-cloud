@@ -1,4 +1,4 @@
-package dev.shermende.lib.db.service;
+package dev.shermende.lib.support.service;
 
 import com.querydsl.core.types.Predicate;
 import org.springframework.data.domain.Page;
