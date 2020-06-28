@@ -1,125 +1,117 @@
 version: '2.1'
 
 services:
-  influxdb:
+  genv-influxdb:
     image: influxdb:1.7.6
-  chronograf:
+  genv-chronograf:
     image: chronograf:1.7.17
     ports:
       - 8888:8888
-  zookeeper:
+  genv-zookeeper:
     image: confluentinc/cp-zookeeper:5.3.1
-    expose:
-      - 2181
     environment:
       - ZOOKEEPER_CLIENT_PORT=2181
-  kafka:
+  genv-kafka:
     image: confluentinc/cp-kafka:5.3.1
-    expose:
-      - 9092
     environment:
-      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-      - KAFKA_ADVERTISED_HOST_NAME=kafka
+      - KAFKA_ADVERTISED_HOST_NAME=genv-kafka
+      - KAFKA_ZOOKEEPER_CONNECT=genv-zookeeper:2181
       - KAFKA_INTER_BROKER_LISTENER_NAME=LISTENER_INTERNAL
-      - KAFKA_ADVERTISED_LISTENERS=LISTENER_INTERNAL://kafka:9091,LISTENER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092
+      - KAFKA_ADVERTISED_LISTENERS=LISTENER_INTERNAL://genv-kafka:9091,LISTENER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092
       - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=LISTENER_INTERNAL:PLAINTEXT,LISTENER_EXTERNAL:PLAINTEXT
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
     depends_on:
-      - zookeeper
-  kafdrop:
+      - genv-zookeeper
+  genv-kafdrop:
     image: obsidiandynamics/kafdrop:3.23.0
     ports:
       - 9000:9000
     environment:
-      KAFKA_BROKERCONNECT: kafka:9091
+      KAFKA_BROKERCONNECT: genv-kafka:9091
     depends_on:
-      - kafka
-  elasticsearch:
+      - genv-kafka
+  genv-elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
     environment:
       - discovery.type=single-node
-    expose:
-      - 9200
     depends_on:
-      - kafka
-  fluentd:
-    build: xdocker-fluentd/
-    volumes:
-      - ./xdocker-fluentd/conf:/fluentd/etc
-    links:
-      - elasticsearch
-    depends_on:
-      - kafka
-  kibana:
+      - genv-kafka
+  genv-kibana:
     image: kibana:7.2.0
-    links:
-      - elasticsearch
+    environment:
+      ELASTICSEARCH_HOSTS: http://genv-elasticsearch:9200
     ports:
       - 5601:5601
     depends_on:
-      - kafka
+      - genv-elasticsearch
+  genv-fluentd:
+    build: genv-fluentd/
+    volumes:
+      - ./genv-fluentd/conf:/fluentd/etc
+    depends_on:
+      - genv-elasticsearch
   env-eureka:
-    image: shermende/spring-cloud/env-eureka
+    build: env-eureka/
     mem_limit: 512mb
     environment:
       - spring.profiles.active=docker
       - logging.config=classpath:config/logback-spring.xml
-      - management.metrics.export.influx.uri=http://influxdb:8086
+      - management.metrics.export.influx.uri=http://genv-influxdb:8086
     depends_on:
-      - kafka
-      - elasticsearch
-      - fluentd
-      - kibana
+      - genv-kafka
+      - genv-elasticsearch
+      - genv-fluentd
+      - genv-kibana
   env-configuration:
-    image: shermende/spring-cloud/env-configuration
+    build: env-configuration/
     mem_limit: 512mb
     environment:
       - spring.profiles.active=native
       - logging.config=classpath:config/logback-spring.xml
-      - management.metrics.export.influx.uri=http://influxdb:8086
+      - management.metrics.export.influx.uri=http://genv-influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
       - env-eureka
   env-authorization:
-    image: shermende/spring-cloud/env-authorization
+    build: env-authorization/
     restart: always
     mem_limit: 512mb
     environment:
       - spring.profiles.active=docker
       - logging.config=classpath:config/logback-spring.xml
-      - management.metrics.export.influx.uri=http://influxdb:8086
+      - management.metrics.export.influx.uri=http://genv-influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
       - env-eureka
       - env-configuration
   app-game:
-    image: shermende/spring-cloud/app-game
+    build: app-game/
     restart: always
     mem_limit: 512mb
     environment:
       - spring.profiles.active=docker
       - logging.config=classpath:config/logback-spring.xml
-      - management.metrics.export.influx.uri=http://influxdb:8086
+      - management.metrics.export.influx.uri=http://genv-influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
       - env-eureka
       - env-configuration
       - env-authorization
   app-reference:
-    image: shermende/spring-cloud/app-reference
+    build: app-reference/
     restart: always
     mem_limit: 512mb
     environment:
       - spring.profiles.active=docker
       - logging.config=classpath:config/logback-spring.xml
-      - management.metrics.export.influx.uri=http://influxdb:8086
+      - management.metrics.export.influx.uri=http://genv-influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
       - env-eureka
       - env-configuration
       - env-authorization
   env-zuul:
-    image: shermende/spring-cloud/env-zuul
+    build: env-zuul/
     restart: always
     mem_limit: 512mb
     ports:
@@ -127,7 +119,7 @@ services:
     environment:
       - spring.profiles.active=docker
       - logging.config=classpath:config/logback-spring.xml
-      - management.metrics.export.influx.uri=http://influxdb:8086
+      - management.metrics.export.influx.uri=http://genv-influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
       - app-game
@@ -136,7 +128,7 @@ services:
       - env-configuration
       - env-authorization
   env-sba:
-    image: shermende/spring-cloud/env-sba
+    build: env-sba/
     restart: always
     mem_limit: 512mb
     ports:
@@ -144,7 +136,7 @@ services:
     environment:
       - spring.profiles.active=docker
       - logging.config=classpath:config/logback-spring.xml
-      - management.metrics.export.influx.uri=http://influxdb:8086
+      - management.metrics.export.influx.uri=http://genv-influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
       - app-game

@@ -132,23 +132,6 @@
                         </execution>
                     </executions>
                 </plugin>
-                <plugin>
-                    <groupId>com.spotify</groupId>
-                    <artifactId>dockerfile-maven-plugin</artifactId>
-                    <version>${dockerfile-maven-plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <id>default</id>
-                            <goals>
-                                <goal>build</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <pullNewerImage>false</pullNewerImage>
-                        <repository>shermende/spring-cloud/${project.artifactId}</repository>
-                    </configuration>
-                </plugin>
             </plugins>
         </pluginManagement>
     </build>
