@@ -43,6 +43,11 @@
         <!--plugins-->
         <jacoco-maven-plugin.version>0.8.3</jacoco-maven-plugin.version>
         <querydsl-apt-maven-plugin.version>1.1.3</querydsl-apt-maven-plugin.version>
+
+        <!--sonar-cloud-->
+        <sonar.organization>shermende</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.projectKey>shermende_dev.shermende.spring-cloud</sonar.projectKey>
     </properties>
 
     <repositories>
