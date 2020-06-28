@@ -47,7 +47,6 @@
         <!--sonar-cloud-->
         <sonar.organization>shermende</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.projectKey>shermende_dev.shermende.spring-cloud</sonar.projectKey>
     </properties>
 
     <repositories>
