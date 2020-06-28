@@ -7,4 +7,3 @@ jobs:
     steps:
       - checkout
       - run: mvn clean test
-      - run: mvn install sonar:sonar
