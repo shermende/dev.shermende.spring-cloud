@@ -1,6 +1,7 @@
 package dev.shermende.game.configuration;
 
 import feign.RequestInterceptor;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -10,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 
 @Configuration
+@EnableFeignClients
 public class FeignClientConfiguration {
     private static final String BEARER = "Bearer %s";
 

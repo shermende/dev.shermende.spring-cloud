@@ -12,8 +12,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-            .antMatchers("/instances/**").permitAll()
-            .antMatchers("/actuator/**").permitAll()
+            .antMatchers("/instances/**").permitAll() // management port
+            .antMatchers("/actuator/**").permitAll() // management port
             .antMatchers("/assets/**").permitAll()
             .antMatchers("/login").permitAll()
             .anyRequest()
