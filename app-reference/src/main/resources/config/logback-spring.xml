@@ -17,7 +17,7 @@
         <topic>logback</topic>
         <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy"/>
         <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy"/>
-        <producerConfig>bootstrap.servers=kafka:9091</producerConfig>
+        <producerConfig>bootstrap.servers=genv-kafka:9091</producerConfig>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <includeCallerData>true</includeCallerData>
         </encoder>
