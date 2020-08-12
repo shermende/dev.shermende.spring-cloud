@@ -4,13 +4,11 @@ import dev.shermende.game.interceptor.FeignInterceptor;
 import dev.shermende.game.model.UserModel;
 import dev.shermende.support.spring.component.annotation.InterceptResult;
 import feign.hystrix.FallbackFactory;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Optional;
 
-@FeignClient(value = "env-authorization", fallbackFactory = AuthorizationService.AuthorizationServiceFallback.class)
 public interface AuthorizationService {
 
     @PostMapping("/introspect")
