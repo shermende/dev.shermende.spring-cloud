@@ -5,6 +5,7 @@ import dev.shermende.game.db.entity.Game;
 import dev.shermende.game.model.*;
 import dev.shermende.game.service.feign.TranslateService;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -60,13 +61,13 @@ public class GameModelAssembler extends RepresentationModelAssemblerSupport<Game
 
     protected String getTitle(@NotNull Class<?> clazz, @NotNull Long id) {
         final String key = getTitleKey(clazz, id);
-        return translateService.findOneByKey(key)
+        return translateService.findOneByKey(LocaleContextHolder.getLocale().getLanguage(), key)
             .orElse(TranslateModel.builder().value(key).build()).getValue();
     }
 
     protected String getDescription(@NotNull Class<?> clazz, @NotNull Long id) {
         final String key = getDescriptionKey(clazz, id);
-        return translateService.findOneByKey(key)
+        return translateService.findOneByKey(LocaleContextHolder.getLocale().getLanguage(), key)
             .orElse(TranslateModel.builder().value(key).build()).getValue();
     }
 

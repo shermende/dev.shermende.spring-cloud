@@ -4,14 +4,12 @@ import dev.shermende.game.interceptor.FeignInterceptor;
 import dev.shermende.game.model.MovementScenarioModel;
 import dev.shermende.support.spring.component.annotation.InterceptResult;
 import feign.hystrix.FallbackFactory;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Optional;
 
-@FeignClient(contextId = "movementScenario", name = "app-reference", path = "/movementScenarios", fallbackFactory = MovementScenarioService.MovementScenarioServiceFallback.class)
 public interface MovementScenarioService {
 
     @GetMapping("/{id}")
