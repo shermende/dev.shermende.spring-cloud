@@ -1,9 +1,10 @@
-package dev.shermende.game.configuration;
+package dev.shermende.game.configuration.jwt;
 
 import feign.RequestInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,7 +12,8 @@ import org.springframework.security.oauth2.jwt.Jwt;
 
 @Slf4j
 @Configuration
-public class FeignClientConfiguration {
+@Profile({"jwt"})
+public class JwtFeignClientConfiguration {
     private static final String BEARER = "Bearer %s";
 
     @Bean
