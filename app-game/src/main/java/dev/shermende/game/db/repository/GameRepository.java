@@ -18,10 +18,6 @@ public interface GameRepository extends QueryDslRepository<Game, Long, QGame> {
 
     @Override
     @PreAuthorize(value = "hasPermission('GAME', 'FULL')")
-    <S extends Game> @NotNull S save(@NotNull S s);
-
-    @Override
-    @PreAuthorize(value = "hasPermission('GAME', 'FULL')")
     void delete(@NotNull Game person);
 
     @Override
