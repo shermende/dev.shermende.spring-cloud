@@ -1,4 +1,4 @@
-package dev.shermende.authorization.configuration;
+package dev.shermende.authorization.configuration.jwt;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -9,9 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -23,6 +23,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.sql.DataSource;
 import javax.validation.constraints.NotEmpty;
 import java.math.BigInteger;
 import java.security.KeyFactory;
@@ -35,13 +36,13 @@ import java.security.spec.RSAPublicKeySpec;
 import java.util.Map;
 
 @Configuration
+@Profile({"jwt"})
 @RequiredArgsConstructor
 @EnableAuthorizationServer
-public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
+public class JwtAuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
     private final KeyPair keyPair;
-    private final PasswordEncoder passwordEncoder;
-    private final ClientProperties clientProperties;
+    private final DataSource dataSource;
     private final UserDetailsService userDetailsService;
     private final AuthenticationManager authenticationManager;
 
@@ -56,14 +57,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory()
-            .withClient(clientProperties.getClient())
-            .secret(passwordEncoder.encode(clientProperties.getSecret()))
-            .authorizedGrantTypes(clientProperties.getTypes())
-            .scopes(clientProperties.getScopes())
-            .accessTokenValiditySeconds(300)
-            .refreshTokenValiditySeconds(1800)
-        ;
+        clients.jdbc(dataSource);
     }
 
     @Bean
@@ -76,6 +70,9 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         return new JwtTokenStore(accessTokenConverter());
     }
 
+    /**
+     * provide public key
+     */
     @RestController
     @RequiredArgsConstructor
     public static class WellKnownConfiguration {
@@ -89,27 +86,24 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         }
     }
 
+    /**
+     * jwt properties
+     * java key-pair
+     */
     @Configuration
     @RequiredArgsConstructor
-    public static class JksConfiguration {
-
-        @Bean
-        @Validated
-        @ConfigurationProperties("oauth-properties")
-        public ClientProperties clientProperties() {
-            return new ClientProperties();
-        }
+    public static class JwtConfiguration {
 
         @Bean
         @Validated
         @ConfigurationProperties("jwt-properties")
-        public KeyProperties keyProperties() {
-            return new KeyProperties();
+        public JwtProperties keyProperties() {
+            return new JwtProperties();
         }
 
         @Bean
         public KeyPair keyPair(
-            KeyProperties properties
+            JwtProperties properties
         ) throws InvalidKeySpecException, NoSuchAlgorithmException {
             final KeyFactory factory = KeyFactory.getInstance("RSA");
             final RSAPublicKeySpec publicSpec = new RSAPublicKeySpec(new BigInteger(properties.getModulus()), new BigInteger(properties.getExponent()));
@@ -120,19 +114,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     }
 
     @Data
-    public static class ClientProperties {
-        @NotEmpty
-        private String client = "client";
-        @NotEmpty
-        private String secret = "secret";
-        @NotEmpty
-        private String[] types = new String[]{"password", "refresh_token"};
-        @NotEmpty
-        private String[] scopes = new String[]{"oauth2:any"};
-    }
-
-    @Data
-    public static class KeyProperties {
+    public static class JwtProperties {
         @NotEmpty
         private String privateExponent = "3851612021791312596791631935569878540203393691253311342052463788814433805390794604753109719790052408607029530149004451377846406736413270923596916756321977922303381344613407820854322190592787335193581632323728135479679928871596911841005827348430783250026013354350760878678723915119966019947072651782000702927096735228356171563532131162414366310012554312756036441054404004920678199077822575051043273088621405687950081861819700809912238863867947415641838115425624808671834312114785499017269379478439158796130804789241476050832773822038351367878951389438751088021113551495469440016698505614123035099067172660197922333993";
         @NotEmpty

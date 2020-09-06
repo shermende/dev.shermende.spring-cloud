@@ -6,6 +6,7 @@ import dev.shermende.game.db.entity.Game;
 import dev.shermende.game.model.GameModel;
 import dev.shermende.game.service.GameService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.data.web.PageableDefault;
@@ -41,7 +42,8 @@ public class GameController {
         @QuerydslPredicate(root = Game.class) Predicate predicate,
         PagedResourcesAssembler<Game> pagedResourcesAssembler
     ) {
-        return pagedResourcesAssembler.toModel(service.findAll(authentication, predicate, pageable), assembler);
+        final Page<Game> games = service.findAll(authentication, predicate, pageable);
+        return pagedResourcesAssembler.toModel(games, assembler);
     }
 
 }

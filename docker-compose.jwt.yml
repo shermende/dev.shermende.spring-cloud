@@ -1,0 +1,12 @@
+version: '2.1'
+
+services:
+  env-authorization:
+    environment:
+      - spring.profiles.active=docker,jwt
+  app-game:
+    environment:
+      - spring.profiles.active=docker,jwt
+  app-reference:
+    environment:
+      - spring.profiles.active=docker,jwt
