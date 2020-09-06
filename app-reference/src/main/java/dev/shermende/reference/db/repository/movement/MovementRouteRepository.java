@@ -17,23 +17,23 @@ public interface MovementRouteRepository extends QueryDslRepository<MovementRout
     }
 
     @Override
-    @PreAuthorize(value = "hasPermission('MOVEMENT_ROUTE', 'FULL')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ROOT')")
     <S extends MovementRoute> @NotNull S save(@NotNull S s);
 
     @Override
-    @PreAuthorize(value = "hasPermission('MOVEMENT_ROUTE', 'FULL')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ROOT')")
     void delete(@NotNull MovementRoute person);
 
     @Override
-    @PreAuthorize(value = "hasPermission('MOVEMENT_ROUTE', 'FULL')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ROOT')")
     void deleteAll(@NotNull Iterable<? extends MovementRoute> persons);
 
     @Override
-    @PreAuthorize(value = "hasPermission('MOVEMENT_ROUTE', 'FULL')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ROOT')")
     void deleteAll();
 
     @Override
-    @PreAuthorize(value = "hasPermission('MOVEMENT_ROUTE', 'FULL')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ROOT')")
     void deleteById(@NotNull Long id);
 
 }

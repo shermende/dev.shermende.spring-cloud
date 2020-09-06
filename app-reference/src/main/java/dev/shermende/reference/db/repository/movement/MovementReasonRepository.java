@@ -17,23 +17,23 @@ public interface MovementReasonRepository extends QueryDslRepository<MovementRea
     }
 
     @Override
-    @PreAuthorize(value = "hasPermission('MOVEMENT_REASON', 'FULL')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ROOT')")
     <S extends MovementReason> @NotNull S save(@NotNull S s);
 
     @Override
-    @PreAuthorize(value = "hasPermission('MOVEMENT_REASON', 'FULL')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ROOT')")
     void delete(@NotNull MovementReason person);
 
     @Override
-    @PreAuthorize(value = "hasPermission('MOVEMENT_REASON', 'FULL')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ROOT')")
     void deleteAll(@NotNull Iterable<? extends MovementReason> persons);
 
     @Override
-    @PreAuthorize(value = "hasPermission('MOVEMENT_REASON', 'FULL')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ROOT')")
     void deleteAll();
 
     @Override
-    @PreAuthorize(value = "hasPermission('MOVEMENT_REASON', 'FULL')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ROOT')")
     void deleteById(@NotNull Long id);
 
 }

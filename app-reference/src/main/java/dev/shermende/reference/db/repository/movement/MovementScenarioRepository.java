@@ -17,23 +17,23 @@ public interface MovementScenarioRepository extends QueryDslRepository<MovementS
     }
 
     @Override
-    @PreAuthorize(value = "hasPermission('MOVEMENT_SCENARIO', 'FULL')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ROOT')")
     <S extends MovementScenario> @NotNull S save(@NotNull S s);
 
     @Override
-    @PreAuthorize(value = "hasPermission('MOVEMENT_SCENARIO', 'FULL')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ROOT')")
     void delete(@NotNull MovementScenario person);
 
     @Override
-    @PreAuthorize(value = "hasPermission('MOVEMENT_SCENARIO', 'FULL')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ROOT')")
     void deleteAll(@NotNull Iterable<? extends MovementScenario> persons);
 
     @Override
-    @PreAuthorize(value = "hasPermission('MOVEMENT_SCENARIO', 'FULL')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ROOT')")
     void deleteAll();
 
     @Override
-    @PreAuthorize(value = "hasPermission('MOVEMENT_SCENARIO', 'FULL')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ROOT')")
     void deleteById(@NotNull Long id);
 
 }
