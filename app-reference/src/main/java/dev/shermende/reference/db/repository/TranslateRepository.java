@@ -17,23 +17,23 @@ public interface TranslateRepository extends QueryDslRepository<Translate, Long,
     }
 
     @Override
-    @PreAuthorize(value = "hasPermission('TRANSLATE', 'FULL')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ROOT')")
     <S extends Translate> @NotNull S save(@NotNull S s);
 
     @Override
-    @PreAuthorize(value = "hasPermission('TRANSLATE', 'FULL')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ROOT')")
     void delete(@NotNull Translate person);
 
     @Override
-    @PreAuthorize(value = "hasPermission('TRANSLATE', 'FULL')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ROOT')")
     void deleteAll(@NotNull Iterable<? extends Translate> persons);
 
     @Override
-    @PreAuthorize(value = "hasPermission('TRANSLATE', 'FULL')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ROOT')")
     void deleteAll();
 
     @Override
-    @PreAuthorize(value = "hasPermission('TRANSLATE', 'FULL')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ROOT')")
     void deleteById(@NotNull Long id);
 
 }
