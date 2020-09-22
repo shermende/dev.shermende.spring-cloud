@@ -1,4 +1,4 @@
-package dev.shermende.lib.secure.ouath;
+package dev.shermende.lib.secure.jwt;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,8 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OAuthClientProperties {
+public class JwtProperties {
     private String client = "client";
     private String secret = "secret";
-    private String url = "http://localhost:8082/oauth/check_token";
 }

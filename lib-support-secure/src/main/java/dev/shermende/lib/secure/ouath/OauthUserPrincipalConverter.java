@@ -15,7 +15,7 @@ import java.util.Map;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class OauthUserPrincipalSupportConverter implements Converter<Map<String, ?>, UserPrincipal> {
+public class OauthUserPrincipalConverter implements Converter<Map<String, ?>, UserPrincipal> {
 
     @NotNull
     @Override

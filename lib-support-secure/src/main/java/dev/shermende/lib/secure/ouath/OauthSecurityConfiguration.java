@@ -14,9 +14,9 @@ public class OauthSecurityConfiguration {
      */
     @Bean
     @Validated
-    @ConfigurationProperties("oauth.client")
-    public OAuthClientProperties oAuthClientProperties() {
-        return new OAuthClientProperties();
+    @ConfigurationProperties("x-oauth")
+    public OAuthProperties oAuthProperties() {
+        return new OAuthProperties();
     }
 
     /**
@@ -25,13 +25,13 @@ public class OauthSecurityConfiguration {
      */
     @Bean
     public ResourceServerTokenServices tokenService(
-        OAuthClientProperties properties
+        OAuthProperties properties
     ) {
         final OauthRemoteTokenServices tokenServices = new OauthRemoteTokenServices();
         tokenServices.setClientId(properties.getClient());
         tokenServices.setClientSecret(properties.getSecret());
         tokenServices.setCheckTokenEndpointUrl(properties.getUrl());
-        tokenServices.setAccessTokenConverter(new OauthDefaultAccessTokenConverter(new OauthUserPrincipalSupportConverter()));
+        tokenServices.setAccessTokenConverter(new OauthAccessTokenConverter(new OauthUserPrincipalConverter()));
         return tokenServices;
     }
 

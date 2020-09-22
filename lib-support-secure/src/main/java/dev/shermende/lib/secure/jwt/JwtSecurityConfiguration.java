@@ -2,12 +2,14 @@ package dev.shermende.lib.secure.jwt;
 
 import dev.shermende.lib.secure.util.RSA;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.validation.annotation.Validated;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -16,6 +18,16 @@ import java.security.interfaces.RSAPublicKey;
 @Configuration
 
 public class JwtSecurityConfiguration {
+
+    /**
+     * bean of jwt properties
+     */
+    @Bean
+    @Validated
+    @ConfigurationProperties("x-jwt")
+    public JwtProperties jwtProperties() {
+        return new JwtProperties();
+    }
 
     /**
      * load public key

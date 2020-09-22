@@ -13,7 +13,7 @@ import java.util.Map;
  * {@link org.springframework.security.core.Authentication} for OAUTH session
  */
 @RequiredArgsConstructor
-public class OauthDefaultAccessTokenConverter extends DefaultAccessTokenConverter {
+public class OauthAccessTokenConverter extends DefaultAccessTokenConverter {
 
     private final Converter<Map<String, ?>, UserPrincipal> principalConverter;
 
