@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
-import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 
 @Configuration
@@ -23,10 +22,12 @@ public class OauthSecurityConfiguration extends ResourceServerConfigurerAdapter 
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http
-            .authorizeRequests().anyRequest().authenticated()
-            .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
-            .and().anonymous().disable().httpBasic().disable().csrf().disable()
+        http.authorizeRequests()
+            .antMatchers("/instances/**").permitAll()  // management port
+            .antMatchers("/actuator/**").permitAll()  // management port
+            .anyRequest().authenticated()
+            .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and().cors().and().anonymous().disable().httpBasic().disable().csrf().disable()
         ;
     }
 
@@ -40,10 +41,11 @@ public class OauthSecurityConfiguration extends ResourceServerConfigurerAdapter 
     public ResourceServerTokenServices tokenService(
         OAuthClientProperties properties
     ) {
-        final RemoteTokenServices tokenServices = new RemoteTokenServices();
+        final OauthRemoteTokenServices tokenServices = new OauthRemoteTokenServices();
         tokenServices.setClientId(properties.getClient());
         tokenServices.setClientSecret(properties.getSecret());
         tokenServices.setCheckTokenEndpointUrl(properties.getUrl());
+        tokenServices.setAccessTokenConverter(new OauthDefaultAccessTokenConverter());
         return tokenServices;
     }
 
