@@ -2,8 +2,6 @@ package dev.shermende.authorization.configuration.jwt;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
-import dev.shermende.authorization.security.AuthDefaultAccessTokenConverter;
-import dev.shermende.authorization.security.AuthJwtAccessTokenConverter;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -62,7 +60,10 @@ public class JwtAuthorizationServerConfiguration extends AuthorizationServerConf
 
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
-        return new AuthJwtAccessTokenConverter(keyPair, new AuthDefaultAccessTokenConverter());
+        final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+        converter.setKeyPair(keyPair);
+        converter.setAccessTokenConverter(new JwtDefaultAccessTokenConverter());
+        return converter;
     }
 
     @Bean
