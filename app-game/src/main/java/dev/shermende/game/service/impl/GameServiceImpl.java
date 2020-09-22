@@ -9,12 +9,12 @@ import dev.shermende.game.exception.RouteNotFoundException;
 import dev.shermende.game.exception.ScenarioNotFoundException;
 import dev.shermende.game.model.MovementRouteModel;
 import dev.shermende.game.model.MovementScenarioModel;
-import dev.shermende.game.model.UserModel;
 import dev.shermende.game.resource.GameCreateResource;
 import dev.shermende.game.resource.GameMoveResource;
 import dev.shermende.game.service.GameService;
 import dev.shermende.game.service.feign.MovementRouteService;
 import dev.shermende.game.service.feign.MovementScenarioService;
+import dev.shermende.lib.secure.model.PrincipalUser;
 import dev.shermende.lib.support.dal.service.AbstractCrudService;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -45,7 +45,7 @@ public class GameServiceImpl extends AbstractCrudService<Game, Long, QGame> impl
         @Nullable Predicate predicate,
         @NotNull Pageable pageable
     ) {
-        final UserModel auth = (UserModel) authentication.getPrincipal();
+        final PrincipalUser auth = (PrincipalUser) authentication.getPrincipal();
         return findAll(QGame.game.userId.eq(auth.getId()).and(predicate), pageable);
     }
 
@@ -54,7 +54,7 @@ public class GameServiceImpl extends AbstractCrudService<Game, Long, QGame> impl
         @NotNull Authentication authentication,
         @NotNull GameCreateResource resource
     ) {
-        final UserModel auth = (UserModel) authentication.getPrincipal();
+        final PrincipalUser auth = (PrincipalUser) authentication.getPrincipal();
         final MovementScenarioModel scenario = getScenario(resource.getScenarioId());
         return save(Game.builder()
             .userId(auth.getId())

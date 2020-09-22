@@ -1,14 +1,11 @@
-package dev.shermende.reference.model;
+package dev.shermende.lib.secure.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import dev.shermende.lib.secure.model.UserPrincipal;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import org.springframework.hateoas.RepresentationModel;
-import org.springframework.hateoas.server.core.Relation;
 
 @Data
 @Builder
@@ -16,8 +13,7 @@ import org.springframework.hateoas.server.core.Relation;
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Relation(value = "item", collectionRelation = "data")
-public class UserModel extends RepresentationModel<UserModel> implements UserPrincipal {
+public class PrincipalUser implements UserPrincipal {
 
     private Long id;
 
