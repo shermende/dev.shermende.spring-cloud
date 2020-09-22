@@ -4,3 +4,9 @@
 ![Maven pipeline (release-hotfix)](https://github.com/shermende/dev.shermende.spring-cloud/workflows/Maven%20pipeline%20(release-hotfix)/badge.svg)
 
 ![Maven pipeline (feature-bugfix)](https://github.com/shermende/dev.shermende.spring-cloud/workflows/Maven%20pipeline%20(feature-bugfix)/badge.svg)
+
+## RSA key for JWT
+```
+openssl req -nodes -new -keyout private.key -out server.cert
+openssl rsa -pubout -in private.key -out public.pem
+```

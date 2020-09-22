@@ -1,24 +1,27 @@
-package dev.shermende.game.configuration.jwt;
+package dev.shermende.lib.secure.configuration.jwt;
 
-import dev.shermende.game.model.UserModel;
+import dev.shermende.lib.secure.model.UserPrincipal;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 
+/**
+ * JWT holder {@link org.springframework.security.core.Authentication}
+ */
 @Slf4j
-@EqualsAndHashCode(callSuper = false, of = {"user"})
-public class AppJwtAuthenticationToken extends AbstractAuthenticationToken {
+@EqualsAndHashCode(callSuper = false, of = {"principal"})
+public class JwtAuthenticationSupportToken extends AbstractAuthenticationToken {
 
-    private final transient UserModel user;
+    private final transient UserPrincipal principal;
     private final AbstractAuthenticationToken authentication;
 
-    public AppJwtAuthenticationToken(
-        UserModel user,
+    public JwtAuthenticationSupportToken(
+        UserPrincipal principal,
         AbstractAuthenticationToken authentication
     ) {
         super(authentication.getAuthorities());
         setAuthenticated(true);
-        this.user = user;
+        this.principal = principal;
         this.authentication = authentication;
     }
 
@@ -29,7 +32,7 @@ public class AppJwtAuthenticationToken extends AbstractAuthenticationToken {
 
     @Override
     public Object getPrincipal() {
-        return user;
+        return principal;
     }
 
 }
