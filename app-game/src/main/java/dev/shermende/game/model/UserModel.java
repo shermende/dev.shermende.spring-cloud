@@ -22,6 +22,4 @@ public class UserModel extends RepresentationModel<UserModel> {
 
     private String email;
 
-    private String token;
-
 }

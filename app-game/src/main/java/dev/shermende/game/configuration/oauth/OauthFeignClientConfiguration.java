@@ -1,6 +1,6 @@
 package dev.shermende.game.configuration.oauth;
 
-import dev.shermende.game.model.UserModel;
+import dev.shermende.lib.secure.model.UserPrincipal;
 import feign.RequestInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +20,7 @@ public class OauthFeignClientConfiguration {
     public RequestInterceptor basicAuthRequestInterceptor() {
         return requestTemplate -> {
             final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            requestTemplate.header(HttpHeaders.AUTHORIZATION, String.format(BEARER, ((UserModel) authentication.getPrincipal()).getToken()));
+            requestTemplate.header(HttpHeaders.AUTHORIZATION, String.format(BEARER, new String(((UserPrincipal) authentication.getPrincipal()).token())));
         };
     }
 
