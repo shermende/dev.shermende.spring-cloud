@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>dev.shermende</groupId>
-            <artifactId>lib-support</artifactId>
+              <artifactId>lib-support-dal</artifactId>
         </dependency>
 
         <dependency>

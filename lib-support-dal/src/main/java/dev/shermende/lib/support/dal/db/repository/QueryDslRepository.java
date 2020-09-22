@@ -1,4 +1,4 @@
-package dev.shermende.lib.support.db.repository;
+package dev.shermende.lib.support.dal.db.repository;
 
 import com.querydsl.core.types.EntityPath;
 import org.springframework.data.jpa.repository.JpaRepository;

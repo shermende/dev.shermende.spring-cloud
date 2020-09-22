@@ -1,6 +1,6 @@
 package dev.shermende.reference.db.repository;
 
-import dev.shermende.lib.support.db.repository.QueryDslRepository;
+import dev.shermende.lib.support.dal.db.repository.QueryDslRepository;
 import dev.shermende.reference.db.entity.QTranslate;
 import dev.shermende.reference.db.entity.Translate;
 import org.jetbrains.annotations.NotNull;
