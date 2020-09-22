@@ -1,6 +1,6 @@
 package dev.shermende.game.db.entity;
 
-import dev.shermende.lib.support.db.entity.BaseEntity;
+import dev.shermende.lib.support.dal.db.entity.BaseEntity;
 import lombok.*;
 import org.jetbrains.annotations.Nullable;
 

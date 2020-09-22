@@ -15,7 +15,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>lib-support</module>
+        <module>lib-support-dal</module>
+        <module>lib-support-security</module>
         <module>env-eureka</module>
         <module>env-configuration</module>
         <module>env-authorization</module>
@@ -63,7 +64,7 @@
 
             <dependency>
                 <groupId>dev.shermende</groupId>
-                <artifactId>lib-support</artifactId>
+                <artifactId>lib-support-dal</artifactId>
                 <version>${lib-support.version}</version>
             </dependency>
 
