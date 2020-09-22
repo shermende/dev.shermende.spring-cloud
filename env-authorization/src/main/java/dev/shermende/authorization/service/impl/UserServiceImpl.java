@@ -5,7 +5,7 @@ import dev.shermende.authorization.db.entity.User;
 import dev.shermende.authorization.db.repository.UserRepository;
 import dev.shermende.authorization.resource.UserResource;
 import dev.shermende.authorization.service.UserService;
-import dev.shermende.lib.support.service.AbstractCrudService;
+import dev.shermende.lib.support.dal.service.AbstractCrudService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

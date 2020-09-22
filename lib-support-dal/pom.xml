@@ -8,8 +8,7 @@
         <groupId>dev.shermende</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>lib-support</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>lib-support-dal</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -31,11 +30,6 @@
         <dependency>
             <groupId>com.querydsl</groupId>
             <artifactId>querydsl-jpa</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
         </dependency>
 
         <dependency>
