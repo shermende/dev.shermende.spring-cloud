@@ -16,7 +16,6 @@
 
     <modules>
         <module>lib-support-dal</module>
-        <module>lib-support-security</module>
         <module>env-eureka</module>
         <module>env-configuration</module>
         <module>env-authorization</module>
