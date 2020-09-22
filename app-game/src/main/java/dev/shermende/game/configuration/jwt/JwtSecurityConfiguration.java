@@ -1,6 +1,6 @@
 package dev.shermende.game.configuration.jwt;
 
-import dev.shermende.lib.support.dal.util.RSA;
+import dev.shermende.lib.secure.util.RSA;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +27,7 @@ public class JwtSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public RSAPublicKey rsaPublicKey(
         @Value("classpath:jwt/public.pem") Resource publicKeyFile
-    ) throws GeneralSecurityException, IOException {
+    ) throws IOException, GeneralSecurityException {
         return RSA.getPublicKey(publicKeyFile.getFile().getAbsolutePath());
     }
 

@@ -16,6 +16,7 @@
 
     <modules>
         <module>lib-support-dal</module>
+        <module>lib-support-secure</module>
         <module>env-eureka</module>
         <module>env-configuration</module>
         <module>env-authorization</module>
@@ -32,7 +33,6 @@
         <spring-cloud.version>Hoxton.SR4</spring-cloud.version>
 
         <!--libraries-->
-        <lib-support.version>1.0-SNAPSHOT</lib-support.version>
         <sba.version>2.2.2</sba.version>
         <org.jetbrains.version>17.0.0</org.jetbrains.version>
         <nimbus-jose-jwt.version>7.9</nimbus-jose-jwt.version>
@@ -64,7 +64,13 @@
             <dependency>
                 <groupId>dev.shermende</groupId>
                 <artifactId>lib-support-dal</artifactId>
-                <version>${lib-support.version}</version>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>dev.shermende</groupId>
+                <artifactId>lib-support-secure</artifactId>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>

@@ -1,4 +1,4 @@
-package dev.shermende.lib.support.dal.util;
+package dev.shermende.lib.secure.util;
 
 import lombok.experimental.UtilityClass;
 import org.apache.commons.codec.binary.Base64;

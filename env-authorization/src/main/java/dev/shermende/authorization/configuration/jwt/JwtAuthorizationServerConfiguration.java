@@ -2,7 +2,7 @@ package dev.shermende.authorization.configuration.jwt;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
-import dev.shermende.lib.support.dal.util.RSA;
+import dev.shermende.lib.secure.util.RSA;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

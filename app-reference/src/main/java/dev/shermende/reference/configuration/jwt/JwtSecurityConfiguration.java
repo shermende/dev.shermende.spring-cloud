@@ -1,6 +1,6 @@
 package dev.shermende.reference.configuration.jwt;
 
-import dev.shermende.lib.support.dal.util.RSA;
+import dev.shermende.lib.secure.util.RSA;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
