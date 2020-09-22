@@ -1,4 +1,4 @@
-package dev.shermende.lib.secure.jwt;
+package dev.shermende.lib.secure.configuration.jwt;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

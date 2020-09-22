@@ -1,4 +1,4 @@
-package dev.shermende.lib.secure.jwt;
+package dev.shermende.lib.secure.configuration.jwt;
 
 import dev.shermende.lib.secure.model.UserPrincipal;
 import lombok.EqualsAndHashCode;

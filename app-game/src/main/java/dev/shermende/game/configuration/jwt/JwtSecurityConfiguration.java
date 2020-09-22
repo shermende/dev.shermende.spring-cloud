@@ -1,6 +1,6 @@
 package dev.shermende.game.configuration.jwt;
 
-import dev.shermende.lib.secure.jwt.JwtAuthenticationSupportConverter;
+import dev.shermende.lib.secure.configuration.jwt.JwtAuthenticationSupportConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 @Profile({"jwt"})
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@Import(dev.shermende.lib.secure.jwt.JwtSecurityConfiguration.class)
+@Import(dev.shermende.lib.secure.configuration.jwt.JwtSecurityConfiguration.class)
 public class JwtSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final JwtAuthenticationSupportConverter supportConverter;

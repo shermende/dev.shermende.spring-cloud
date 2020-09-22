@@ -1,4 +1,4 @@
-package dev.shermende.lib.secure.ouath;
+package dev.shermende.lib.secure.configuration.ouath;
 
 import dev.shermende.lib.secure.model.UserPrincipal;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

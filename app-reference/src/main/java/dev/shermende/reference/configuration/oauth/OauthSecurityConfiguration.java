@@ -15,7 +15,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 @EnableResourceServer
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@Import(dev.shermende.lib.secure.ouath.OauthSecurityConfiguration.class)
+@Import(dev.shermende.lib.secure.configuration.ouath.OauthSecurityConfiguration.class)
 public class OauthSecurityConfiguration extends ResourceServerConfigurerAdapter {
 
     @Override

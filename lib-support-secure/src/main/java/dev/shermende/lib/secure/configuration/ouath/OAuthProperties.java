@@ -1,4 +1,4 @@
-package dev.shermende.lib.secure.ouath;
+package dev.shermende.lib.secure.configuration.ouath;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
