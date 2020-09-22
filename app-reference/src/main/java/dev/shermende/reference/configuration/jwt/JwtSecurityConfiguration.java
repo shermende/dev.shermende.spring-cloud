@@ -5,13 +5,14 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
@@ -27,6 +28,20 @@ import java.security.spec.RSAPublicKeySpec;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class JwtSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    @Bean
+    public AppJwtAuthenticationConverter appJwtAuthenticationConverter() {
+        return new AppJwtAuthenticationConverter(new JwtAuthenticationConverter());
+    }
+
+    /**
+     * specify AuthenticationManager bean
+     */
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
@@ -34,8 +49,9 @@ public class JwtSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/actuator/**").permitAll()  // management port
             .anyRequest().authenticated()
             .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and().cors()
-            .and().oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+            .and().cors().and().anonymous().disable().httpBasic().disable().csrf().disable()
+            .oauth2ResourceServer().jwt()
+            .jwtAuthenticationConverter(jwt -> appJwtAuthenticationConverter().convert(jwt))
         ;
     }
 

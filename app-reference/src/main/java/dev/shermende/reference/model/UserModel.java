@@ -1,4 +1,4 @@
-package dev.shermende.game.model;
+package dev.shermende.reference.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;

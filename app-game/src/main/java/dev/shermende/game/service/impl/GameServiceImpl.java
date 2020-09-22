@@ -4,7 +4,6 @@ import com.querydsl.core.types.Predicate;
 import dev.shermende.game.db.entity.Game;
 import dev.shermende.game.db.entity.QGame;
 import dev.shermende.game.db.repository.GameRepository;
-import dev.shermende.game.exception.AuthNotFoundException;
 import dev.shermende.game.exception.GameNotFoundException;
 import dev.shermende.game.exception.RouteNotFoundException;
 import dev.shermende.game.exception.ScenarioNotFoundException;
@@ -14,7 +13,6 @@ import dev.shermende.game.model.UserModel;
 import dev.shermende.game.resource.GameCreateResource;
 import dev.shermende.game.resource.GameMoveResource;
 import dev.shermende.game.service.GameService;
-import dev.shermende.game.service.feign.AuthorizationService;
 import dev.shermende.game.service.feign.MovementRouteService;
 import dev.shermende.game.service.feign.MovementScenarioService;
 import dev.shermende.lib.support.service.AbstractCrudService;
@@ -30,18 +28,15 @@ public class GameServiceImpl extends AbstractCrudService<Game, Long, QGame> impl
 
     private final MovementRouteService movementRouteService;
     private final MovementScenarioService scenarioService;
-    private final AuthorizationService authorizationService;
 
     public GameServiceImpl(
         GameRepository repository,
         MovementRouteService movementRouteService,
-        MovementScenarioService scenarioService,
-        AuthorizationService authorizationService
+        MovementScenarioService scenarioService
     ) {
         super(repository);
         this.movementRouteService = movementRouteService;
         this.scenarioService = scenarioService;
-        this.authorizationService = authorizationService;
     }
 
     @Override
@@ -50,7 +45,7 @@ public class GameServiceImpl extends AbstractCrudService<Game, Long, QGame> impl
         @Nullable Predicate predicate,
         @NotNull Pageable pageable
     ) {
-        final UserModel auth = authorizationService.introspect().orElseThrow(AuthNotFoundException::new);
+        final UserModel auth = (UserModel) authentication.getPrincipal();
         return findAll(QGame.game.userId.eq(auth.getId()).and(predicate), pageable);
     }
 
@@ -59,7 +54,7 @@ public class GameServiceImpl extends AbstractCrudService<Game, Long, QGame> impl
         @NotNull Authentication authentication,
         @NotNull GameCreateResource resource
     ) {
-        final UserModel auth = authorizationService.introspect().orElseThrow(AuthNotFoundException::new);
+        final UserModel auth = (UserModel) authentication.getPrincipal();
         final MovementScenarioModel scenario = getScenario(resource.getScenarioId());
         return save(Game.builder()
             .userId(auth.getId())

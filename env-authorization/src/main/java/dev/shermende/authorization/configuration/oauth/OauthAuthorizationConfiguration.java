@@ -33,7 +33,9 @@ public class OauthAuthorizationConfiguration extends AuthorizationServerConfigur
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-        endpoints.tokenStore(tokenStore()).authenticationManager(authenticationManager);
+        endpoints.tokenStore(tokenStore())
+            .accessTokenConverter(new OauthDefaultAccessTokenConverter())
+            .authenticationManager(authenticationManager);
     }
 
     @Override
