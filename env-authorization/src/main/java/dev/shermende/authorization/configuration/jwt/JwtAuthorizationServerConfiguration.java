@@ -72,7 +72,7 @@ public class JwtAuthorizationServerConfiguration extends AuthorizationServerConf
     }
 
     /**
-     * provide public key
+     * public key endpoint
      */
     @RestController
     @RequiredArgsConstructor
@@ -88,14 +88,14 @@ public class JwtAuthorizationServerConfiguration extends AuthorizationServerConf
     }
 
     /**
-     * rsa key
+     * RSA key-pair for JWT
      */
     @Configuration
     @RequiredArgsConstructor
     public static class JwtConfiguration {
 
         /**
-         * bean of jwt properties
+         * bean of JWT properties
          */
         @Bean
         @Validated

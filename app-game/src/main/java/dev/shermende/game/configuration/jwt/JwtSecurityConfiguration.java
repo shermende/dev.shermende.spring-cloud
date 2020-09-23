@@ -80,8 +80,8 @@ public class JwtSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/actuator/**").permitAll()  // management port
             .anyRequest().authenticated()
             .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and().cors().and().anonymous().disable().httpBasic().disable().csrf().disable()
-            .oauth2ResourceServer().jwt()
+            .and().cors()
+            .and().oauth2ResourceServer().jwt()
             .jwtAuthenticationConverter(jwt -> supportConverter().convert(jwt))
         ;
     }

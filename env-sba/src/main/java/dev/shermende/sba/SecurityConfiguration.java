@@ -16,16 +16,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/actuator/**").permitAll() // management port
             .antMatchers("/assets/**").permitAll()
             .antMatchers("/login").permitAll()
-            .anyRequest()
-            .authenticated()
-            .and()
-            .formLogin()
-            .loginPage("/login")
-            .and()
-            .httpBasic()
-            .and()
-            .csrf()
-            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+            .anyRequest().authenticated()
+            .and().formLogin().loginPage("/login").and().httpBasic()
+            .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
             .ignoringAntMatchers("/instances", "/actuator/**")
         ;
     }
