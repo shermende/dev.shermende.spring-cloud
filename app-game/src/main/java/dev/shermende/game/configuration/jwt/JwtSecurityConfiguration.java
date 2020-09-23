@@ -76,8 +76,8 @@ public class JwtSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-            .antMatchers("/instances/**").permitAll()  // management port
-            .antMatchers("/actuator/**").permitAll()  // management port
+            .antMatchers("/instances/**").anonymous()  // management port
+            .antMatchers("/actuator/**").anonymous()  // management port
             .anyRequest().authenticated()
             .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and().cors()

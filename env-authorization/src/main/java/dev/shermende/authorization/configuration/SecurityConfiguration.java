@@ -23,11 +23,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-            .antMatchers("/introspect/**").permitAll()
-            .antMatchers("/registration/**").permitAll()
-            .antMatchers("/.well-known/jwks.json").permitAll()
-            .antMatchers("/instances/**").permitAll() // management port
-            .antMatchers("/actuator/**").permitAll() // management port
+            .antMatchers("/introspect/**").anonymous()
+            .antMatchers("/registration/**").anonymous()
+            .antMatchers("/.well-known/jwks.json").anonymous()
+            .antMatchers("/instances/**").anonymous() // management port
+            .antMatchers("/actuator/**").anonymous() // management port
             .anyRequest().authenticated()
             .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and().cors().and().csrf().disable()
