@@ -12,10 +12,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-            .antMatchers("/instances/**").anonymous() // management port
-            .antMatchers("/actuator/**").anonymous() // management port
-            .antMatchers("/assets/**").anonymous()
-            .antMatchers("/login").anonymous()
+            .antMatchers("/instances/**").permitAll() // management port
+            .antMatchers("/actuator/**").permitAll() // management port
+            .antMatchers("/assets/**").permitAll()
+            .antMatchers("/login").permitAll()
             .anyRequest().authenticated()
             .and().formLogin().loginPage("/login").and().httpBasic()
             .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
