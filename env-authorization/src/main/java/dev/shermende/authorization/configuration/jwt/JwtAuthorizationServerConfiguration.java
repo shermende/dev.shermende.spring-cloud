@@ -2,13 +2,13 @@ package dev.shermende.authorization.configuration.jwt;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
-import dev.shermende.lib.secure.util.RSA;
+import dev.shermende.lib.security.configuration.jwt.JwtProperties;
+import dev.shermende.lib.security.util.RSA;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.io.Resource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,6 +44,19 @@ public class JwtAuthorizationServerConfiguration extends AuthorizationServerConf
     private final UserDetailsService userDetailsService;
     private final AuthenticationManager authenticationManager;
 
+    @Bean
+    public TokenStore tokenStore() {
+        return new JwtTokenStore(accessTokenConverter());
+    }
+
+    @Bean
+    public JwtAccessTokenConverter accessTokenConverter() {
+        final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+        converter.setKeyPair(keyPair);
+        converter.setAccessTokenConverter(new JwtDefaultAccessTokenConverter());
+        return converter;
+    }
+
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints
@@ -55,19 +69,6 @@ public class JwtAuthorizationServerConfiguration extends AuthorizationServerConf
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.jdbc(dataSource);
-    }
-
-    @Bean
-    public JwtAccessTokenConverter accessTokenConverter() {
-        final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setKeyPair(keyPair);
-        converter.setAccessTokenConverter(new JwtDefaultAccessTokenConverter());
-        return converter;
-    }
-
-    @Bean
-    public TokenStore tokenStore() {
-        return new JwtTokenStore(accessTokenConverter());
     }
 
     /**
@@ -93,16 +94,24 @@ public class JwtAuthorizationServerConfiguration extends AuthorizationServerConf
     @RequiredArgsConstructor
     public static class JwtConfiguration {
 
-        @Value("classpath:jwt/private.key")
-        private Resource privateKeyFile;
-        @Value("classpath:jwt/public.pem")
-        private Resource publicKeyFile;
+        /**
+         * bean of jwt properties
+         */
+        @Bean
+        @Validated
+        @ConfigurationProperties("x-jwt")
+        public JwtProperties jwtProperties() {
+            return new JwtProperties();
+        }
 
+        /**
+         * RSA key-pair for JWT
+         */
         @Bean
         public KeyPair keyPair() throws GeneralSecurityException, IOException {
             final KeyFactory factory = KeyFactory.getInstance("RSA");
-            final RSAPublicKey publicKey = RSA.getPublicKey(publicKeyFile.getFile().getAbsolutePath());
-            final RSAPrivateKey privateKey = RSA.getPrivateKey(privateKeyFile.getFile().getAbsolutePath());
+            final RSAPublicKey publicKey = RSA.getPublicKey(jwtProperties().getPublicKeyPath());
+            final RSAPrivateKey privateKey = RSA.getPrivateKey(jwtProperties().getPrivateKeyPath());
             final RSAPublicKeySpec publicSpec = new RSAPublicKeySpec(publicKey.getModulus(), publicKey.getPublicExponent());
             final RSAPrivateKeySpec privateSpec = new RSAPrivateKeySpec(privateKey.getModulus(), privateKey.getPrivateExponent());
             return new KeyPair(factory.generatePublic(publicSpec), factory.generatePrivate(privateSpec));

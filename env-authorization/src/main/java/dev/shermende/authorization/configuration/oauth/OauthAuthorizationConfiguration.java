@@ -26,6 +26,11 @@ public class OauthAuthorizationConfiguration extends AuthorizationServerConfigur
     private final DataSource dataSource;
     private final AuthenticationManager authenticationManager;
 
+    @Bean
+    public TokenStore tokenStore() {
+        return new JdbcTokenStore(dataSource);
+    }
+
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.jdbc(dataSource);
@@ -41,11 +46,6 @@ public class OauthAuthorizationConfiguration extends AuthorizationServerConfigur
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
         security.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
-    }
-
-    @Bean
-    public TokenStore tokenStore() {
-        return new JdbcTokenStore(dataSource);
     }
 
 }

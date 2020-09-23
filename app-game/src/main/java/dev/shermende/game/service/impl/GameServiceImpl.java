@@ -14,7 +14,7 @@ import dev.shermende.game.resource.GameMoveResource;
 import dev.shermende.game.service.GameService;
 import dev.shermende.game.service.feign.MovementRouteService;
 import dev.shermende.game.service.feign.MovementScenarioService;
-import dev.shermende.lib.secure.model.PrincipalUser;
+import dev.shermende.lib.security.model.PrincipalUser;
 import dev.shermende.lib.support.dal.service.AbstractCrudService;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

@@ -16,7 +16,7 @@
 
     <modules>
         <module>lib-support-dal</module>
-        <module>lib-support-secure</module>
+        <module>lib-security</module>
         <module>env-eureka</module>
         <module>env-configuration</module>
         <module>env-authorization</module>
@@ -69,7 +69,7 @@
 
             <dependency>
                 <groupId>dev.shermende</groupId>
-                <artifactId>lib-support-secure</artifactId>
+                <artifactId>lib-security</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

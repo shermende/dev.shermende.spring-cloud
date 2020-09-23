@@ -1,6 +1,6 @@
 package dev.shermende.game.configuration.jwt;
 
-import dev.shermende.lib.secure.model.UserPrincipal;
+import dev.shermende.lib.security.model.UserPrincipal;
 import feign.RequestInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
