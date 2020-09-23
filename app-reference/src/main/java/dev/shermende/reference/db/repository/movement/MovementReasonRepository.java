@@ -6,7 +6,6 @@ import dev.shermende.reference.db.entity.movement.QMovementReason;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.security.access.prepost.PreAuthorize;
 
 @RepositoryRestResource(collectionResourceRel = "data")
 public interface MovementReasonRepository extends QueryDslRepository<MovementReason, Long, QMovementReason> {
@@ -15,25 +14,5 @@ public interface MovementReasonRepository extends QueryDslRepository<MovementRea
     default void customize(@NotNull QuerydslBindings bindings, @NotNull QMovementReason root) {
 
     }
-
-    @Override
-    @PreAuthorize(value = "hasAnyAuthority('perm_movementreason')")
-    <S extends MovementReason> @NotNull S save(@NotNull S s);
-
-    @Override
-    @PreAuthorize(value = "hasAnyAuthority('perm_movementreason')")
-    void delete(@NotNull MovementReason person);
-
-    @Override
-    @PreAuthorize(value = "hasAnyAuthority('perm_movementreason')")
-    void deleteAll(@NotNull Iterable<? extends MovementReason> persons);
-
-    @Override
-    @PreAuthorize(value = "hasAnyAuthority('perm_movementreason')")
-    void deleteAll();
-
-    @Override
-    @PreAuthorize(value = "hasAnyAuthority('perm_movementreason')")
-    void deleteById(@NotNull Long id);
 
 }
