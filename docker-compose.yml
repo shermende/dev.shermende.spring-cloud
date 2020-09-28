@@ -51,7 +51,9 @@ services:
     depends_on:
       - genv-elasticsearch
   env-eureka:
-    build: env-eureka/
+    build:
+      context: env-eureka/
+      dockerfile: src/main/docker/Dockerfile
     mem_limit: 512mb
     environment:
       - spring.profiles.active=docker
@@ -63,7 +65,9 @@ services:
       - genv-fluentd
       - genv-kibana
   env-configuration:
-    build: env-configuration/
+    build:
+      context: env-configuration/
+      dockerfile: src/main/docker/Dockerfile
     mem_limit: 512mb
     environment:
       - spring.profiles.active=native
@@ -117,7 +121,9 @@ services:
       - env-configuration
       - env-authorization
   env-zuul:
-    build: env-zuul/
+    build:
+      context: env-zuul/
+      dockerfile: src/main/docker/Dockerfile
     restart: always
     mem_limit: 512mb
     ports:
@@ -134,7 +140,9 @@ services:
       - env-configuration
       - env-authorization
   env-sba:
-    build: env-sba/
+    build:
+      context: env-sba/
+      dockerfile: src/main/docker/Dockerfile
     restart: always
     mem_limit: 512mb
     ports:
