@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true">
-    <springProperty scope="context" name="application" source="spring.application.name"/>
-    <springProperty scope="context" name="profile" source="spring.profiles.active"/>
     <contextName>${HOSTNAME}</contextName>
+    <springProperty scope="context" name="version" source="version"/>
+    <springProperty scope="context" name="profile" source="spring.profiles.active"/>
+    <springProperty scope="context" name="application" source="spring.application.name"/>
 
     <!-- use Spring default values -->
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
