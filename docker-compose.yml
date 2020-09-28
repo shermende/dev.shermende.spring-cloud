@@ -73,7 +73,9 @@ services:
     depends_on:
       - env-eureka
   env-authorization:
-    build: env-authorization/
+    build:
+      context: env-authorization/
+      dockerfile: src/main/docker/Dockerfile
     restart: always
     mem_limit: 512mb
     environment:
@@ -85,7 +87,9 @@ services:
       - env-eureka
       - env-configuration
   app-game:
-    build: app-game/
+    build:
+      context: app-game/
+      dockerfile: src/main/docker/Dockerfile
     restart: always
     mem_limit: 512mb
     environment:
@@ -98,7 +102,9 @@ services:
       - env-configuration
       - env-authorization
   app-reference:
-    build: app-reference/
+    build:
+      context: app-reference/
+      dockerfile: src/main/docker/Dockerfile
     restart: always
     mem_limit: 512mb
     environment:

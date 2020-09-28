@@ -4,9 +4,13 @@ services:
   env-authorization:
     environment:
       - spring.profiles.active=docker,jwt
+      - x-jwt.public-key-path=public.pem
+      - x-jwt.private-key-path=private.key
   app-game:
     environment:
       - spring.profiles.active=docker,jwt
+      - x-jwt.public-key-path=public.pem
   app-reference:
     environment:
       - spring.profiles.active=docker,jwt
+      - x-jwt.public-key-path=public.pem

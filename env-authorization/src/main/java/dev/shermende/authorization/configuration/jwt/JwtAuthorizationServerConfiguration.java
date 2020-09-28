@@ -75,6 +75,7 @@ public class JwtAuthorizationServerConfiguration extends AuthorizationServerConf
      * public key endpoint
      */
     @RestController
+    @Profile({"jwt"})
     @RequiredArgsConstructor
     public static class WellKnownConfiguration {
         private final KeyPair keyPair;
@@ -91,6 +92,7 @@ public class JwtAuthorizationServerConfiguration extends AuthorizationServerConf
      * RSA key-pair for JWT
      */
     @Configuration
+    @Profile({"jwt"})
     @RequiredArgsConstructor
     public static class JwtConfiguration {
 

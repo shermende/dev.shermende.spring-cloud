@@ -30,7 +30,3 @@ management:
     export:
       influx:
         db: ${spring.application.name}.${spring.profiles.active:default}.${spring.cloud.client.ip-address}.${server.port}
-#
-logging:
-  file:
-    name: ${spring.application.name}:${spring.profiles.active:default}:${spring.cloud.client.ip-address}:${server.port}.log
