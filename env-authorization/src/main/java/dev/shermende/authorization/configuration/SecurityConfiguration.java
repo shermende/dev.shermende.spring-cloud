@@ -30,7 +30,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/actuator/**").permitAll() // management port
             .anyRequest().authenticated()
             .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and().cors().and().csrf().disable()
+            .and().cors()
+            .and().csrf().ignoringAntMatchers("/introspect/**", "/registration/**")
         ;
     }
 
