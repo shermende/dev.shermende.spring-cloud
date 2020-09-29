@@ -57,13 +57,15 @@ services:
     mem_limit: 512mb
     environment:
       - spring.profiles.active=docker
-      - logging.config=classpath:config/logback-spring.xml
+      - logging.config=/var/logback/logback.xml
       - management.metrics.export.influx.uri=http://genv-influxdb:8086
     depends_on:
       - genv-kafka
       - genv-elasticsearch
       - genv-fluentd
       - genv-kibana
+    volumes:
+      - ./.examples/logback:/var/logback
   env-configuration:
     build:
       context: env-configuration/
@@ -71,11 +73,13 @@ services:
     mem_limit: 512mb
     environment:
       - spring.profiles.active=native
-      - logging.config=classpath:config/logback-spring.xml
+      - logging.config=/var/logback/logback.xml
       - management.metrics.export.influx.uri=http://genv-influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
       - env-eureka
+    volumes:
+      - ./.examples/logback:/var/logback
   env-authorization:
     build:
       context: env-authorization/
@@ -84,12 +88,14 @@ services:
     mem_limit: 512mb
     environment:
       - spring.profiles.active=docker
-      - logging.config=classpath:config/logback-spring.xml
+      - logging.config=/var/logback/logback.xml
       - management.metrics.export.influx.uri=http://genv-influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
       - env-eureka
       - env-configuration
+    volumes:
+      - ./.examples/logback:/var/logback
   app-game:
     build:
       context: app-game/
@@ -98,13 +104,15 @@ services:
     mem_limit: 512mb
     environment:
       - spring.profiles.active=docker
-      - logging.config=classpath:config/logback-spring.xml
+      - logging.config=/var/logback/logback.xml
       - management.metrics.export.influx.uri=http://genv-influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
       - env-eureka
       - env-configuration
       - env-authorization
+    volumes:
+      - ./.examples/logback:/var/logback
   app-reference:
     build:
       context: app-reference/
@@ -113,13 +121,15 @@ services:
     mem_limit: 512mb
     environment:
       - spring.profiles.active=docker
-      - logging.config=classpath:config/logback-spring.xml
+      - logging.config=/var/logback/logback.xml
       - management.metrics.export.influx.uri=http://genv-influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
       - env-eureka
       - env-configuration
       - env-authorization
+    volumes:
+      - ./.examples/logback:/var/logback
   env-zuul:
     build:
       context: env-zuul/
@@ -130,7 +140,7 @@ services:
       - 8080:8080
     environment:
       - spring.profiles.active=docker
-      - logging.config=classpath:config/logback-spring.xml
+      - logging.config=/var/logback/logback.xml
       - management.metrics.export.influx.uri=http://genv-influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
@@ -139,6 +149,8 @@ services:
       - env-eureka
       - env-configuration
       - env-authorization
+    volumes:
+      - ./.examples/logback:/var/logback
   env-sba:
     build:
       context: env-sba/
@@ -149,7 +161,7 @@ services:
       - 8081:8081
     environment:
       - spring.profiles.active=docker
-      - logging.config=classpath:config/logback-spring.xml
+      - logging.config=/var/logback/logback.xml
       - management.metrics.export.influx.uri=http://genv-influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
@@ -159,3 +171,5 @@ services:
       - env-authorization
       - env-configuration
       - env-zuul
+    volumes:
+      - ./.examples/logback:/var/logback
