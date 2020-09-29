@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- kafka appender for EFK (ES, Fluent, Kibana)-->
 <configuration scan="true">
     <contextName>${HOSTNAME}</contextName>
     <springProperty scope="context" name="version" source="version"/>
