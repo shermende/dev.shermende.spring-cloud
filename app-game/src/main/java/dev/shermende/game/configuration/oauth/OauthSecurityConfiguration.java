@@ -57,7 +57,7 @@ public class OauthSecurityConfiguration extends ResourceServerConfigurerAdapter 
             .antMatchers("/actuator/**").permitAll()  // management port
             .anyRequest().authenticated()
             .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and().cors().and().anonymous().disable().httpBasic().disable().csrf().disable()
+            .and().cors()
         ;
     }
 

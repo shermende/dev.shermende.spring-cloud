@@ -4,13 +4,11 @@ import dev.shermende.authorization.db.entity.User;
 import dev.shermende.authorization.security.ExtendedUser;
 import dev.shermende.authorization.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +23,7 @@ public class AppUserDetailsService implements UserDetailsService {
 
     private UserDetails getUser(User user) {
         return new ExtendedUser(user.getId(), user.getEmail(),
-            user.getPassword(), Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
+            user.getPassword(), AuthorityUtils.NO_AUTHORITIES);
     }
 
 }

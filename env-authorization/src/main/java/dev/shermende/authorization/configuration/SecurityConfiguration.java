@@ -12,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -23,16 +24,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+            .antMatchers("/instances/**").permitAll() // management port
+            .antMatchers("/actuator/**").permitAll() // management port
             .antMatchers("/introspect/**").permitAll()
             .antMatchers("/registration/**").permitAll()
             .antMatchers("/.well-known/jwks.json").permitAll()
-            .antMatchers("/instances/**").permitAll() // management port
-            .antMatchers("/actuator/**").permitAll() // management port
             .anyRequest().authenticated()
             .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and().cors()
-            .and().httpBasic()
-            .and().csrf().disable()
+            .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+            .and().csrf().ignoringAntMatchers("/instances", "/actuator/**", "/introspect/**", "/registration/**")
         ;
     }
 

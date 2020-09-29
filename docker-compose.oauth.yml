@@ -7,8 +7,8 @@ services:
   app-game:
     environment:
       - spring.profiles.active=docker,oauth
-      - oauth.client.url=http://env-authorization:8082/oauth/check_token
+      - x-oauth.url=http://env-authorization:8082/oauth/check_token
   app-reference:
     environment:
       - spring.profiles.active=docker,oauth
-      - oauth.client.url=http://env-authorization:8082/oauth/check_token
+      - x-oauth.url=http://env-authorization:8082/oauth/check_token

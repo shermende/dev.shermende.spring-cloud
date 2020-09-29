@@ -1,3 +1,6 @@
+#
+version: @project.version@
+#
 spring:
   profiles:
     active: native
