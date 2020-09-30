@@ -1,12 +1,6 @@
 version: '2.1'
 
 services:
-  genv-influxdb:
-    image: influxdb:1.7.6
-  genv-chronograf:
-    image: chronograf:1.7.17
-    ports:
-      - 8888:8888
   genv-zookeeper:
     image: confluentinc/cp-zookeeper:5.3.1
     environment:
@@ -30,26 +24,6 @@ services:
       KAFKA_BROKERCONNECT: genv-kafka:9091
     depends_on:
       - genv-kafka
-  genv-elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
-    environment:
-      - discovery.type=single-node
-    depends_on:
-      - genv-kafka
-  genv-kibana:
-    image: kibana:7.2.0
-    environment:
-      ELASTICSEARCH_HOSTS: http://genv-elasticsearch:9200
-    ports:
-      - 5601:5601
-    depends_on:
-      - genv-elasticsearch
-  genv-fluentd:
-    build: genv-fluentd/
-    volumes:
-      - ./genv-fluentd/conf:/fluentd/etc
-    depends_on:
-      - genv-elasticsearch
   env-eureka:
     build:
       context: env-eureka/
@@ -57,15 +31,8 @@ services:
     mem_limit: 512mb
     environment:
       - spring.profiles.active=docker
-      - logging.config=/var/logback/logback.xml
-      - management.metrics.export.influx.uri=http://genv-influxdb:8086
     depends_on:
       - genv-kafka
-      - genv-elasticsearch
-      - genv-fluentd
-      - genv-kibana
-    volumes:
-      - ./.examples/logback:/var/logback
   env-configuration:
     build:
       context: env-configuration/
@@ -73,13 +40,9 @@ services:
     mem_limit: 512mb
     environment:
       - spring.profiles.active=native
-      - logging.config=/var/logback/logback.xml
-      - management.metrics.export.influx.uri=http://genv-influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
       - env-eureka
-    volumes:
-      - ./.examples/logback:/var/logback
   env-authorization:
     build:
       context: env-authorization/
@@ -88,14 +51,10 @@ services:
     mem_limit: 512mb
     environment:
       - spring.profiles.active=docker
-      - logging.config=/var/logback/logback.xml
-      - management.metrics.export.influx.uri=http://genv-influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
       - env-eureka
       - env-configuration
-    volumes:
-      - ./.examples/logback:/var/logback
   app-game:
     build:
       context: app-game/
@@ -104,15 +63,11 @@ services:
     mem_limit: 512mb
     environment:
       - spring.profiles.active=docker
-      - logging.config=/var/logback/logback.xml
-      - management.metrics.export.influx.uri=http://genv-influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
       - env-eureka
       - env-configuration
       - env-authorization
-    volumes:
-      - ./.examples/logback:/var/logback
   app-reference:
     build:
       context: app-reference/
@@ -121,15 +76,11 @@ services:
     mem_limit: 512mb
     environment:
       - spring.profiles.active=docker
-      - logging.config=/var/logback/logback.xml
-      - management.metrics.export.influx.uri=http://genv-influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
       - env-eureka
       - env-configuration
       - env-authorization
-    volumes:
-      - ./.examples/logback:/var/logback
   env-zuul:
     build:
       context: env-zuul/
@@ -140,8 +91,6 @@ services:
       - 8080:8080
     environment:
       - spring.profiles.active=docker
-      - logging.config=/var/logback/logback.xml
-      - management.metrics.export.influx.uri=http://genv-influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
       - app-game
@@ -149,8 +98,6 @@ services:
       - env-eureka
       - env-configuration
       - env-authorization
-    volumes:
-      - ./.examples/logback:/var/logback
   env-sba:
     build:
       context: env-sba/
@@ -161,8 +108,6 @@ services:
       - 8081:8081
     environment:
       - spring.profiles.active=docker
-      - logging.config=/var/logback/logback.xml
-      - management.metrics.export.influx.uri=http://genv-influxdb:8086
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
     depends_on:
       - app-game
@@ -171,5 +116,3 @@ services:
       - env-authorization
       - env-configuration
       - env-zuul
-    volumes:
-      - ./.examples/logback:/var/logback

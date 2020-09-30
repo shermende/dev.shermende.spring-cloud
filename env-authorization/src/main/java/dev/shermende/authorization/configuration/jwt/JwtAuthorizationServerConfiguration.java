@@ -5,12 +5,12 @@ import com.nimbusds.jose.jwk.RSAKey;
 import dev.shermende.lib.security.configuration.jwt.JwtProperties;
 import dev.shermende.lib.security.util.RSA;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -33,39 +33,73 @@ import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.Map;
 
+@Slf4j
 @Configuration
 @Profile({"jwt"})
 @RequiredArgsConstructor
 @EnableAuthorizationServer
 public class JwtAuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
-    private final KeyPair keyPair;
     private final DataSource dataSource;
-    private final UserDetailsService userDetailsService;
     private final AuthenticationManager authenticationManager;
 
+    /**
+     * bean of JWT properties
+     */
     @Bean
-    public TokenStore tokenStore() {
+    @Validated
+    @ConfigurationProperties("x-jwt")
+    public JwtProperties jwtProperties() {
+        return new JwtProperties();
+    }
+
+    /**
+     * RSA key-pair for JWT
+     */
+    @Bean
+    public KeyPair keyPair() throws GeneralSecurityException, IOException {
+        final KeyFactory factory = KeyFactory.getInstance("RSA");
+        final RSAPublicKey publicKey = RSA.getPublicKey(jwtProperties().getPublicKeyPath());
+        final RSAPrivateKey privateKey = RSA.getPrivateKey(jwtProperties().getPrivateKeyPath());
+        final RSAPublicKeySpec publicSpec = new RSAPublicKeySpec(publicKey.getModulus(), publicKey.getPublicExponent());
+        final RSAPrivateKeySpec privateSpec = new RSAPrivateKeySpec(privateKey.getModulus(), privateKey.getPrivateExponent());
+        return new KeyPair(factory.generatePublic(publicSpec), factory.generatePrivate(privateSpec));
+    }
+
+    /**
+     *
+     */
+    @Bean
+    public TokenStore tokenStore() throws GeneralSecurityException, IOException {
         return new JwtTokenStore(accessTokenConverter());
     }
 
+    /**
+     * Converter
+     * {@link org.springframework.security.core.Authentication} to JWT
+     */
     @Bean
-    public JwtAccessTokenConverter accessTokenConverter() {
+    public JwtAccessTokenConverter accessTokenConverter() throws GeneralSecurityException, IOException {
         final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setKeyPair(keyPair);
+        converter.setKeyPair(keyPair());
         converter.setAccessTokenConverter(new JwtDefaultAccessTokenConverter());
         return converter;
     }
 
+    /**
+     * users configurations
+     */
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws GeneralSecurityException, IOException {
         endpoints
             .tokenStore(tokenStore())
             .accessTokenConverter(accessTokenConverter())
-            .authenticationManager(authenticationManager)
-            .userDetailsService(userDetailsService);
+            .authenticationManager(authenticationManager);
     }
 
+    /**
+     * oauth applications from db
+     */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.jdbc(dataSource);
@@ -86,39 +120,6 @@ public class JwtAuthorizationServerConfiguration extends AuthorizationServerConf
             final RSAKey key = new RSAKey.Builder(publicKey).build();
             return new JWKSet(key).toJSONObject();
         }
-    }
-
-    /**
-     * RSA key-pair for JWT
-     */
-    @Configuration
-    @Profile({"jwt"})
-    @RequiredArgsConstructor
-    public static class JwtConfiguration {
-
-        /**
-         * bean of JWT properties
-         */
-        @Bean
-        @Validated
-        @ConfigurationProperties("x-jwt")
-        public JwtProperties jwtProperties() {
-            return new JwtProperties();
-        }
-
-        /**
-         * RSA key-pair for JWT
-         */
-        @Bean
-        public KeyPair keyPair() throws GeneralSecurityException, IOException {
-            final KeyFactory factory = KeyFactory.getInstance("RSA");
-            final RSAPublicKey publicKey = RSA.getPublicKey(jwtProperties().getPublicKeyPath());
-            final RSAPrivateKey privateKey = RSA.getPrivateKey(jwtProperties().getPrivateKeyPath());
-            final RSAPublicKeySpec publicSpec = new RSAPublicKeySpec(publicKey.getModulus(), publicKey.getPublicExponent());
-            final RSAPrivateKeySpec privateSpec = new RSAPrivateKeySpec(privateKey.getModulus(), privateKey.getPrivateExponent());
-            return new KeyPair(factory.generatePublic(publicSpec), factory.generatePrivate(privateSpec));
-        }
-
     }
 
 }

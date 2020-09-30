@@ -1,1 +1,1 @@
-GettingStart settings
+Examples of fast start

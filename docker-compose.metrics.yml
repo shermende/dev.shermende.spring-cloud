@@ -1,0 +1,32 @@
+version: '2.1'
+
+services:
+  genv-influxdb:
+    image: influxdb:1.7.6
+  genv-chronograf:
+    image: chronograf:1.7.17
+    ports:
+      - 8888:8888
+  env-eureka:
+    environment:
+      - management.metrics.export.influx.uri=http://genv-influxdb:8086
+    depends_on:
+      - genv-chronograf
+  env-configuration:
+    environment:
+      - management.metrics.export.influx.uri=http://genv-influxdb:8086
+  env-authorization:
+    environment:
+      - management.metrics.export.influx.uri=http://genv-influxdb:8086
+  app-game:
+    environment:
+      - management.metrics.export.influx.uri=http://genv-influxdb:8086
+  app-reference:
+    environment:
+      - management.metrics.export.influx.uri=http://genv-influxdb:8086
+  env-zuul:
+    environment:
+      - management.metrics.export.influx.uri=http://genv-influxdb:8086
+  env-sba:
+    environment:
+      - management.metrics.export.influx.uri=http://genv-influxdb:8086

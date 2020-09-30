@@ -1,0 +1,60 @@
+version: '2.1'
+
+services:
+  genv-elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
+    environment:
+      - discovery.type=single-node
+    depends_on:
+      - genv-kafka
+  genv-kibana:
+    image: kibana:7.2.0
+    environment:
+      ELASTICSEARCH_HOSTS: http://genv-elasticsearch:9200
+    ports:
+      - 5601:5601
+    depends_on:
+      - genv-elasticsearch
+  genv-fluentd:
+    build: genv-fluentd/
+    volumes:
+      - ./genv-fluentd/conf:/fluentd/etc
+    depends_on:
+      - genv-elasticsearch
+  env-eureka:
+    environment:
+      - logging.config=/var/logback/logback.xml
+    depends_on:
+      - genv-fluentd
+    volumes:
+      - ./.examples/logback:/var/logback
+  env-configuration:
+    environment:
+      - logging.config=/var/logback/logback.xml
+    volumes:
+      - ./.examples/logback:/var/logback
+  env-authorization:
+    environment:
+      - logging.config=/var/logback/logback.xml
+    volumes:
+      - ./.examples/logback:/var/logback
+  app-game:
+    environment:
+      - logging.config=/var/logback/logback.xml
+    volumes:
+      - ./.examples/logback:/var/logback
+  app-reference:
+    environment:
+      - logging.config=/var/logback/logback.xml
+    volumes:
+      - ./.examples/logback:/var/logback
+  env-zuul:
+    environment:
+      - logging.config=/var/logback/logback.xml
+    volumes:
+      - ./.examples/logback:/var/logback
+  env-sba:
+    environment:
+      - logging.config=/var/logback/logback.xml
+    volumes:
+      - ./.examples/logback:/var/logback
