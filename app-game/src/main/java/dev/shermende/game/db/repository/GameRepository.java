@@ -2,7 +2,7 @@ package dev.shermende.game.db.repository;
 
 import dev.shermende.game.db.entity.Game;
 import dev.shermende.game.db.entity.QGame;
-import dev.shermende.lib.support.dal.db.repository.QueryDslRepository;
+import dev.shermende.lib.dal.db.repository.QueryDslRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;

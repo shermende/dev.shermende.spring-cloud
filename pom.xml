@@ -11,11 +11,11 @@
     </parent>
     <groupId>dev.shermende</groupId>
     <artifactId>spring-cloud</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>lib-support-dal</module>
+        <module>lib-dal</module>
         <module>lib-security</module>
         <module>env-eureka</module>
         <module>env-configuration</module>
@@ -63,7 +63,7 @@
 
             <dependency>
                 <groupId>dev.shermende</groupId>
-                <artifactId>lib-support-dal</artifactId>
+                <artifactId>lib-dal</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

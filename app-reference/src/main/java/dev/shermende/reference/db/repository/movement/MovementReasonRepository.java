@@ -1,6 +1,6 @@
 package dev.shermende.reference.db.repository.movement;
 
-import dev.shermende.lib.support.dal.db.repository.QueryDslRepository;
+import dev.shermende.lib.dal.db.repository.QueryDslRepository;
 import dev.shermende.reference.db.entity.movement.MovementReason;
 import dev.shermende.reference.db.entity.movement.QMovementReason;
 import org.jetbrains.annotations.NotNull;

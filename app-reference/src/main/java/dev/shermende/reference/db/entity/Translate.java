@@ -1,6 +1,6 @@
 package dev.shermende.reference.db.entity;
 
-import dev.shermende.lib.support.dal.db.entity.TimedEntity;
+import dev.shermende.lib.dal.db.entity.TimedEntity;
 import lombok.*;
 
 import javax.persistence.Entity;

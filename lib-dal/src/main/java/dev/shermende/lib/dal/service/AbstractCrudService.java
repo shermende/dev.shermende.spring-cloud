@@ -1,9 +1,9 @@
-package dev.shermende.lib.support.dal.service;
+package dev.shermende.lib.dal.service;
 
 import com.querydsl.core.types.EntityPath;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.Expressions;
-import dev.shermende.lib.support.dal.db.repository.QueryDslRepository;
+import dev.shermende.lib.dal.db.repository.QueryDslRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -1,4 +1,4 @@
-package dev.shermende.lib.support.dal.db.entity;
+package dev.shermende.lib.dal.db.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

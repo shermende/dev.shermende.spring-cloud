@@ -1,4 +1,4 @@
-package dev.shermende.lib.support.dal.service;
+package dev.shermende.lib.dal.service;
 
 import com.querydsl.core.types.Predicate;
 import org.springframework.data.domain.Page;
