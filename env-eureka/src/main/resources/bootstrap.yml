@@ -1,7 +1,4 @@
 #
-server:
-  port: 8761
-#
 spring:
   application:
     name: env-eureka
@@ -17,8 +14,6 @@ eureka:
       management.context-path: /actuator
 #
 management:
-  server:
-    port: 7761
   endpoint:
     health:
       show-details: always
@@ -32,4 +27,5 @@ management:
   metrics:
     export:
       influx:
+        enabled: false
         db: ${spring.application.name}.${spring.profiles.active:default}.${spring.cloud.client.ip-address}.${server.port}

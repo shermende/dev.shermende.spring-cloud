@@ -1,34 +1,39 @@
 #
-server:
-  port: 8200
-#
 spring:
   application:
     name: app-game
   cloud:
+    # dynamic configuration
     config:
+      enabled: false
       fail-fast: true
       discovery:
-        enabled: true
+        enabled: false
         service-id: env-configuration
-#
+    # ribbon balancer disabled
+    loadbalancer:
+      ribbon:
+        enabled: false
+# declarative rest client
 feign:
   hystrix:
     enabled: true
 # SecurityContext for FeignClients
 hystrix:
   shareSecurityContext: true
-#
+# schema registry
 eureka:
+  client:
+    enabled: false
   instance:
     prefer-ip-address: true
     metadata-map:
       management.port: ${management.server.port}
       management.context-path: /actuator
-#
+      user.name: ${security.user.password}
+      user.password: ${security.user.password}
+# management settings
 management:
-  server:
-    port: 7200
   endpoint:
     health:
       show-details: always
@@ -42,4 +47,5 @@ management:
   metrics:
     export:
       influx:
+        enabled: false
         db: ${spring.application.name}.${spring.profiles.active:default}.${spring.cloud.client.ip-address}.${server.port}

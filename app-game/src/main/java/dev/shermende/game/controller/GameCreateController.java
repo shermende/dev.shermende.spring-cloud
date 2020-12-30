@@ -7,6 +7,7 @@ import dev.shermende.game.service.GameService;
 import dev.shermende.game.validator.GameCreateResourceValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class GameCreateController {
 
     @PostMapping("/create")
     public GameModel create(
-        Authentication authentication,
+        @AuthenticationPrincipal Authentication authentication,
         @Validated @RequestBody GameCreateResource resource
     ) {
         return assembler.toModel(service.create(authentication, resource));

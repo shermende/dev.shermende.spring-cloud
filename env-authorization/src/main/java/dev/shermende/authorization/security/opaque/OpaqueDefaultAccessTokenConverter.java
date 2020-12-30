@@ -1,4 +1,4 @@
-package dev.shermende.authorization.configuration.jwt;
+package dev.shermende.authorization.security.opaque;
 
 import dev.shermende.authorization.security.ExtendedUser;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -8,8 +8,11 @@ import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConv
 import java.util.HashMap;
 import java.util.Map;
 
-public class JwtDefaultAccessTokenConverter extends DefaultAccessTokenConverter {
+public class OpaqueDefaultAccessTokenConverter extends DefaultAccessTokenConverter {
 
+    /**
+     * Force add id field
+     */
     @Override
     public Map<String, ?> convertAccessToken(OAuth2AccessToken token, OAuth2Authentication authentication) {
         // здесь можно добавить данные в jwt::payload

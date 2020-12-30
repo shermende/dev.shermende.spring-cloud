@@ -1,7 +1,6 @@
-package dev.shermende.authorization.configuration.jwt;
+package dev.shermende.authorization.configuration.opaque;
 
-import com.nimbusds.jose.jwk.JWKSet;
-import com.nimbusds.jose.jwk.RSAKey;
+import dev.shermende.authorization.security.opaque.OpaqueDefaultAccessTokenConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,34 +14,26 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.sql.DataSource;
-import java.security.KeyPair;
-import java.security.interfaces.RSAPublicKey;
-import java.util.Map;
 
 /**
- * Jwt authorization server configuration
+ * Opaque authorization server configuration
  */
 @Slf4j
 @Configuration
-@Profile({"jwt"})
+@Profile({"opaque"})
 @RequiredArgsConstructor
 @EnableAuthorizationServer
-public class JwtAuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
+public class OpaqueAuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
     @Qualifier("dataSource")
     private final DataSource dataSource;
-    @Qualifier("jwtAuthorizationServerTokenStore")
+    @Qualifier("opaqueAuthorizationServerTokenStore")
     private final TokenStore tokenStore;
     @Qualifier("appUserDetailsService")
     private final UserDetailsService userDetailsService;
-    @Qualifier("jwtAuthorizationServerTokenConverter")
-    private final JwtAccessTokenConverter accessTokenConverter;
-    @Qualifier("jwtAuthorizationServerAuthenticationManager")
+    @Qualifier("opaqueAuthorizationServerAuthenticationManager")
     private final AuthenticationManager authenticationManager;
 
     /**
@@ -68,28 +59,11 @@ public class JwtAuthorizationServerConfiguration extends AuthorizationServerConf
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-        endpoints
-            .tokenStore(tokenStore)
-            .accessTokenConverter(accessTokenConverter)
+        endpoints.tokenStore(tokenStore)
             .userDetailsService(userDetailsService)
-            .authenticationManager(authenticationManager);
-    }
+            .authenticationManager(authenticationManager)
+            .accessTokenConverter(new OpaqueDefaultAccessTokenConverter());
 
-    /**
-     *
-     */
-    @RestController
-    @Profile({"jwt"})
-    @RequiredArgsConstructor
-    public static class WellKnownConfiguration {
-        private final KeyPair keyPair;
-
-        @GetMapping("/.well-known/jwks.json")
-        public Map<String, Object> getKey() {
-            final RSAPublicKey publicKey = (RSAPublicKey) this.keyPair.getPublic();
-            final RSAKey key = new RSAKey.Builder(publicKey).build();
-            return new JWKSet(key).toJSONObject();
-        }
     }
 
 }
