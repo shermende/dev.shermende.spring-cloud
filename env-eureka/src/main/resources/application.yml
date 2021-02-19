@@ -1,2 +1,9 @@
 #
 version: @project.version@
+#
+server:
+  port: 8761
+#
+management:
+  server:
+    port: 7761

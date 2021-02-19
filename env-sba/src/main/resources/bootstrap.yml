@@ -5,14 +5,28 @@ server:
 spring:
   application:
     name: env-sba
+  # cloud properties
   cloud:
+    # dynamic configuration
     config:
+      enabled: false
       fail-fast: true
       discovery:
-        enabled: true
+        enabled: false
         service-id: env-configuration
-#
+    # ribbon balancer disabled
+    loadbalancer:
+      ribbon:
+        enabled: false
+  # force sba-client disable
+  boot:
+    admin:
+      client:
+        enabled: false
+# schema registry
 eureka:
+  client:
+    enabled: false
   instance:
     prefer-ip-address: true
     metadata-map:
@@ -35,4 +49,5 @@ management:
   metrics:
     export:
       influx:
+        enabled: false
         db: ${spring.application.name}.${spring.profiles.active:default}.${spring.cloud.client.ip-address}.${server.port}

@@ -2,7 +2,7 @@ package dev.shermende.game.service.feign;
 
 import dev.shermende.game.interceptor.FeignInterceptor;
 import dev.shermende.game.model.UserModel;
-import dev.shermende.support.spring.component.annotation.InterceptResult;
+import dev.shermende.support.spring.aop.intercept.annotation.InterceptResult;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

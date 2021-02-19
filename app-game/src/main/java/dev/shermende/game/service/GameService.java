@@ -4,7 +4,7 @@ import com.querydsl.core.types.Predicate;
 import dev.shermende.game.db.entity.Game;
 import dev.shermende.game.resource.GameCreateResource;
 import dev.shermende.game.resource.GameMoveResource;
-import dev.shermende.lib.support.dal.service.CrudService;
+import dev.shermende.lib.dal.service.CrudService;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.data.domain.Page;

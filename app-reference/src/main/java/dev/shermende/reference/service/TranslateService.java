@@ -1,6 +1,6 @@
 package dev.shermende.reference.service;
 
-import dev.shermende.lib.support.dal.service.CrudService;
+import dev.shermende.lib.dal.service.CrudService;
 import dev.shermende.reference.db.entity.Translate;
 import org.jetbrains.annotations.NotNull;
 

@@ -1,6 +1,6 @@
 package dev.shermende.reference.service.impl;
 
-import dev.shermende.lib.support.dal.service.AbstractCrudService;
+import dev.shermende.lib.dal.service.AbstractCrudService;
 import dev.shermende.reference.db.entity.movement.MovementScenario;
 import dev.shermende.reference.db.entity.movement.QMovementScenario;
 import dev.shermende.reference.db.repository.movement.MovementScenarioRepository;

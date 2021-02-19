@@ -1,7 +1,14 @@
 #
 version: @project.version@
 #
+server:
+  port: 8200
+  error:
+    include-binding-errors: always
+#
 spring:
+  profiles:
+    active: default
   datasource:
     url: jdbc:h2:mem:game
     driver-class-name: org.h2.Driver

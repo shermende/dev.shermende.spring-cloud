@@ -1,5 +1,8 @@
 package dev.shermende.lib.security.model;
 
+/**
+ * Common interface of SecurityPrincipal
+ */
 public interface UserPrincipal {
 
     Long id();
