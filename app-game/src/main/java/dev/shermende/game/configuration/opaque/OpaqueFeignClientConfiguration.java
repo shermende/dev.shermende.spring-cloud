@@ -1,4 +1,4 @@
-package dev.shermende.game.configuration.oauth;
+package dev.shermende.game.configuration.opaque;
 
 import dev.shermende.lib.security.model.UserPrincipal;
 import feign.RequestInterceptor;
@@ -12,8 +12,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 @Slf4j
 @Configuration
-@Profile({"oauth"})
-public class OauthFeignClientConfiguration {
+@Profile({"opaque"})
+public class OpaqueFeignClientConfiguration {
     private static final String BEARER = "Bearer %s";
 
     @Bean

@@ -8,11 +8,16 @@ import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
 
+/**
+ * User with id field
+ */
 @Value
-@ToString(of = {"id"})
-@EqualsAndHashCode(of = {"id"}, callSuper = false)
+@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
 public class ExtendedUser extends User {
 
+    @ToString.Include
+    @EqualsAndHashCode.Include
     Long id;
 
     public ExtendedUser(

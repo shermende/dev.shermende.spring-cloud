@@ -1,4 +1,4 @@
-package dev.shermende.authorization.configuration;
+package dev.shermende.reference.configuration;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,11 +13,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-/**
- * High priority protection
- */
 @Slf4j
-@Order(-50)
+@Order(0)
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -25,7 +22,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final SecurityProperties securityProperties;
 
     /**
-     * Global password encoder
+     *
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -33,7 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * Global authentication provider
+     *
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -45,7 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * Protect actuators only
+     *
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {

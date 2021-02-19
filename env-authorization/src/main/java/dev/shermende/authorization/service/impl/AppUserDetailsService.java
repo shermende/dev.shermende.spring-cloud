@@ -16,14 +16,16 @@ public class AppUserDetailsService implements UserDetailsService {
 
     private final UserService userService;
 
+    /**
+     * Force use principal as {@link ExtendedUser}
+     */
     @Override
     public UserDetails loadUserByUsername(String login) {
         return getUser(userService.findOneByEmail(login).orElseThrow(() -> new UsernameNotFoundException(login)));
     }
 
     private UserDetails getUser(User user) {
-        return new ExtendedUser(user.getId(), user.getEmail(),
-            user.getPassword(), AuthorityUtils.NO_AUTHORITIES);
+        return new ExtendedUser(user.getId(), user.getEmail(), user.getPassword(), AuthorityUtils.NO_AUTHORITIES);
     }
 
 }

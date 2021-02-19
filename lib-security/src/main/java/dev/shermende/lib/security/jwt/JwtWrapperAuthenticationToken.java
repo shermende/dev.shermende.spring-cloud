@@ -1,4 +1,4 @@
-package dev.shermende.lib.security.configuration.jwt;
+package dev.shermende.lib.security.jwt;
 
 import dev.shermende.lib.security.model.UserPrincipal;
 import lombok.EqualsAndHashCode;
@@ -6,16 +6,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 
 /**
- * JWT holder {@link org.springframework.security.core.Authentication}
+ *
  */
 @Slf4j
 @EqualsAndHashCode(callSuper = false, of = {"principal"})
-public class JwtAuthenticationSupportToken extends AbstractAuthenticationToken {
+public class JwtWrapperAuthenticationToken extends AbstractAuthenticationToken {
 
     private final transient UserPrincipal principal;
     private final AbstractAuthenticationToken authentication;
 
-    public JwtAuthenticationSupportToken(
+    public JwtWrapperAuthenticationToken(
         UserPrincipal principal,
         AbstractAuthenticationToken authentication
     ) {

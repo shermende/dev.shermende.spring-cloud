@@ -1,16 +1,16 @@
-package dev.shermende.lib.security.model;
+package dev.shermende.lib.security.model.impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import dev.shermende.lib.security.model.UserPrincipal;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
+/**
+ * Default implementation of {@link UserPrincipal}
+ */
 @Data
 @Builder
-@Accessors(chain = true)
-@EqualsAndHashCode(callSuper = false)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PrincipalUser implements UserPrincipal {

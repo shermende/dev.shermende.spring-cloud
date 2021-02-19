@@ -1,27 +1,26 @@
 #
-server:
-  port: 8100
-#
 spring:
   application:
     name: app-reference
   cloud:
+    # dynamic configuration
     config:
+      enabled: false
       fail-fast: true
       discovery:
-        enabled: true
+        enabled: false
         service-id: env-configuration
-#
+# schema registry
 eureka:
+  client:
+    enabled: false
   instance:
     prefer-ip-address: true
     metadata-map:
       management.port: ${management.server.port}
       management.context-path: /actuator
-#
+# management settings
 management:
-  server:
-    port: 7100
   endpoint:
     health:
       show-details: always
@@ -35,4 +34,5 @@ management:
   metrics:
     export:
       influx:
+        enabled: false
         db: ${spring.application.name}.${spring.profiles.active:default}.${spring.cloud.client.ip-address}.${server.port}

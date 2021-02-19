@@ -2,7 +2,7 @@ package dev.shermende.game.service.feign;
 
 import dev.shermende.game.interceptor.FeignInterceptor;
 import dev.shermende.game.model.MovementRouteModel;
-import dev.shermende.support.spring.component.annotation.InterceptResult;
+import dev.shermende.support.spring.aop.intercept.annotation.InterceptResult;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;

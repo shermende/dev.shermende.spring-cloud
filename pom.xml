@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.5.RELEASE</version>
+        <version>2.3.7.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>dev.shermende</groupId>
@@ -30,15 +30,15 @@
         <java.version>1.8</java.version>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
-        <spring-cloud.version>Hoxton.SR4</spring-cloud.version>
+        <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
 
         <!--libraries-->
+        <support-spring.version>1.1.2</support-spring.version>
         <sba.version>2.2.2</sba.version>
-        <org.jetbrains.version>17.0.0</org.jetbrains.version>
-        <nimbus-jose-jwt.version>7.9</nimbus-jose-jwt.version>
-        <support-spring.version>1.0.2</support-spring.version>
+        <org.jetbrains.version>20.1.0</org.jetbrains.version>
         <logback-kafka-appender.version>0.2.0-RC2</logback-kafka-appender.version>
         <logstash-logback-encoder.version>6.4</logstash-logback-encoder.version>
+        <easy-random.version>4.0.0</easy-random.version>
 
         <!--plugins-->
         <jacoco-maven-plugin.version>0.8.3</jacoco-maven-plugin.version>
@@ -63,6 +63,12 @@
 
             <dependency>
                 <groupId>dev.shermende</groupId>
+                <artifactId>support-spring</artifactId>
+                <version>${support-spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>dev.shermende</groupId>
                 <artifactId>lib-dal</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -71,24 +77,6 @@
                 <groupId>dev.shermende</groupId>
                 <artifactId>lib-security</artifactId>
                 <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.jetbrains</groupId>
-                <artifactId>annotations</artifactId>
-                <version>${org.jetbrains.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.nimbusds</groupId>
-                <artifactId>nimbus-jose-jwt</artifactId>
-                <version>${nimbus-jose-jwt.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>dev.shermende</groupId>
-                <artifactId>support-spring</artifactId>
-                <version>${support-spring.version}</version>
             </dependency>
 
             <dependency>
@@ -104,6 +92,12 @@
             </dependency>
 
             <dependency>
+                <groupId>org.jetbrains</groupId>
+                <artifactId>annotations</artifactId>
+                <version>${org.jetbrains.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.github.danielwegener</groupId>
                 <artifactId>logback-kafka-appender</artifactId>
                 <version>${logback-kafka-appender.version}</version>
@@ -113,6 +107,12 @@
                 <groupId>net.logstash.logback</groupId>
                 <artifactId>logstash-logback-encoder</artifactId>
                 <version>${logstash-logback-encoder.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jeasy</groupId>
+                <artifactId>easy-random-core</artifactId>
+                <version>${easy-random.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

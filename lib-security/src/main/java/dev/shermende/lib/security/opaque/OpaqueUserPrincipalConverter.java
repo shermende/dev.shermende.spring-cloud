@@ -1,22 +1,19 @@
-package dev.shermende.lib.security.configuration.ouath;
+package dev.shermende.lib.security.opaque;
 
-import dev.shermende.lib.security.model.PrincipalUser;
 import dev.shermende.lib.security.model.UserPrincipal;
-import lombok.RequiredArgsConstructor;
+import dev.shermende.lib.security.model.impl.PrincipalUser;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.security.core.Authentication;
 
 import java.util.Map;
 
-/**
- * {@link Authentication#getPrincipal()} for OAUTH session
- */
 @Slf4j
-@RequiredArgsConstructor
-public class OauthUserPrincipalConverter implements Converter<Map<String, ?>, UserPrincipal> {
+public class OpaqueUserPrincipalConverter implements Converter<Map<String, ?>, UserPrincipal> {
 
+    /**
+     * Force use principal as {@link UserPrincipal}
+     */
     @NotNull
     @Override
     public PrincipalUser convert(@NotNull Map<String, ?> map) {
