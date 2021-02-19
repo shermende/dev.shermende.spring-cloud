@@ -3,6 +3,8 @@ version: @project.version@
 #
 server:
   port: 8082
+  error:
+    include-binding-errors: always
 #
 spring:
   application:

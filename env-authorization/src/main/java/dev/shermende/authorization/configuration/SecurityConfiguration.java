@@ -33,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * Global authentication provider
+     * Local authentication manager settings
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

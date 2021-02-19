@@ -19,6 +19,8 @@ eureka:
     metadata-map:
       management.port: ${management.server.port}
       management.context-path: /actuator
+      user.name: ${security.user.password}
+      user.password: ${security.user.password}
 # management settings
 management:
   endpoint:
