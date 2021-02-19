@@ -2,6 +2,13 @@
 spring:
   application:
     name: env-authorization
+  # spring boot admin client
+  boot:
+    admin:
+      client:
+        enabled: false
+        instance:
+          prefer-ip: true
   cloud:
     # ribbon balancer disabled
     loadbalancer:

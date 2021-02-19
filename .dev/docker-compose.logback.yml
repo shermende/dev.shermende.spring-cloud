@@ -16,7 +16,7 @@ services:
     depends_on:
       - genv-elasticsearch
   genv-fluentd:
-    build: genv-fluentd/
+    build: env-fluentd/
     volumes:
       - ./genv-fluentd/conf:/fluentd/etc
     depends_on:
