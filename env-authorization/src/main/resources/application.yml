@@ -7,6 +7,10 @@ server:
     include-binding-errors: always
 #
 spring:
+  security:
+    user:
+      name: support
+      password: support
   datasource:
     url: jdbc:h2:mem:auth
     driver-class-name: org.h2.Driver
@@ -16,3 +20,7 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: update
+#
+management:
+  server:
+    port: 7082

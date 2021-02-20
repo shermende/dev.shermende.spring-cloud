@@ -1,8 +1,15 @@
 #
 version: @project.version@
 #
+server:
+  port: 8081
+#
 spring:
   security:
     user:
-      name: application
-      password: application
+      name: support
+      password: support
+#
+management:
+  server:
+    port: 7081

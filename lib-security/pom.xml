@@ -73,7 +73,6 @@
     </dependencies>
 
     <build>
-        <finalName>${project.artifactId}-application</finalName>
         <plugins>
             <!--git info-->
             <plugin>

@@ -2,7 +2,18 @@
 spring:
   application:
     name: app-reference
+  # spring boot admin client
+  boot:
+    admin:
+      client:
+        enabled: false
+        instance:
+          prefer-ip: true
   cloud:
+    # ribbon balancer disabled
+    loadbalancer:
+      ribbon:
+        enabled: false
     # dynamic configuration
     config:
       enabled: false
@@ -19,8 +30,8 @@ eureka:
     metadata-map:
       management.port: ${management.server.port}
       management.context-path: /actuator
-      user.name: ${security.user.password}
-      user.password: ${security.user.password}
+      user.name: ${spring.security.user.name}
+      user.password: ${spring.security.user.password}
 # management settings
 management:
   endpoint:

@@ -1,0 +1,18 @@
+version: '2.1'
+
+services:
+  env-authorization:
+    environment:
+      - spring.profiles.active=docker,opaque
+  app-game:
+    environment:
+      - spring.profiles.active=docker,opaque
+      - spring.security.oauth2.resourceserver.opaquetoken.client-id=client
+      - spring.security.oauth2.resourceserver.opaquetoken.client-secret=secret
+      - spring.security.oauth2.resourceserver.opaquetoken.introspection-uri=http://env-authorization:8082/oauth/check_token
+  app-reference:
+    environment:
+      - spring.profiles.active=docker,opaque
+      - spring.security.oauth2.resourceserver.opaquetoken.client-id=client
+      - spring.security.oauth2.resourceserver.opaquetoken.client-secret=secret
+      - spring.security.oauth2.resourceserver.opaquetoken.introspection-uri=http://env-authorization:8082/oauth/check_token

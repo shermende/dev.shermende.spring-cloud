@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,9 +16,10 @@ public class SecuredController {
     @GetMapping("/secured")
 //    @PreAuthorize("#oauth2.hasScope('oauth2:any')")
     public Authentication secured(
-        @AuthenticationPrincipal Authentication authentication
+        @AuthenticationPrincipal OAuth2Authentication authentication
     ) {
-        log.info("{}", authentication.getAuthorities());
+        log.info("Scopes: {}", authentication.getOAuth2Request().getScope());
+        log.info("Authorities: {}", authentication.getAuthorities());
         return authentication;
     }
 

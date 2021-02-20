@@ -5,9 +5,12 @@ import dev.shermende.authorization.security.jwt.JwtDefaultUserAuthenticationConv
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.security.oauth2.authserver.AuthorizationServerProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.FileUrlResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,7 +19,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
+import org.springframework.validation.annotation.Validated;
 
+import java.io.IOException;
 import java.security.KeyPair;
 
 /**
@@ -67,6 +73,27 @@ public class JwtAuthorizationServerBeansConfiguration {
         converter.setKeyPair(keyPair);
         converter.setAccessTokenConverter(new JwtDefaultAccessTokenConverter(new JwtDefaultUserAuthenticationConverter()));
         return converter;
+    }
+
+    /**
+     *
+     */
+    @Bean
+    public KeyPair keyPair(
+        AuthorizationServerProperties properties
+    ) throws IOException {
+        return new KeyStoreKeyFactory(new FileUrlResource(properties.getJwt().getKeyStore()),
+            properties.getJwt().getKeyStorePassword().toCharArray()).getKeyPair(properties.getJwt().getKeyAlias());
+    }
+
+    /**
+     *
+     */
+    @Bean
+    @Validated
+    @ConfigurationProperties("security.oauth2.authorization")
+    public AuthorizationServerProperties authorizationServerProperties() {
+        return new AuthorizationServerProperties();
     }
 
 }

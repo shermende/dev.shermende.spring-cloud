@@ -17,18 +17,19 @@
     </appender>
 
     <appender name="KAFKA" class="com.github.danielwegener.logback.kafka.KafkaAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeCallerData>true</includeCallerData>
+        </encoder>
         <topic>logback</topic>
         <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy"/>
         <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy"/>
         <producerConfig>bootstrap.servers=genv-kafka:9091</producerConfig>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <includeCallerData>true</includeCallerData>
-        </encoder>
     </appender>
 
     <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
-        <includeCallerData>true</includeCallerData>
         <appender-ref ref="KAFKA"/>
+        <neverBlock>true</neverBlock>
+        <includeCallerData>true</includeCallerData>
     </appender>
 
     <root level="info">

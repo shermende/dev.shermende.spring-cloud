@@ -1,27 +1,43 @@
 #
-server:
-  port: 8080
-#
 spring:
   application:
     name: env-zuul
+  # spring boot admin client
+  boot:
+    admin:
+      client:
+        enabled: false
+        instance:
+          prefer-ip: true
   cloud:
+    # ribbon balancer disabled
+    loadbalancer:
+      ribbon:
+        enabled: false
+    # dynamic configuration
     config:
+      enabled: false
       fail-fast: true
       discovery:
-        enabled: true
+        enabled: false
         service-id: env-configuration
-#
+# schema registry
 eureka:
+  client:
+    enabled: false
   instance:
     prefer-ip-address: true
     metadata-map:
       management.port: ${management.server.port}
       management.context-path: /actuator
-#
+      user.name: ${spring.security.user.name}
+      user.password: ${spring.security.user.password}
+# proxy timeouts
+ribbon:
+  ReadTimeout: 5000
+  ConnectTimeout: 5000
+# management settings
 management:
-  server:
-    port: 7080
   endpoint:
     health:
       show-details: always
@@ -35,4 +51,5 @@ management:
   metrics:
     export:
       influx:
+        enabled: false
         db: ${spring.application.name}.${spring.profiles.active:default}.${spring.cloud.client.ip-address}.${server.port}

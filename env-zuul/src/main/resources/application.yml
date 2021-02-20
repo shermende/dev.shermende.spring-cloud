@@ -1,2 +1,15 @@
 #
 version: @project.version@
+#
+server:
+  port: 8080
+#
+spring:
+  security:
+    user:
+      name: support
+      password: support
+#
+management:
+  server:
+    port: 7070

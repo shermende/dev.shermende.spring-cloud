@@ -4,19 +4,17 @@ services:
   env-authorization:
     environment:
       - spring.profiles.active=docker,jwt
-      - x-jwt.public-key-path=/var/jwt/public.pem
-      - x-jwt.private-key-path=/var/jwt/private.key
+      - security.oauth2.authorization.jwt.key-store=/var/jwt/jwt.jks
+      - security.oauth2.authorization.jwt.key-store-password=password
+      - security.oauth2.authorization.jwt.key-alias=jwt
+      - security.oauth2.authorization.jwt.key-password=password
     volumes:
-      - ./.examples/jwt:/var/jwt
+      - ./jwt:/var/jwt
   app-game:
     environment:
       - spring.profiles.active=docker,jwt
-      - x-jwt.public-key-path=/var/jwt/public.pem
-    volumes:
-      - ./.examples/jwt:/var/jwt
+      - spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://env-authorization:8082/.well-known/jwks.json
   app-reference:
     environment:
       - spring.profiles.active=docker,jwt
-      - x-jwt.public-key-path=/var/jwt/public.pem
-    volumes:
-      - ./.examples/jwt:/var/jwt
+      - spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://env-authorization:8082/.well-known/jwks.json

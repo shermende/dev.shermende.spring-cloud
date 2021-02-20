@@ -1,21 +1,32 @@
 #
-server:
-  port: 8888
-#
 spring:
   application:
     name: env-configuration
-#
+  # spring boot admin client
+  boot:
+    admin:
+      client:
+        enabled: false
+        instance:
+          prefer-ip: true
+  cloud:
+    # ribbon balancer disabled
+    loadbalancer:
+      ribbon:
+        enabled: false
+# schema registry
 eureka:
+  client:
+    enabled: false
   instance:
     prefer-ip-address: true
     metadata-map:
       management.port: ${management.server.port}
       management.context-path: /actuator
-#
+      user.name: ${spring.security.user.name}
+      user.password: ${spring.security.user.password}
+# management settings
 management:
-  server:
-    port: 7888
   endpoint:
     health:
       show-details: always
@@ -29,4 +40,5 @@ management:
   metrics:
     export:
       influx:
+        enabled: false
         db: ${spring.application.name}.${spring.profiles.active:default}.${spring.cloud.client.ip-address}.${server.port}
