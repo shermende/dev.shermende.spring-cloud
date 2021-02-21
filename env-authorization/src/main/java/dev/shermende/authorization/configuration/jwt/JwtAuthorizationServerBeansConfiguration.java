@@ -10,7 +10,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileUrlResource;
+import org.springframework.core.io.Resource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -22,7 +24,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 import org.springframework.validation.annotation.Validated;
 
-import java.io.IOException;
+import java.net.MalformedURLException;
 import java.security.KeyPair;
 
 /**
@@ -80,10 +82,23 @@ public class JwtAuthorizationServerBeansConfiguration {
      */
     @Bean
     public KeyPair keyPair(
+        @Qualifier("getKeystoreResource") Resource resource,
         AuthorizationServerProperties properties
-    ) throws IOException {
-        return new KeyStoreKeyFactory(new FileUrlResource(properties.getJwt().getKeyStore()),
+    ) {
+        return new KeyStoreKeyFactory(resource,
             properties.getJwt().getKeyStorePassword().toCharArray()).getKeyPair(properties.getJwt().getKeyAlias());
+    }
+
+    /**
+     *
+     */
+    @Bean
+    public Resource getKeystoreResource(
+        AuthorizationServerProperties properties
+    ) throws MalformedURLException {
+        if (!properties.getJwt().getKeyStore().startsWith("resource:"))
+            return new FileUrlResource(properties.getJwt().getKeyStore());
+        return new ClassPathResource(properties.getJwt().getKeyStore().substring("resource:".length()));
     }
 
     /**

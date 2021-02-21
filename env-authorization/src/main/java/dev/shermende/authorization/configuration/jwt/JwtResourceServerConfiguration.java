@@ -45,7 +45,7 @@ public class JwtResourceServerConfiguration extends WebSecurityConfigurerAdapter
         http.authorizeRequests()
             .anyRequest().authenticated()
             .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and().cors()
+            .and().csrf().disable().httpBasic().disable().cors()
             .and().oauth2ResourceServer().jwt().authenticationManager(authenticationManager);
     }
 

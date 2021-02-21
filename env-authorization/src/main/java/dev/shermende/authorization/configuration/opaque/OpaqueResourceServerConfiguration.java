@@ -44,7 +44,7 @@ public class OpaqueResourceServerConfiguration extends WebSecurityConfigurerAdap
         http.authorizeRequests()
             .anyRequest().authenticated()
             .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and().cors()
+            .and().csrf().disable().httpBasic().disable().cors()
             .and().oauth2ResourceServer().opaqueToken().authenticationManager(authenticationManager)
         ;
     }

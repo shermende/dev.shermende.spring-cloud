@@ -1,5 +1,6 @@
 package dev.shermende.lib.security.model.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import dev.shermende.lib.security.model.UserPrincipal;
@@ -19,6 +20,7 @@ public class PrincipalUser implements UserPrincipal {
 
     private String email;
 
+    @JsonIgnore
     private char[] token;
 
     @Override
@@ -32,6 +34,7 @@ public class PrincipalUser implements UserPrincipal {
     }
 
     @Override
+    @JsonIgnore
     public char[] token() {
         return getToken();
     }
