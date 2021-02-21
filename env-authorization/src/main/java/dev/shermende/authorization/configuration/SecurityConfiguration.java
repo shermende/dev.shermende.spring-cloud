@@ -51,7 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.antMatcher("/actuator/**").authorizeRequests()
             .anyRequest().authenticated()
-            .and().httpBasic()
+            .and().csrf().disable().httpBasic()
             .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         ;
     }

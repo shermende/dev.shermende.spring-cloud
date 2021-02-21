@@ -12,7 +12,8 @@ import javax.validation.constraints.NotNull;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 public class Game extends BaseEntity<Long> {
     private static final long serialVersionUID = 1425335737055233411L;
 

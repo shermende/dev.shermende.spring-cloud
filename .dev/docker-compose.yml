@@ -67,7 +67,6 @@ services:
       - spring.profiles.active=docker
       - eureka.client.enabled=true
       - eureka.client.serviceUrl.defaultZone=http://env-eureka:8761/eureka/
-      - feign.httpclient.connection-timeout=5000
     depends_on:
       - env-eureka
       - env-configuration

@@ -61,6 +61,18 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-sleuth</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-client</artifactId>
             <optional>true</optional>

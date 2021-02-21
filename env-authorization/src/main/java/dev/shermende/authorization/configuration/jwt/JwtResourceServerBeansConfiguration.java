@@ -11,7 +11,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
 
 import java.security.KeyPair;
@@ -39,7 +38,7 @@ public class JwtResourceServerBeansConfiguration {
         final JwtAuthenticationProvider jwtAuthenticationProvider =
             new JwtAuthenticationProvider(NimbusJwtDecoder.withPublicKey((RSAPublicKey) keyPair.getPublic()).build());
         jwtAuthenticationProvider.setJwtAuthenticationConverter(
-            new JwtAccessTokenConverter(new JwtUserPrincipalConverter(), new JwtAuthenticationConverter()));
+            new JwtAccessTokenConverter(new JwtUserPrincipalConverter()));
         // authentication manager
         return new AuthenticationManagerBuilder(objectObjectPostProcessor)
             .authenticationProvider(jwtAuthenticationProvider)

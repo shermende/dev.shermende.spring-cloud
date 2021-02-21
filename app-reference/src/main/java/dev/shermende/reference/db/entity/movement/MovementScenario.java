@@ -11,7 +11,8 @@ import javax.validation.constraints.NotNull;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 public class MovementScenario extends TimedEntity<Long> {
 
     private static final long serialVersionUID = -5368034288441153128L;

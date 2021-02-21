@@ -22,7 +22,6 @@ public class JwtAccessTokenConverter implements Converter<Jwt, AbstractAuthentic
     private static final String SCOPE = "scope";
 
     private final Converter<Jwt, UserPrincipal> principalConverter;
-    private final Converter<Jwt, AbstractAuthenticationToken> authenticationConverter;
 
     /**
      * Force use principal as {@link UserPrincipal}
@@ -30,12 +29,8 @@ public class JwtAccessTokenConverter implements Converter<Jwt, AbstractAuthentic
     @NotNull
     @Override
     public AbstractAuthenticationToken convert(@NotNull Jwt jwt) {
-        final Map<String, String> parameters = getParameters(jwt);
-        final List<GrantedAuthority> authorities = getAuthorities(jwt);
-        final Set<String> scopes = getScopes(jwt);
-        final Set<String> resourceIds = getResourceIds(jwt);
         return new OAuth2Authentication(
-            getOauth2Request(parameters, authorities, scopes, resourceIds, jwt),
+            getOauth2Request(getParameters(jwt), getAuthorities(jwt), getScopes(jwt), getResourceIds(jwt), jwt),
             new UsernamePasswordAuthenticationToken(principalConverter.convert(jwt), null, AuthorityUtils.NO_AUTHORITIES)
         );
     }

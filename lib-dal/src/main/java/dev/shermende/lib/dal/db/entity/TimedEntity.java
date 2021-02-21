@@ -2,6 +2,7 @@ package dev.shermende.lib.dal.db.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
@@ -12,7 +13,8 @@ import java.time.LocalDateTime;
 
 @Data
 @MappedSuperclass
-@EqualsAndHashCode(callSuper = true)
+@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 public abstract class TimedEntity<T extends Serializable> extends BaseEntity<T> {
 
     private static final long serialVersionUID = 9203929628855316941L;

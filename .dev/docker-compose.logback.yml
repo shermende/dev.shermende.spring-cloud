@@ -16,9 +16,9 @@ services:
     depends_on:
       - genv-elasticsearch
   genv-fluentd:
-    build: env-fluentd/
+    build: ./fluentd/
     volumes:
-      - ./genv-fluentd/conf:/fluentd/etc
+      - ./fluentd/conf:/fluentd/etc
     depends_on:
       - genv-elasticsearch
   env-eureka:
@@ -27,34 +27,34 @@ services:
     depends_on:
       - genv-fluentd
     volumes:
-      - ./.examples/logback:/var/logback
+      - ./logback:/var/logback
   env-configuration:
     environment:
       - logging.config=/var/logback/logback.xml
     volumes:
-      - ./.examples/logback:/var/logback
+      - ./logback:/var/logback
   env-authorization:
     environment:
       - logging.config=/var/logback/logback.xml
     volumes:
-      - ./.examples/logback:/var/logback
+      - ./logback:/var/logback
   app-game:
     environment:
       - logging.config=/var/logback/logback.xml
     volumes:
-      - ./.examples/logback:/var/logback
+      - ./logback:/var/logback
   app-reference:
     environment:
       - logging.config=/var/logback/logback.xml
     volumes:
-      - ./.examples/logback:/var/logback
+      - ./logback:/var/logback
   env-zuul:
     environment:
       - logging.config=/var/logback/logback.xml
     volumes:
-      - ./.examples/logback:/var/logback
+      - ./logback:/var/logback
   env-sba:
     environment:
       - logging.config=/var/logback/logback.xml
     volumes:
-      - ./.examples/logback:/var/logback
+      - ./logback:/var/logback

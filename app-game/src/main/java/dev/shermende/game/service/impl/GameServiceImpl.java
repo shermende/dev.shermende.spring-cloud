@@ -16,6 +16,7 @@ import dev.shermende.game.service.feign.MovementRouteService;
 import dev.shermende.game.service.feign.MovementScenarioService;
 import dev.shermende.lib.dal.service.AbstractCrudService;
 import dev.shermende.lib.security.model.impl.PrincipalUser;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class GameServiceImpl extends AbstractCrudService<Game, Long, QGame> implements GameService {
 
@@ -56,12 +58,14 @@ public class GameServiceImpl extends AbstractCrudService<Game, Long, QGame> impl
     ) {
         final PrincipalUser auth = (PrincipalUser) authentication.getPrincipal();
         final MovementScenarioModel scenario = getScenario(resource.getScenarioId());
-        return save(Game.builder()
+        final Game game = save(Game.builder()
             .userId(auth.getId())
             .scenarioId(scenario.getId())
             .reasonId(scenario.getReasonId())
             .pointId(scenario.getPointId())
             .build());
+        log.debug("[Game] [created] [{}]", game);
+        return game;
     }
 
     @Override
@@ -75,6 +79,7 @@ public class GameServiceImpl extends AbstractCrudService<Game, Long, QGame> impl
         game.setRouteId(route.getId());
         game.setReasonId(route.getReasonId());
         game.setPointId(route.getTargetPointId());
+        log.debug("[Game] [moved] [{}]", game);
         return save(game);
     }
 

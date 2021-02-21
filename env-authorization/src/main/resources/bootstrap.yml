@@ -21,6 +21,10 @@ spring:
       discovery:
         enabled: false
         service-id: env-configuration
+  sleuth:
+    enabled: false
+  zipkin:
+    enabled: false
 # schema registry
 eureka:
   client:

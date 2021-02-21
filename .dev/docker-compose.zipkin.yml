@@ -1,0 +1,27 @@
+version: '2.1'
+
+services:
+  genv-zipkin:
+    image: openzipkin/zipkin:2.23
+    ports:
+      - 9411:9411
+  env-authorization:
+    environment:
+      - spring.sleuth.enabled=true
+      - spring.zipkin.enabled=true
+      - spring.zipkin.base-url=http://genv-zipkin:9411/
+  app-game:
+    environment:
+      - spring.sleuth.enabled=true
+      - spring.zipkin.enabled=true
+      - spring.zipkin.base-url=http://genv-zipkin:9411/
+  app-reference:
+    environment:
+      - spring.sleuth.enabled=true
+      - spring.zipkin.enabled=true
+      - spring.zipkin.base-url=http://genv-zipkin:9411/
+  env-zuul:
+    environment:
+      - spring.sleuth.enabled=true
+      - spring.zipkin.enabled=true
+      - spring.zipkin.base-url=http://genv-zipkin:9411/

@@ -15,7 +15,8 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
-@EqualsAndHashCode(callSuper = true)
+@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 public class User extends TimedEntity<Long> {
     private static final long serialVersionUID = -2683732998281446313L;
 
