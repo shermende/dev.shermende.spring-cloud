@@ -18,13 +18,12 @@ import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Request;
+import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -83,10 +82,11 @@ class CheckTokenJwtTest {
         final String clientId = String.valueOf(easyRandom.nextLong());
         final String clientSecret = String.valueOf(easyRandom.nextLong());
         final String basicToken = TestingUtil.basic(clientId, clientSecret);
+        final BaseClientDetails client = TestingUtil.oauthApplicationGrantTypePassword(clientId, passwordEncoder.encode(clientSecret));
 
         // mocks
         given(jdbcClientDetailsService.loadClientByClientId(any()))
-            .willReturn(TestingUtil.oauthApplicationGrantTypePassword(clientId, passwordEncoder.encode(clientSecret)));
+            .willReturn(client);
 
         // action
         this.mockMvc.perform(post("/oauth/check_token")
@@ -102,13 +102,14 @@ class CheckTokenJwtTest {
         final String clientId = String.valueOf(easyRandom.nextLong());
         final String clientSecret = String.valueOf(easyRandom.nextLong());
         final String basicToken = TestingUtil.basic(clientId, clientSecret);
+        final BaseClientDetails client = TestingUtil.oauthApplicationGrantTypePassword(clientId, passwordEncoder.encode(clientSecret));
 
         // token
         final String token = String.valueOf(easyRandom.nextLong());
 
         // mocks
         given(jdbcClientDetailsService.loadClientByClientId(any()))
-            .willReturn(TestingUtil.oauthApplicationGrantTypePassword(clientId, passwordEncoder.encode(clientSecret)));
+            .willReturn(client);
 
         // action
         this.mockMvc.perform(post("/oauth/check_token")
@@ -125,35 +126,31 @@ class CheckTokenJwtTest {
         // basic auth
         final String clientId = String.valueOf(easyRandom.nextLong());
         final String clientSecret = String.valueOf(easyRandom.nextLong());
-        final String scopes = String.valueOf(easyRandom.nextLong());
         final String basicToken = TestingUtil.basic(clientId, clientSecret);
+        final BaseClientDetails client = TestingUtil.oauthApplicationGrantTypePassword(clientId, passwordEncoder.encode(clientSecret));
 
         // token
         final String token = String.valueOf(easyRandom.nextLong());
+        final DefaultOAuth2AccessToken accessToken = new DefaultOAuth2AccessToken(String.valueOf(easyRandom.nextLong()));
 
         // user
         final Long id = easyRandom.nextLong();
         final String username = String.valueOf(easyRandom.nextLong());
         final String password = String.valueOf(easyRandom.nextLong());
         final List<GrantedAuthority> authorities = AuthorityUtils.NO_AUTHORITIES;
+        final ExtendedUser user = new ExtendedUser(id, username, password, authorities);
+        final OAuth2Authentication authentication = new OAuth2Authentication(
+            new OAuth2Request(new HashMap<>(), client.getClientId(), client.getAuthorities(), true, client.getScope(), client.getResourceIds(), null, null, null),
+            new UsernamePasswordAuthenticationToken(user, String.valueOf(easyRandom.nextLong()), authorities)
+        );
 
         // mocks
         given(jdbcClientDetailsService.loadClientByClientId(any()))
-            .willReturn(TestingUtil.oauthApplicationGrantTypePassword(clientId, passwordEncoder.encode(clientSecret)));
+            .willReturn(client);
         given(tokenStore.readAccessToken(anyString()))
-            .willReturn(new DefaultOAuth2AccessToken(String.valueOf(easyRandom.nextLong())));
+            .willReturn(accessToken);
         given(tokenStore.readAuthentication(any(OAuth2AccessToken.class)))
-            .willReturn(
-                new OAuth2Authentication(
-                    new OAuth2Request(new HashMap<>(), clientId, authorities,
-                        true, new HashSet<>(Collections.singletonList(scopes)), Collections.emptySet(), null, null, null),
-                    new UsernamePasswordAuthenticationToken(
-                        new ExtendedUser(id, username, password, authorities),
-                        String.valueOf(easyRandom.nextLong()),
-                        authorities
-                    )
-                )
-            );
+            .willReturn(authentication);
 
         // action
         this.mockMvc.perform(post("/oauth/check_token")
