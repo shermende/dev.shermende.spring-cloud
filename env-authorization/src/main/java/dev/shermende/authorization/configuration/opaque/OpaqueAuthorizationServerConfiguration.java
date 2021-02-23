@@ -13,9 +13,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-
-import javax.sql.DataSource;
 
 /**
  * Opaque authorization server configuration
@@ -27,21 +26,21 @@ import javax.sql.DataSource;
 @EnableAuthorizationServer
 public class OpaqueAuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
-    @Qualifier("dataSource")
-    private final DataSource dataSource;
     @Qualifier("opaqueAuthorizationServerTokenStore")
     private final TokenStore tokenStore;
     @Qualifier("appUserDetailsService")
     private final UserDetailsService userDetailsService;
     @Qualifier("opaqueAuthorizationServerAuthenticationManager")
     private final AuthenticationManager authenticationManager;
+    @Qualifier("jdbcClientDetailsService")
+    private final JdbcClientDetailsService jdbcClientDetailsService;
 
     /**
      * Oauth applications storage
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.jdbc(dataSource);
+        clients.withClientDetails(jdbcClientDetailsService);
     }
 
     /**
