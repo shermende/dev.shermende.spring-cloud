@@ -21,7 +21,7 @@ public class TestingUtil {
         String clientSecret
     ) {
         final BaseClientDetails oauthApplication =
-            new BaseClientDetails(clientId, null, "oauth:testing", "password", null);
+            new BaseClientDetails(clientId, null, "testing:testing", "password,refresh_token", null);
         oauthApplication.setClientSecret(clientSecret);
         return oauthApplication;
     }

@@ -6,17 +6,25 @@ import dev.shermende.authorization.util.TestingUtil;
 import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.common.DefaultOAuth2RefreshToken;
+import org.springframework.security.oauth2.common.OAuth2RefreshToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.OAuth2Request;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -28,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @SpringBootTest(properties = "spring.profiles.active=testing,opaque")
-class TokenEndpointOpaqueTest {
+class TokenEndpointRefreshTokenOpaqueTest {
     private final EasyRandom easyRandom = new EasyRandom();
 
     @Autowired
@@ -38,59 +46,19 @@ class TokenEndpointOpaqueTest {
     private PasswordEncoder passwordEncoder;
 
     @MockBean
+    @Qualifier("opaqueAuthorizationServerTokenStore")
+    private TokenStore tokenStore;
+
+    @MockBean
     private AppUserDetailsService appUserDetailsService;
 
     @MockBean
     private JdbcClientDetailsService jdbcClientDetailsService;
 
     @Test
-    void oauthTokenNoAuthorization() throws Exception {
-        // action
-        this.mockMvc.perform(post("/oauth/token"))
-            .andDo(print())
-            .andExpect(status().isUnauthorized())
-        ;
-    }
-
-    @Test
-    void oauthTokenWrongAuthorization() throws Exception {
-        // basic auth
-        final String clientId = String.valueOf(easyRandom.nextLong());
-        final String clientSecret = String.valueOf(easyRandom.nextLong());
-        final String basicToken = TestingUtil.basic(clientId, clientSecret);
-
-        // action
-        this.mockMvc.perform(post("/oauth/token")
-            .header(HttpHeaders.AUTHORIZATION, basicToken))
-            .andDo(print())
-            .andExpect(status().isUnauthorized())
-        ;
-    }
-
-    @Test
-    void oauthTokenNoParams() throws Exception {
-        // basic auth
-        final String clientId = String.valueOf(easyRandom.nextLong());
-        final String clientSecret = String.valueOf(easyRandom.nextLong());
-        final String basicToken = TestingUtil.basic(clientId, clientSecret);
-
-        // mocks
-        given(jdbcClientDetailsService.loadClientByClientId(any()))
-            .willReturn(TestingUtil.oauthApplicationGrantTypePassword(clientId, passwordEncoder.encode(clientSecret)));
-
-        // action
-        this.mockMvc.perform(post("/oauth/token")
-            .header(HttpHeaders.AUTHORIZATION, basicToken))
-            .andDo(print())
-            .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.error_description").value("Missing grant type"))
-        ;
-    }
-
-    @Test
     void oauthTokenBadCredentials() throws Exception {
         // constants
-        final String grantType = "password";
+        final String grantType = "refresh_token";
 
         // basic auth
         final String clientId = String.valueOf(easyRandom.nextLong());
@@ -98,52 +66,27 @@ class TokenEndpointOpaqueTest {
         final String basicToken = TestingUtil.basic(clientId, clientSecret);
         final BaseClientDetails client = TestingUtil.oauthApplicationGrantTypePassword(clientId, passwordEncoder.encode(clientSecret));
 
-        // dao auth
+        // user
         final Long id = easyRandom.nextLong();
         final String username = String.valueOf(easyRandom.nextLong());
         final String password = String.valueOf(easyRandom.nextLong());
         final List<GrantedAuthority> authorities = AuthorityUtils.NO_AUTHORITIES;
         final ExtendedUser user = new ExtendedUser(id, username, password, authorities);
+        final OAuth2Authentication authentication = new OAuth2Authentication(
+            new OAuth2Request(new HashMap<>(), client.getClientId(), client.getAuthorities(), true, client.getScope(), client.getResourceIds(), null, null, null),
+            new UsernamePasswordAuthenticationToken(user, String.valueOf(easyRandom.nextLong()), authorities)
+        );
+
+        // refresh token
+        final DefaultOAuth2RefreshToken refreshToken = new DefaultOAuth2RefreshToken(String.valueOf(easyRandom.nextLong()));
 
         // mocks
         given(jdbcClientDetailsService.loadClientByClientId(any()))
             .willReturn(client);
-        given(appUserDetailsService.loadUserByUsername(any()))
-            .willReturn(user);
-
-        // action
-        this.mockMvc.perform(post("/oauth/token")
-            .header(HttpHeaders.AUTHORIZATION, basicToken)
-            .param("grant_type", grantType)
-            .param("username", username)
-            .param("password", password))
-            .andDo(print())
-            .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.error_description").value("Bad credentials"))
-        ;
-    }
-
-    @Test
-    void oauthTokenOk() throws Exception {
-        // constants
-        final String grantType = "password";
-
-        // basic auth
-        final String clientId = String.valueOf(easyRandom.nextLong());
-        final String clientSecret = String.valueOf(easyRandom.nextLong());
-        final String basicToken = TestingUtil.basic(clientId, clientSecret);
-        final BaseClientDetails client = TestingUtil.oauthApplicationGrantTypePassword(clientId, passwordEncoder.encode(clientSecret));
-
-        // dao auth
-        final Long id = easyRandom.nextLong();
-        final String username = String.valueOf(easyRandom.nextLong());
-        final String password = String.valueOf(easyRandom.nextLong());
-        final List<GrantedAuthority> authorities = AuthorityUtils.NO_AUTHORITIES;
-        final ExtendedUser user = new ExtendedUser(id, username, passwordEncoder.encode(password), authorities);
-
-        // mocks
-        given(jdbcClientDetailsService.loadClientByClientId(any()))
-            .willReturn(client);
+        given(tokenStore.readRefreshToken(any()))
+            .willReturn(refreshToken);
+        given(tokenStore.readAuthenticationForRefreshToken(any(OAuth2RefreshToken.class)))
+            .willReturn(authentication);
         given(appUserDetailsService.loadUserByUsername(any()))
             .willReturn(user);
 
@@ -156,7 +99,6 @@ class TokenEndpointOpaqueTest {
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.access_token").exists())
-            .andExpect(jsonPath("$.refresh_token").exists())
         ;
     }
 

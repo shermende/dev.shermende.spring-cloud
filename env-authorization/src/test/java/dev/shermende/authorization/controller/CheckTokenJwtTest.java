@@ -54,7 +54,7 @@ class CheckTokenJwtTest {
     private TokenStore tokenStore;
 
     @Test
-    void oauthToken401() throws Exception {
+    void oauthTokenNoAuthorization() throws Exception {
         // action
         this.mockMvc.perform(post("/oauth/check_token"))
             .andDo(print())
@@ -63,7 +63,7 @@ class CheckTokenJwtTest {
     }
 
     @Test
-    void oauthToken401WrongAuthorization() throws Exception {
+    void oauthTokenWrongAuthorization() throws Exception {
         // basic auth
         final String clientId = String.valueOf(easyRandom.nextLong());
         final String clientSecret = String.valueOf(easyRandom.nextLong());
@@ -78,7 +78,7 @@ class CheckTokenJwtTest {
     }
 
     @Test
-    void oauthToken400TokenIsNotPresent() throws Exception {
+    void oauthTokenNoToken() throws Exception {
         // basic auth
         final String clientId = String.valueOf(easyRandom.nextLong());
         final String clientSecret = String.valueOf(easyRandom.nextLong());
@@ -97,7 +97,7 @@ class CheckTokenJwtTest {
     }
 
     @Test
-    void oauthToken400BadCredentials() throws Exception {
+    void oauthTokenWrongToken() throws Exception {
         // basic auth
         final String clientId = String.valueOf(easyRandom.nextLong());
         final String clientSecret = String.valueOf(easyRandom.nextLong());
@@ -116,6 +116,7 @@ class CheckTokenJwtTest {
             .param("token", token))
             .andDo(print())
             .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.error_description").value("Token was not recognised"))
         ;
     }
 
@@ -124,11 +125,13 @@ class CheckTokenJwtTest {
         // basic auth
         final String clientId = String.valueOf(easyRandom.nextLong());
         final String clientSecret = String.valueOf(easyRandom.nextLong());
+        final String scopes = String.valueOf(easyRandom.nextLong());
         final String basicToken = TestingUtil.basic(clientId, clientSecret);
 
         // token
         final String token = String.valueOf(easyRandom.nextLong());
-        final String scopes = String.valueOf(easyRandom.nextLong());
+
+        // user
         final Long id = easyRandom.nextLong();
         final String username = String.valueOf(easyRandom.nextLong());
         final String password = String.valueOf(easyRandom.nextLong());
