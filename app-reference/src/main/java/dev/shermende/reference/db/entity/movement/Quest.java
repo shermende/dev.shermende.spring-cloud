@@ -12,14 +12,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class MovementPoint extends TimedEntity<Long> {
-
-    private static final long serialVersionUID = -5368034288441153128L;
+public class Quest extends TimedEntity<Long> {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "m2m_point_quest",
-        joinColumns = @JoinColumn(name = "point_id"),
-        inverseJoinColumns = @JoinColumn(name = "quest_id"))
-    private List<Quest> quests;
+        joinColumns = @JoinColumn(name = "quest_id"),
+        inverseJoinColumns = @JoinColumn(name = "point_id"))
+    private List<MovementPoint> points;
 
 }

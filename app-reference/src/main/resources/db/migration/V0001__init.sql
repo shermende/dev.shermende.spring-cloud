@@ -23,6 +23,13 @@ create table if not exists movement_point
     updated_at timestamp
 );
 
+create table if not exists quest
+(
+    id         bigint primary key auto_increment,
+    created_at timestamp not null default now(),
+    updated_at timestamp
+);
+
 create table if not exists movement_scenario
 (
     id         bigint primary key auto_increment,
@@ -32,15 +39,10 @@ create table if not exists movement_scenario
     point_id   bigint    not null
 );
 
-create table if not exists movement_route
+create table if not exists m2m_point_quest
 (
-    id              bigint primary key auto_increment,
-    created_at      timestamp not null default now(),
-    updated_at      timestamp,
-    source_point_id bigint    not null,
-    reason_id       bigint    not null,
-    target_point_id bigint    not null,
-    unique (source_point_id, reason_id)
+    point_id bigint not null,
+    quest_id bigint not null
 );
 
 insert into translate(locale, key, value)
@@ -48,8 +50,12 @@ values ('en', 'MovementPointModel.1', 'MovementPointModel.1'),
        ('en', 'MovementReasonModel.1', 'MovementReasonModel.1')
 ;
 
-insert into movement_reason(created_at)
-values (now());
+insert into movement_reason(id, created_at)
+values (1, now()); -- move
+insert into movement_reason(id, created_at)
+values (2, now()); -- accept quest
+insert into movement_reason(id, created_at)
+values (3, now()); -- complete quest
 
 insert into movement_point(created_at)
 values (now());
@@ -83,6 +89,12 @@ insert into movement_point(created_at)
 values (now());
 insert into movement_point(created_at)
 values (now());
+
+insert into quest(created_at)
+values (now());
+
+insert into m2m_point_quest(point_id, quest_id)
+values (1, 1);
 
 insert into movement_scenario(reason_id, point_id)
 values (1, 1);
