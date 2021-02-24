@@ -1,100 +1,85 @@
 package dev.shermende.game.service.impl;
 
-import com.querydsl.core.types.Predicate;
 import dev.shermende.game.db.entity.Game;
-import dev.shermende.game.db.entity.QGame;
-import dev.shermende.game.db.repository.GameRepository;
+import dev.shermende.game.db.entity.Route;
 import dev.shermende.game.exception.GameNotFoundException;
 import dev.shermende.game.exception.RouteNotFoundException;
 import dev.shermende.game.exception.ScenarioNotFoundException;
-import dev.shermende.game.model.MovementRouteModel;
 import dev.shermende.game.model.MovementScenarioModel;
 import dev.shermende.game.resource.GameCreateResource;
 import dev.shermende.game.resource.GameMoveResource;
 import dev.shermende.game.service.GameService;
-import dev.shermende.game.service.feign.MovementRouteService;
+import dev.shermende.game.service.RouteService;
+import dev.shermende.game.service.crud.GameCrudService;
+import dev.shermende.game.service.crud.RouteCrudService;
 import dev.shermende.game.service.feign.MovementScenarioService;
-import dev.shermende.lib.dal.service.AbstractCrudService;
 import dev.shermende.lib.security.model.impl.PrincipalUser;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 @Slf4j
 @Service
-public class GameServiceImpl extends AbstractCrudService<Game, Long, QGame> implements GameService {
+@RequiredArgsConstructor
+public class GameServiceImpl implements GameService {
 
-    private final MovementRouteService movementRouteService;
+    private final RouteService routeService;
+    private final GameCrudService gameCrudService;
+    private final RouteCrudService routeCrudService;
     private final MovementScenarioService scenarioService;
 
-    public GameServiceImpl(
-        GameRepository repository,
-        MovementRouteService movementRouteService,
-        MovementScenarioService scenarioService
-    ) {
-        super(repository);
-        this.movementRouteService = movementRouteService;
-        this.scenarioService = scenarioService;
-    }
-
+    @NotNull
     @Override
-    public @NotNull Page<Game> findAll(
-        @NotNull Authentication authentication,
-        @Nullable Predicate predicate,
-        @NotNull Pageable pageable
-    ) {
-        final PrincipalUser auth = (PrincipalUser) authentication.getPrincipal();
-        return findAll(QGame.game.userId.eq(auth.getId()).and(predicate), pageable);
-    }
-
-    @Override
-    public @NotNull Game create(
+    @Transactional
+    public Game create(
         @NotNull Authentication authentication,
         @NotNull GameCreateResource resource
     ) {
         final PrincipalUser auth = (PrincipalUser) authentication.getPrincipal();
-        final MovementScenarioModel scenario = getScenario(resource.getScenarioId());
-        final Game game = save(Game.builder()
-            .userId(auth.getId())
-            .scenarioId(scenario.getId())
-            .reasonId(scenario.getReasonId())
-            .pointId(scenario.getPointId())
-            .build());
-        log.debug("[Game] [created] [{}]", game);
-        return game;
+        final MovementScenarioModel scenario =
+            scenarioService.findById(resource.getScenarioId()).orElseThrow(ScenarioNotFoundException::new);
+        final Game entity =
+            routeService.generateMap(
+                gameCrudService.save(Game.builder()
+                    .userId(auth.getId())
+                    .scenarioId(scenario.getId())
+                    .reasonId(scenario.getReasonId())
+                    .pointId(scenario.getPointId())
+                    .build())
+            );
+        log.debug("[Game] [created] [{}]", entity);
+        return entity;
     }
 
+    @NotNull
     @Override
-    public @NotNull Game move(
+    public Game move(
         @NotNull Authentication authentication,
         @NotNull Long gameId,
         @NotNull GameMoveResource resource
     ) {
-        final MovementRouteModel route = getRoute(resource.getRouteId());
-        final Game game = findById(gameId).orElseThrow(GameNotFoundException::new);
-        game.setRouteId(route.getId());
+        final Route route =
+            routeCrudService.findById(resource.getRouteId()).orElseThrow(RouteNotFoundException::new);
+        final Game game = gameCrudService.findById(gameId).orElseThrow(GameNotFoundException::new);
         game.setReasonId(route.getReasonId());
         game.setPointId(route.getTargetPointId());
         log.debug("[Game] [moved] [{}]", game);
-        return save(game);
+        return gameCrudService.save(game);
     }
 
     @NotNull
-    private MovementScenarioModel getScenario(
-        @NotNull Long scenarioId
+    @Override
+    public List<Route> getAvailableRoutes(
+        @NotNull Long gameId
     ) {
-        return scenarioService.findById(scenarioId).orElseThrow(ScenarioNotFoundException::new);
-    }
-
-    @NotNull
-    private MovementRouteModel getRoute(
-        @NotNull Long routeId
-    ) {
-        return movementRouteService.findById(routeId).orElseThrow(RouteNotFoundException::new);
+        final Game game = gameCrudService.findById(gameId).orElseThrow(EntityNotFoundException::new);
+        return routeCrudService.getRoutesByGameIdAndSourcePointId(game.getId(), game.getPointId());
     }
 
 }

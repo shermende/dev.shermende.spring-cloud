@@ -1,30 +1,27 @@
 package dev.shermende.game.service.feign;
 
 import dev.shermende.game.interceptor.FeignInterceptor;
-import dev.shermende.game.model.UserModel;
+import dev.shermende.game.model.MovementPointModel;
 import dev.shermende.support.spring.aop.intercept.annotation.InterceptResult;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.Optional;
+public interface MovementPointService {
 
-public interface AuthorizationService {
-
-    @PostMapping("/introspect")
+    @GetMapping
     @InterceptResult(FeignInterceptor.class)
-    Optional<UserModel> introspect();
+    PagedModel<MovementPointModel> findAll();
 
     @Slf4j
     @Component
-    class AuthorizationServiceFallback implements FallbackFactory<AuthorizationService> {
-
+    class MovementPointServiceFallback implements FallbackFactory<MovementPointService> {
         @Override
-        public AuthorizationService create(Throwable throwable) {
+        public MovementPointService create(Throwable throwable) {
             log.error(throwable.getMessage());
-            return Optional::empty;
+            return PagedModel::empty;
         }
     }
-
 }

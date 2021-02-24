@@ -1,7 +1,7 @@
 package dev.shermende.game.service.feign;
 
 import dev.shermende.game.interceptor.FeignInterceptor;
-import dev.shermende.game.model.MovementRouteModel;
+import dev.shermende.game.model.MovementReasonModel;
 import dev.shermende.support.spring.aop.intercept.annotation.InterceptResult;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -11,19 +11,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Optional;
 
-public interface MovementRouteService {
+public interface MovementReasonService {
 
     @GetMapping("/{id}")
     @InterceptResult(FeignInterceptor.class)
-    Optional<MovementRouteModel> findById(
+    Optional<MovementReasonModel> findById(
         @PathVariable Long id
     );
 
     @Slf4j
     @Component
-    class MovementRouteServiceFallback implements FallbackFactory<MovementRouteService> {
+    class MovementReasonServiceFallback implements FallbackFactory<MovementReasonService> {
         @Override
-        public MovementRouteService create(Throwable throwable) {
+        public MovementReasonService create(Throwable throwable) {
             log.error(throwable.getMessage());
             return id -> Optional.empty();
         }

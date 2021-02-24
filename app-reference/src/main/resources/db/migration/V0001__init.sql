@@ -53,10 +53,36 @@ values (now());
 
 insert into movement_point(created_at)
 values (now());
+insert into movement_point(created_at)
+values (now());
+insert into movement_point(created_at)
+values (now());
+insert into movement_point(created_at)
+values (now());
+insert into movement_point(created_at)
+values (now());
+insert into movement_point(created_at)
+values (now());
+insert into movement_point(created_at)
+values (now());
+insert into movement_point(created_at)
+values (now());
+insert into movement_point(created_at)
+values (now());
+insert into movement_point(created_at)
+values (now());
+insert into movement_point(created_at)
+values (now());
+insert into movement_point(created_at)
+values (now());
+insert into movement_point(created_at)
+values (now());
+insert into movement_point(created_at)
+values (now());
+insert into movement_point(created_at)
+values (now());
+insert into movement_point(created_at)
+values (now());
 
 insert into movement_scenario(reason_id, point_id)
 values (1, 1);
-
-insert into movement_route(id, source_point_id, reason_id, target_point_id)
-values (1, 1, 1, 1),
-       (2, 1, 2, 2);

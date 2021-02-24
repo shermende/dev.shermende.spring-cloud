@@ -18,8 +18,6 @@ public class GameModel extends RepresentationModel<GameModel> {
 
     private Long id;
 
-    private MovementRouteModel route;
-
     private MovementScenarioModel scenario;
 
     private MovementReasonModel reason;

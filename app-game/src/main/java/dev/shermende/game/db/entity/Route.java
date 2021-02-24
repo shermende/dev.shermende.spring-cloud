@@ -13,19 +13,19 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @ToString(onlyExplicitlyIncluded = true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
-public class Game extends BaseEntity<Long> {
+public class Route extends BaseEntity<Long> {
     private static final long serialVersionUID = 1425335737055233411L;
 
     @NotNull
-    private Long userId;
+    private Long gameId;
 
     @NotNull
-    private Long scenarioId;
+    private Long sourcePointId;
 
     @NotNull
     private Long reasonId;
 
     @NotNull
-    private Long pointId;
+    private Long targetPointId;
 
 }

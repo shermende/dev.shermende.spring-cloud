@@ -14,18 +14,14 @@ import org.springframework.hateoas.server.core.Relation;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Relation(value = "item", collectionRelation = "data")
-public class MovementRouteModel extends RepresentationModel<MovementRouteModel> {
+public class RouteModel extends RepresentationModel<RouteModel> {
 
     private Long id;
 
-    private Long sourcePointId;
+    private MovementPointModel sourcePoint;
 
-    private Long reasonId;
+    private MovementReasonModel reason;
 
-    private Long targetPointId;
-
-    private String title;
-
-    private String description;
+    private MovementPointModel targetPoint;
 
 }
