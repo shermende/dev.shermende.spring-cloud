@@ -64,7 +64,7 @@ public class JwtAuthorizationServerConfiguration extends AuthorizationServerConf
     }
 
     /**
-     * Opaque authorization server settings
+     * JWT authorization server settings
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
