@@ -16,7 +16,7 @@ spring:
         service-id: env-configuration
 # schema registry
 eureka:
-  client:K
+  client:
     enabled: false
   instance:
     prefer-ip-address: true
