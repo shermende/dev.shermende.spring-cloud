@@ -23,6 +23,8 @@ eureka:
     metadata-map:
       management.port: ${management.server.port}
       management.context-path: /actuator
+      user.name: ${spring.security.user.password}
+      user.password: ${spring.security.user.password}
 # management settings
 management:
   endpoint:

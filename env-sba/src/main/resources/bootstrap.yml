@@ -1,12 +1,12 @@
 #
-server:
-  port: 8081
-#
 spring:
   application:
     name: env-sba
-  # cloud properties
   cloud:
+    # ribbon balancer disabled
+    loadbalancer:
+      ribbon:
+        enabled: false
     # dynamic configuration
     config:
       enabled: false
@@ -14,10 +14,6 @@ spring:
       discovery:
         enabled: false
         service-id: env-configuration
-    # ribbon balancer disabled
-    loadbalancer:
-      ribbon:
-        enabled: false
   # force sba-client disable
   boot:
     admin:
@@ -32,10 +28,10 @@ eureka:
     metadata-map:
       management.port: ${management.server.port}
       management.context-path: /actuator
+      user.name: ${spring.security.user.password}
+      user.password: ${spring.security.user.password}
 #
 management:
-  server:
-    port: 7081
   endpoint:
     health:
       show-details: always

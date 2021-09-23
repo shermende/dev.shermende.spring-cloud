@@ -3,6 +3,10 @@ spring:
   application:
     name: app-game
   cloud:
+    # ribbon balancer disabled
+    loadbalancer:
+      ribbon:
+        enabled: false
     # dynamic configuration
     config:
       enabled: false
@@ -10,10 +14,6 @@ spring:
       discovery:
         enabled: false
         service-id: env-configuration
-    # ribbon balancer disabled
-    loadbalancer:
-      ribbon:
-        enabled: false
 # declarative rest client
 feign:
   hystrix:
@@ -30,8 +30,8 @@ eureka:
     metadata-map:
       management.port: ${management.server.port}
       management.context-path: /actuator
-      user.name: ${security.user.password}
-      user.password: ${security.user.password}
+      user.name: ${spring.security.user.password}
+      user.password: ${spring.security.user.password}
 # management settings
 management:
   endpoint:

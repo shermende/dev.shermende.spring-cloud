@@ -5,3 +5,11 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password: password
+  security:
+    user:
+      name: app-reference
+      password: app-reference
+#
+management:
+  server:
+    port: 7100

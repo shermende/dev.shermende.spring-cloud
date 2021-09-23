@@ -3,6 +3,10 @@ spring:
   application:
     name: app-reference
   cloud:
+    # ribbon balancer disabled
+    loadbalancer:
+      ribbon:
+        enabled: false
     # dynamic configuration
     config:
       enabled: false
@@ -12,13 +16,15 @@ spring:
         service-id: env-configuration
 # schema registry
 eureka:
-  client:
+  client:K
     enabled: false
   instance:
     prefer-ip-address: true
     metadata-map:
       management.port: ${management.server.port}
       management.context-path: /actuator
+      user.name: ${spring.security.user.password}
+      user.password: ${spring.security.user.password}
 # management settings
 management:
   endpoint:
