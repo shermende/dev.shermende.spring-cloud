@@ -7,16 +7,16 @@ services:
       - x-jwt.public-key-path=/var/jwt/public.pem
       - x-jwt.private-key-path=/var/jwt/private.key
     volumes:
-      - ./.examples/jwt:/var/jwt
+      - ./examples/jwt:/var/jwt
   app-game:
     environment:
       - spring.profiles.active=docker,jwt
       - x-jwt.public-key-path=/var/jwt/public.pem
     volumes:
-      - ./.examples/jwt:/var/jwt
+      - ./examples/jwt:/var/jwt
   app-reference:
     environment:
       - spring.profiles.active=docker,jwt
       - x-jwt.public-key-path=/var/jwt/public.pem
     volumes:
-      - ./.examples/jwt:/var/jwt
+      - ./examples/jwt:/var/jwt

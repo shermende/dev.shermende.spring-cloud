@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -30,6 +31,7 @@ class JwtAuthorizationServerConfigurationTest {
     }
 
     @Test
+    @Transactional
     @Sql(scripts = "/scripts/JwtAuthorizationServerConfigurationTest/getTokenEndpointTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void getTokenEndpointIsUnauthorizedTest() throws Exception {
         this.mockMvc.perform(post("/oauth/token"))
@@ -39,6 +41,7 @@ class JwtAuthorizationServerConfigurationTest {
     }
 
     @Test
+    @Transactional
     @Sql(scripts = "/scripts/JwtAuthorizationServerConfigurationTest/getTokenEndpointTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void getTokenEndpointIsMissingGrantTypeTest() throws Exception {
         this.mockMvc.perform(post("/oauth/token")
@@ -51,6 +54,7 @@ class JwtAuthorizationServerConfigurationTest {
     }
 
     @Test
+    @Transactional
     @Sql(scripts = "/scripts/JwtAuthorizationServerConfigurationTest/getTokenEndpointTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void getTokenEndpointIsBadCredentialsTest() throws Exception {
         this.mockMvc.perform(post("/oauth/token")
@@ -64,6 +68,7 @@ class JwtAuthorizationServerConfigurationTest {
     }
 
     @Test
+    @Transactional
     @Sql(scripts = "/scripts/JwtAuthorizationServerConfigurationTest/getTokenEndpointTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void getTokenEndpointTest() throws Exception {
         this.mockMvc.perform(post("/oauth/token")
