@@ -19,14 +19,14 @@ import java.util.Objects;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Game extends BaseEntity<Long> {
+public class GraphMap extends BaseEntity<Long> {
     private static final long serialVersionUID = 1425335737055233411L;
 
     @NotNull
     private Long userId;
 
     @NotNull
-    private Long scenarioId;
+    private Long gameId;
 
     @NotNull
     private Long sourceId;
@@ -39,12 +39,12 @@ public class Game extends BaseEntity<Long> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        Game game = (Game) o;
-        return Objects.equals(userId, game.userId) && Objects.equals(scenarioId, game.scenarioId) && Objects.equals(sourceId, game.sourceId) && Objects.equals(targetId, game.targetId);
+        GraphMap graphMap = (GraphMap) o;
+        return Objects.equals(userId, graphMap.userId) && Objects.equals(gameId, graphMap.gameId) && Objects.equals(sourceId, graphMap.sourceId) && Objects.equals(targetId, graphMap.targetId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), userId, scenarioId, sourceId, targetId);
+        return Objects.hash(super.hashCode(), userId, gameId, sourceId, targetId);
     }
 }
