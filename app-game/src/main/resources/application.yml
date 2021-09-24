@@ -1,11 +1,6 @@
 #
 version: @project.version@
 #
-server:
-  port: 8200
-  error:
-    include-binding-errors: always
-#
 spring:
   profiles:
     active: default

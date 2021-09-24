@@ -1,4 +1,10 @@
 #
+#
+server:
+  port: 8200
+  error:
+    include-binding-errors: always
+#
 spring:
   application:
     name: app-game
@@ -34,6 +40,8 @@ eureka:
       user.password: ${spring.security.user.password}
 # management settings
 management:
+  server:
+    port: 7200
   endpoint:
     health:
       show-details: always

@@ -5,9 +5,7 @@ import dev.shermende.game.db.entity.QGame;
 import dev.shermende.lib.dal.db.repository.QueryDslRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-@RepositoryRestResource(collectionResourceRel = "data")
 public interface GameRepository extends QueryDslRepository<Game, Long, QGame> {
 
     @Override
