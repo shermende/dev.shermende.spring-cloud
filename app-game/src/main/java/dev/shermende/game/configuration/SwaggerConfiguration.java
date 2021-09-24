@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.hateoas.Links;
 import org.springframework.hateoas.client.LinkDiscoverers;
 import org.springframework.hateoas.mediatype.MessageResolver;
 import org.springframework.hateoas.mediatype.collectionjson.CollectionJsonLinkDiscoverer;
@@ -73,7 +74,7 @@ public class SwaggerConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .ignoredParameterTypes(AuthenticationPrincipal.class)
+                .ignoredParameterTypes(Links.class, AuthenticationPrincipal.class)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("dev.shermende"))
                 .paths(PathSelectors.any())
