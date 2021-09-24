@@ -2,81 +2,68 @@ package dev.shermende.game.assembler;
 
 import dev.shermende.game.controller.GameController;
 import dev.shermende.game.db.entity.Game;
-import dev.shermende.game.model.*;
-import dev.shermende.game.service.feign.TranslateService;
+import dev.shermende.game.model.GameModel;
+import dev.shermende.game.resource.BalabobaRequestResource;
+import dev.shermende.game.service.feign.BalabobaService;
+import dev.shermende.reference.lib.api.MovementPointApiService;
+import dev.shermende.reference.lib.api.MovementReasonApiService;
+import dev.shermende.reference.lib.model.MovementPointModel;
+import dev.shermende.reference.lib.model.MovementReasonModel;
+import dev.shermende.reference.lib.model.MovementScenarioModel;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
 @Component
 public class GameModelAssembler extends RepresentationModelAssemblerSupport<Game, GameModel> {
 
-    private final TranslateService translateService;
+    private final BalabobaService service;
+    private final MovementPointApiService movementPointService;
+    private final MovementReasonApiService movementReasonService;
 
     public GameModelAssembler(
-        TranslateService translateService
+            BalabobaService service,
+            MovementPointApiService movementPointService,
+            MovementReasonApiService movementReasonService
     ) {
         super(GameController.class, GameModel.class);
-        this.translateService = translateService;
+        this.service = service;
+        this.movementPointService = movementPointService;
+        this.movementReasonService = movementReasonService;
     }
 
     @Override
     public @NotNull GameModel toModel(@NotNull Game entity) {
         return GameModel
-            .builder()
-            .id(entity.getId())
-            .scenario(getScenario(entity))
-            .reason(getReason(entity))
-            .point(getPoint(entity))
-            .build();
+                .builder()
+                .id(entity.getId())
+                .scenario(getScenario(entity))
+                .reason(getReason(entity))
+                .point(getPoint(entity))
+                .build();
     }
 
     private MovementScenarioModel getScenario(@NotNull Game entity) {
         return MovementScenarioModel
-            .builder()
-            .id(entity.getScenarioId())
-            .title(getTitle(MovementScenarioModel.class, entity.getScenarioId()))
-            .description(getDescription(MovementScenarioModel.class, entity.getScenarioId()))
-            .build();
+                .builder()
+                .id(entity.getScenarioId())
+                .build();
     }
 
     private MovementReasonModel getReason(@NotNull Game entity) {
-        return MovementReasonModel
-            .builder()
-            .id(entity.getReasonId())
-            .title(getTitle(MovementReasonModel.class, entity.getReasonId()))
-            .description(getDescription(MovementReasonModel.class, entity.getReasonId()))
-            .build();
+        final MovementReasonModel movementReasonModel = movementReasonService.findById(entity.getReasonId());
+        return movementReasonModel
+                .setIntro(movementReasonModel.getIntro() + " " + service.introspect(BalabobaRequestResource.builder()
+                        .query(movementReasonModel.getIntro())
+                        .build()).orElseThrow(IllegalStateException::new).getText());
     }
 
     private MovementPointModel getPoint(@NotNull Game entity) {
-        return MovementPointModel
-            .builder()
-            .id(entity.getPointId())
-            .title(getTitle(MovementPointModel.class, entity.getPointId()))
-            .description(getDescription(MovementPointModel.class, entity.getPointId()))
-            .build();
-    }
-
-    protected String getTitle(@NotNull Class<?> clazz, @NotNull Long id) {
-        final String key = getTitleKey(clazz, id);
-        return translateService.findOneByKey(LocaleContextHolder.getLocale().getLanguage(), key)
-            .orElse(TranslateModel.builder().value(key).build()).getValue();
-    }
-
-    protected String getDescription(@NotNull Class<?> clazz, @NotNull Long id) {
-        final String key = getDescriptionKey(clazz, id);
-        return translateService.findOneByKey(LocaleContextHolder.getLocale().getLanguage(), key)
-            .orElse(TranslateModel.builder().value(key).build()).getValue();
-    }
-
-    private String getTitleKey(@NotNull Class<?> clazz, @NotNull Long id) {
-        return String.format("%s.title.%d", clazz.getSimpleName(), id);
-    }
-
-    private String getDescriptionKey(@NotNull Class<?> clazz, @NotNull Long id) {
-        return String.format("%s.description.%d", clazz.getSimpleName(), id);
+        final MovementPointModel movementPointModel = movementPointService.findById(entity.getReasonId());
+        return movementPointModel
+                .setIntro(movementPointModel.getIntro() + " " + service.introspect(BalabobaRequestResource.builder()
+                        .query(movementPointModel.getIntro())
+                        .build()).orElseThrow(IllegalStateException::new).getText());
     }
 
 }

@@ -3,6 +3,9 @@ package dev.shermende.game.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import dev.shermende.reference.lib.model.MovementPointModel;
+import dev.shermende.reference.lib.model.MovementReasonModel;
+import dev.shermende.reference.lib.model.MovementScenarioModel;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,8 +23,6 @@ import org.springframework.hateoas.server.core.Relation;
 public class GameModel extends RepresentationModel<GameModel> {
 
     private Long id;
-
-    private MovementRouteModel route;
 
     private MovementScenarioModel scenario;
 

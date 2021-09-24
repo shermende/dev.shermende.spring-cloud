@@ -1,6 +1,6 @@
 create table if not exists translate
 (
-    id         bigint primary key auto_increment,
+    id         bigserial primary key,
     created_at timestamp     not null default now(),
     updated_at timestamp,
     locale     varchar(255)  not null,
@@ -11,21 +11,23 @@ create table if not exists translate
 
 create table if not exists movement_reason
 (
-    id         bigint primary key auto_increment,
-    created_at timestamp not null default now(),
-    updated_at timestamp
+    id         bigserial primary key,
+    created_at timestamp    not null default now(),
+    updated_at timestamp,
+    intro      varchar(255) not null
 );
 
 create table if not exists movement_point
 (
-    id         bigint primary key auto_increment,
-    created_at timestamp not null default now(),
-    updated_at timestamp
+    id         bigserial primary key,
+    created_at timestamp    not null default now(),
+    updated_at timestamp,
+    intro      varchar(255) not null
 );
 
 create table if not exists movement_scenario
 (
-    id         bigint primary key auto_increment,
+    id         bigserial primary key,
     created_at timestamp not null default now(),
     updated_at timestamp,
     reason_id  bigint    not null,
@@ -34,7 +36,7 @@ create table if not exists movement_scenario
 
 create table if not exists movement_route
 (
-    id              bigint primary key auto_increment,
+    id              bigserial primary key,
     created_at      timestamp not null default now(),
     updated_at      timestamp,
     source_point_id bigint    not null,
@@ -48,11 +50,11 @@ values ('en', 'MovementPointModel.1', 'MovementPointModel.1'),
        ('en', 'MovementReasonModel.1', 'MovementReasonModel.1')
 ;
 
-insert into movement_reason(created_at)
-values (now());
+insert into movement_reason(created_at, intro)
+values (now(), 'ощущая урчание в животе, вы отправляетесь в путь.');
 
-insert into movement_point(created_at)
-values (now());
+insert into movement_point(created_at, intro)
+values (now(), 'придя вы видите у костра обглоданные кости');
 
 insert into movement_scenario(reason_id, point_id)
 values (1, 1);
