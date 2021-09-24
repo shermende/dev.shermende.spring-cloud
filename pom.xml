@@ -39,6 +39,7 @@
         <logback-kafka-appender.version>0.2.0-RC2</logback-kafka-appender.version>
         <logstash-logback-encoder.version>6.4</logstash-logback-encoder.version>
         <easy-random.version>4.0.0</easy-random.version>
+        <springfox.version>2.9.2</springfox.version>
 
         <!--plugins-->
         <jacoco-maven-plugin.version>0.8.3</jacoco-maven-plugin.version>
@@ -113,6 +114,18 @@
                 <groupId>org.jeasy</groupId>
                 <artifactId>easy-random-core</artifactId>
                 <version>${easy-random.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${springfox.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${springfox.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

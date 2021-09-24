@@ -30,26 +30,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     *
+     * actuator authentication manager
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-            .inMemoryAuthentication()
-            .withUser(securityProperties.getUser().getName())
-            .password(passwordEncoder().encode(securityProperties.getUser().getPassword()))
-            .authorities(securityProperties.getUser().getRoles().toArray(new String[0]));
+                .inMemoryAuthentication()
+                .withUser(securityProperties.getUser().getName())
+                .password(passwordEncoder().encode(securityProperties.getUser().getPassword()))
+                .authorities(securityProperties.getUser().getRoles().toArray(new String[0]));
     }
 
     /**
-     *
+     * actuator security settings
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.antMatcher("/actuator/**").authorizeRequests()
-            .anyRequest().authenticated()
-            .and().httpBasic()
-            .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .anyRequest().authenticated()
+                .and().httpBasic()
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         ;
     }
 

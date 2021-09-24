@@ -5,9 +5,7 @@ import dev.shermende.reference.db.entity.movement.MovementReason;
 import dev.shermende.reference.db.entity.movement.QMovementReason;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-@RepositoryRestResource(collectionResourceRel = "data")
 public interface MovementReasonRepository extends QueryDslRepository<MovementReason, Long, QMovementReason> {
 
     @Override
