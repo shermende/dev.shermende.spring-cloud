@@ -20,8 +20,6 @@ public class MovementScenarioModelAssembler extends RepresentationModelAssembler
     public MovementScenarioModel toModel(@NotNull MovementScenario entity) {
         return MovementScenarioModel.builder()
                 .id(entity.getId())
-                .reasonId(entity.getReasonId())
-                .pointId(entity.getPointId())
                 .build();
     }
 

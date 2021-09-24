@@ -28,7 +28,9 @@ public class GameModelAssembler extends RepresentationModelAssemblerSupport<Game
     }
 
     @Override
-    public @NotNull GameModel toModel(@NotNull Game entity) {
+    public @NotNull GameModel toModel(
+            @NotNull Game entity
+    ) {
         return GameModel
                 .builder()
                 .id(entity.getId())

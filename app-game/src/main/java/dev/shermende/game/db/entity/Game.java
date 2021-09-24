@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.jetbrains.annotations.Nullable;
 
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
@@ -28,10 +29,10 @@ public class Game extends BaseEntity<Long> {
     @NotNull
     private Long scenarioId;
 
-    @NotNull
+    @Nullable
     private Long sourceId;
 
-    @NotNull
+    @Nullable
     private Long targetId;
 
     @Override

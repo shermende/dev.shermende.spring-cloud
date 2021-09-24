@@ -11,7 +11,9 @@ import dev.shermende.game.service.GraphMapService;
 import dev.shermende.game.service.graph.GraphService;
 import dev.shermende.lib.dal.service.AbstractCrudService;
 import dev.shermende.lib.security.model.impl.PrincipalUser;
+import dev.shermende.reference.lib.api.MovementPointApiService;
 import dev.shermende.reference.lib.api.MovementScenarioApiService;
+import dev.shermende.reference.lib.model.MovementPointModel;
 import dev.shermende.reference.lib.model.MovementScenarioModel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,20 +23,25 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Random;
+
 @Service
 public class GameServiceImpl extends AbstractCrudService<Game, Long, QGame> implements GameService {
 
+    private final MovementPointApiService pointApiService;
     private final MovementScenarioApiService scenarioService;
     private final GraphMapService graphMapService;
     private final GraphService graphService;
 
     public GameServiceImpl(
             GameRepository repository,
+            MovementPointApiService pointApiService,
             MovementScenarioApiService scenarioService,
             GraphMapService graphMapService,
             GraphService graphService
     ) {
         super(repository);
+        this.pointApiService = pointApiService;
         this.scenarioService = scenarioService;
         this.graphMapService = graphMapService;
         this.graphService = graphService;
@@ -58,22 +65,24 @@ public class GameServiceImpl extends AbstractCrudService<Game, Long, QGame> impl
     ) {
         final PrincipalUser auth = (PrincipalUser) authentication.getPrincipal();
         final MovementScenarioModel scenario = getScenario(resource.getScenarioId());
+        final int count = Math.toIntExact(pointApiService.countByScenario(scenario.getId()));
+        final MovementPointModel scenarioPointByIndex = pointApiService.findScenarioPointByIndex(scenario.getId(), new Random().nextInt(count));
 
         final Game save = save(Game.builder()
                 .userId(auth.getId())
                 .scenarioId(scenario.getId())
-                .sourceId(scenario.getPointId())
-                .targetId(scenario.getPointId())
+                .sourceId(scenarioPointByIndex.getId())
+                .targetId(scenarioPointByIndex.getId())
                 .build());
 
-        graphService.generateGraph(10, 25).forEach(graphEdge -> {
-            graphMapService.save(GraphMap.builder()
-                    .userId(auth.getId())
-                    .gameId(save.getId())
-                    .sourceId((long) graphEdge.getSource())
-                    .targetId((long) graphEdge.getTarget())
-                    .build());
-        });
+        graphService.generateGraph(count, 25)
+                .forEach(graphEdge ->
+                        graphMapService.save(GraphMap.builder()
+                                .userId(auth.getId())
+                                .gameId(save.getId())
+                                .sourceId(pointApiService.findScenarioPointByIndex(scenario.getId(), graphEdge.getSource()).getId())
+                                .targetId(pointApiService.findScenarioPointByIndex(scenario.getId(), graphEdge.getTarget()).getId())
+                                .build()));
 
         return save;
     }
