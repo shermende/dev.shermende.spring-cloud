@@ -21,7 +21,7 @@ class GraphServiceImplTest {
     @Test
     void generateGraphEachPeakToEachPeakTest() {
         val edgeChange = 100;
-        val peaksCount = Math.abs(easyRandom.nextInt(100));
+        val peaksCount = Math.abs(easyRandom.nextInt(1000));
         val routes = graphService.generateGraph(peaksCount, edgeChange);
         Assertions.assertEquals(peaksCount * peaksCount - peaksCount, routes.size());
         for (int i = 0; i < peaksCount; i++) {

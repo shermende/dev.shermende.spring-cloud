@@ -31,7 +31,7 @@ public class GraphServiceImpl implements GraphService {
                 atLeastOneEdge = true;
             }
             if (atLeastOneEdge) continue;
-            list.add(GraphEdge.builder().source(i).target(GraphUtils.nextPeakPosition(i, peaksCount)).build());
+            list.add(GraphEdge.builder().source(i).target(GraphUtils.nextPeakPosition(list, i, peaksCount)).build());
         }
         return list;
     }
