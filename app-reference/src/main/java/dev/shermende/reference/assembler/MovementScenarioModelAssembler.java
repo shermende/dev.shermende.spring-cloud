@@ -17,9 +17,13 @@ public class MovementScenarioModelAssembler extends RepresentationModelAssembler
 
     @NotNull
     @Override
-    public MovementScenarioModel toModel(@NotNull MovementScenario entity) {
+    public MovementScenarioModel toModel(
+            @NotNull MovementScenario entity
+    ) {
         return MovementScenarioModel.builder()
                 .id(entity.getId())
+                .reasonId(entity.getReasonId())
+                .pointId(entity.getPointId())
                 .build();
     }
 

@@ -19,7 +19,7 @@ import java.util.Objects;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class GraphMap extends BaseEntity<Long> {
+public class GameRoute extends BaseEntity<Long> {
     private static final long serialVersionUID = 1425335737055233411L;
 
     @NotNull
@@ -29,22 +29,25 @@ public class GraphMap extends BaseEntity<Long> {
     private Long gameId;
 
     @NotNull
-    private Long sourceId;
+    private Long sourcePointId;
 
     @NotNull
-    private Long targetId;
+    private Long reasonId;
+
+    @NotNull
+    private Long targetPointId;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        GraphMap graphMap = (GraphMap) o;
-        return Objects.equals(userId, graphMap.userId) && Objects.equals(gameId, graphMap.gameId) && Objects.equals(sourceId, graphMap.sourceId) && Objects.equals(targetId, graphMap.targetId);
+        GameRoute gameMap = (GameRoute) o;
+        return Objects.equals(userId, gameMap.userId) && Objects.equals(gameId, gameMap.gameId) && Objects.equals(sourcePointId, gameMap.sourcePointId) && Objects.equals(reasonId, gameMap.reasonId) && Objects.equals(targetPointId, gameMap.targetPointId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), userId, gameId, sourceId, targetId);
+        return Objects.hash(super.hashCode(), userId, gameId, sourcePointId, reasonId, targetPointId);
     }
 }

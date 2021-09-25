@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import dev.shermende.reference.lib.model.MovementPointModel;
+import dev.shermende.reference.lib.model.MovementReasonModel;
 import dev.shermende.reference.lib.model.MovementScenarioModel;
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +27,8 @@ public class GameModel extends RepresentationModel<GameModel> {
     private MovementScenarioModel scenario;
 
     private MovementPointModel source;
+
+    private MovementReasonModel reason;
 
     private MovementPointModel target;
 

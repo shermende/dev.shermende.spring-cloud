@@ -22,4 +22,8 @@ public class MovementScenarioModel extends RepresentationModel<MovementScenarioM
 
     private Long id;
 
+    private Long reasonId;
+
+    private Long pointId;
+
 }

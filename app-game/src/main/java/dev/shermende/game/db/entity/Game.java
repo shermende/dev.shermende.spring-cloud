@@ -30,10 +30,13 @@ public class Game extends BaseEntity<Long> {
     private Long scenarioId;
 
     @Nullable
-    private Long sourceId;
+    private Long sourcePointId;
 
-    @Nullable
-    private Long targetId;
+    @NotNull
+    private Long reasonId;
+
+    @NotNull
+    private Long targetPointId;
 
     @Override
     public boolean equals(Object o) {
@@ -41,11 +44,11 @@ public class Game extends BaseEntity<Long> {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Game game = (Game) o;
-        return Objects.equals(userId, game.userId) && Objects.equals(scenarioId, game.scenarioId) && Objects.equals(sourceId, game.sourceId) && Objects.equals(targetId, game.targetId);
+        return Objects.equals(userId, game.userId) && Objects.equals(scenarioId, game.scenarioId) && Objects.equals(sourcePointId, game.sourcePointId) && Objects.equals(reasonId, game.reasonId) && Objects.equals(targetPointId, game.targetPointId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), userId, scenarioId, sourceId, targetId);
+        return Objects.hash(super.hashCode(), userId, scenarioId, sourcePointId, reasonId, targetPointId);
     }
 }

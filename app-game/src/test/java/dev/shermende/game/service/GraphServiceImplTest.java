@@ -1,6 +1,6 @@
 package dev.shermende.game.service;
 
-import dev.shermende.game.service.graph.impl.GraphServiceImpl;
+import dev.shermende.game.graph.service.impl.GraphServiceImpl;
 import lombok.val;
 import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.Assertions;

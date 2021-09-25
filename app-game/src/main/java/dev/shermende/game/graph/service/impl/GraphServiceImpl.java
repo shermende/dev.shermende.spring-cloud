@@ -1,6 +1,7 @@
-package dev.shermende.game.service.graph.impl;
+package dev.shermende.game.graph.service.impl;
 
-import dev.shermende.game.service.graph.GraphService;
+import dev.shermende.game.graph.resource.GraphEdge;
+import dev.shermende.game.graph.service.GraphService;
 import dev.shermende.game.utils.GraphUtils;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -20,16 +21,14 @@ public class GraphServiceImpl implements GraphService {
     ) {
         if (peaksCount < 0) throw new IllegalArgumentException("'peaksCount' cannot be less than zero");
         if (edgeChange < 0) throw new IllegalArgumentException("'edgeChange' cannot be less than zero");
-
         val list = new ArrayList<GraphEdge>();
         for (int i = 0; i < peaksCount; i++) {
             boolean atLeastOneEdge = false;
             for (int j = 0; j < peaksCount; j++) {
                 if (i == j) continue;
-                if (GraphUtils.isMatch(edgeChange)) {
-                    list.add(GraphEdge.builder().source(i).target(j).build());
-                    atLeastOneEdge = true;
-                }
+                if (!GraphUtils.isMatch(edgeChange)) continue;
+                list.add(GraphEdge.builder().source(i).target(j).build());
+                atLeastOneEdge = true;
             }
             if (atLeastOneEdge) continue;
             list.add(GraphEdge.builder().source(i).target(GraphUtils.nextPeakPosition(i, peaksCount)).build());
