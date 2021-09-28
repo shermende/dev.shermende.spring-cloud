@@ -10,16 +10,20 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class MovementPointServiceImpl extends AbstractCrudService<MovementPoint, Long, QMovementPoint>
         implements MovementPointService {
 
+    private final MovementPointRepository repository;
+
     public MovementPointServiceImpl(
             MovementPointRepository repository
     ) {
         super(repository);
+        this.repository = repository;
     }
 
     @Override
@@ -29,6 +33,13 @@ public class MovementPointServiceImpl extends AbstractCrudService<MovementPoint,
     ) {
         return Optional.ofNullable(findAll(QMovementPoint.movementPoint.scenarioId.eq(scenarioId),
                 PageRequest.of(0, 99, Sort.Direction.ASC, "id")).getContent().get(index));
+    }
+
+    @Override
+    public List<Long> findIdsByScenarioId(
+            @NotNull Long scenarioId
+    ) {
+        return repository.findIdsByScenarioId(scenarioId);
     }
 
     @Override

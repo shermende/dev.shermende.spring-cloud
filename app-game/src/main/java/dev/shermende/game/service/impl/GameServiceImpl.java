@@ -10,7 +10,6 @@ import dev.shermende.game.resource.GameCreateResource;
 import dev.shermende.game.service.GameService;
 import dev.shermende.lib.dal.service.AbstractCrudService;
 import dev.shermende.lib.security.model.impl.PrincipalUser;
-import dev.shermende.reference.lib.api.MovementScenarioApiService;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.data.domain.Page;
@@ -22,16 +21,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class GameServiceImpl extends AbstractCrudService<Game, Long, QGame> implements GameService {
 
-    private final MovementScenarioApiService scenarioService;
     private final GameCreateProcessor gameCreateProcessor;
 
     public GameServiceImpl(
             GameRepository repository,
-            GameCreateProcessor gameCreateProcessor,
-            MovementScenarioApiService scenarioService
+            GameCreateProcessor gameCreateProcessor
     ) {
         super(repository);
-        this.scenarioService = scenarioService;
         this.gameCreateProcessor = gameCreateProcessor;
     }
 

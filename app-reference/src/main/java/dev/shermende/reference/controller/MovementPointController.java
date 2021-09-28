@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Slf4j
 @Validated
@@ -29,6 +30,13 @@ public class MovementPointController implements MovementPointApiService {
             @NotNull @PathVariable Long id
     ) {
         return assembler.toModel(service.findById(id).orElseThrow(NotFoundException::new));
+    }
+
+    @Override
+    public List<Long> findIdsByScenarioId(
+            @NotNull @RequestParam("scenario-id") Long scenarioId
+    ) {
+        return service.findIdsByScenarioId(scenarioId);
     }
 
     @Override

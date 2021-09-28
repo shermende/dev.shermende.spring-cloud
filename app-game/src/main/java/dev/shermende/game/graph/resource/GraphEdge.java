@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class GraphEdge {
-    private int source;
-    private int target;
+public class GraphEdge<T> {
+    private T source;
+    private T target;
 }

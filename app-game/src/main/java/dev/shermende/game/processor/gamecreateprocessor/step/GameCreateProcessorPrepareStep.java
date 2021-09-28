@@ -22,14 +22,14 @@ public class GameCreateProcessorPrepareStep implements Step<GameCreateProcessorC
 
     @Override
     public GameCreateProcessorCtx execute(
-            GameCreateProcessorCtx input
+            GameCreateProcessorCtx ctx
     ) {
-        return input
-                .setEdgeChance(25)
+        return ctx
                 .setUser((PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
-                .setScenario(scenarioApiService.findById(input.getResource().getScenarioId()))
-                .setPointsCount(pointApiService.countPointsByScenario(input.getResource().getScenarioId()))
-                .setReasonsCount(reasonApiService.countReasonsByScenario(input.getResource().getScenarioId()));
+                .setScenario(scenarioApiService.findById(ctx.getResource().getScenarioId()))
+                .setPoints(pointApiService.findIdsByScenarioId(ctx.getResource().getScenarioId()))
+                .setReasons(reasonApiService.findIdsByScenarioId(ctx.getResource().getScenarioId()))
+                ;
     }
 
 }

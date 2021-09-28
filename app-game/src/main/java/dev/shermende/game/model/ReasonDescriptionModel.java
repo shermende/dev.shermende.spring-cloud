@@ -17,15 +17,13 @@ import org.springframework.hateoas.server.core.Relation;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Relation(value = "item", collectionRelation = "data")
-public class GameModel extends RepresentationModel<GameModel> {
+public class ReasonDescriptionModel extends RepresentationModel<ReasonDescriptionModel> {
 
     private Long id;
 
-    private PointDescriptionModel source;
+    private String intro;
 
-    private ReasonDescriptionModel reason;
-
-    private PointDescriptionModel target;
+    private String description;
 
     @NotNull
     @Override

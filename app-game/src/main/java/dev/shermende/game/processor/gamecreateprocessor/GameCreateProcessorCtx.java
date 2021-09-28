@@ -7,6 +7,8 @@ import dev.shermende.reference.lib.model.MovementScenarioModel;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Builder
 public class GameCreateProcessorCtx {
@@ -15,13 +17,11 @@ public class GameCreateProcessorCtx {
 
     private PrincipalUser user;
 
-    private Integer edgeChance;
-
-    private Long reasonsCount;
-
-    private Long pointsCount;
-
     private MovementScenarioModel scenario;
+
+    private List<Long> points;
+
+    private List<Long> reasons;
 
     private Game game;
 

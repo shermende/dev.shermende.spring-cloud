@@ -17,16 +17,16 @@ public class GameCreateProcessorGameStep implements Step<GameCreateProcessorCtx,
 
     @Override
     public GameCreateProcessorCtx execute(
-            GameCreateProcessorCtx input
+            GameCreateProcessorCtx ctx
     ) {
-        return input
+        return ctx
                 .setGame(
                         service.save(
                                 Game.builder()
-                                        .userId(input.getUser().getId())
-                                        .scenarioId(input.getScenario().getId())
-                                        .reasonId(input.getScenario().getReasonId())
-                                        .targetPointId(input.getScenario().getPointId())
+                                        .userId(ctx.getUser().getId())
+                                        .scenarioId(ctx.getScenario().getId())
+                                        .reasonId(ctx.getScenario().getReasonId())
+                                        .targetPointId(ctx.getScenario().getPointId())
                                         .build()
                         )
                 );
