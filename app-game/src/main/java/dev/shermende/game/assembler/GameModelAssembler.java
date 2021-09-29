@@ -1,45 +1,41 @@
 package dev.shermende.game.assembler;
 
+import dev.shermende.game.assembler.resource.PointCtx;
+import dev.shermende.game.assembler.resource.ReasonCtx;
+import dev.shermende.game.assembler.resource.RouteCtx;
 import dev.shermende.game.controller.GameController;
 import dev.shermende.game.db.entity.Game;
 import dev.shermende.game.model.GameModel;
-import dev.shermende.game.model.PointDescriptionModel;
-import dev.shermende.game.model.ReasonDescriptionModel;
-import dev.shermende.game.resource.BalabobaRequestResource;
-import dev.shermende.game.service.PointDescriptionService;
-import dev.shermende.game.service.ReasonDescriptionService;
-import dev.shermende.game.service.feign.BalabobaService;
-import dev.shermende.reference.lib.api.MovementPointApiService;
-import dev.shermende.reference.lib.api.MovementReasonApiService;
-import lombok.val;
+import dev.shermende.game.model.PointModel;
+import dev.shermende.game.model.ReasonModel;
+import dev.shermende.game.model.RouteModel;
+import dev.shermende.game.service.GameRouteService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class GameModelAssembler extends RepresentationModelAssemblerSupport<Game, GameModel> {
 
-    private final BalabobaService service;
-    private final MovementPointApiService pointApiService;
-    private final MovementReasonApiService reasonApiService;
-    private final PointDescriptionService pointDescriptionService;
-    private final ReasonDescriptionService reasonDescriptionService;
+    private final GameRouteService routeService;
+    private final PointModelAssembler pointModelAssembler;
+    private final ReasonModelAssembler reasonModelAssembler;
+    private final RouteModelAssembler routeModelAssembler;
 
     public GameModelAssembler(
-            BalabobaService service,
-            MovementPointApiService pointApiService,
-            MovementReasonApiService reasonApiService,
-            PointDescriptionService pointDescriptionService,
-            ReasonDescriptionService reasonDescriptionService
+            GameRouteService routeService,
+            PointModelAssembler pointModelAssembler,
+            ReasonModelAssembler reasonModelAssembler,
+            RouteModelAssembler routeModelAssembler
     ) {
         super(GameController.class, GameModel.class);
-        this.service = service;
-        this.pointApiService = pointApiService;
-        this.reasonApiService = reasonApiService;
-        this.pointDescriptionService = pointDescriptionService;
-        this.reasonDescriptionService = reasonDescriptionService;
+        this.routeService = routeService;
+        this.pointModelAssembler = pointModelAssembler;
+        this.reasonModelAssembler = reasonModelAssembler;
+        this.routeModelAssembler = routeModelAssembler;
     }
 
     @Override
@@ -49,84 +45,36 @@ public class GameModelAssembler extends RepresentationModelAssemblerSupport<Game
         return GameModel
                 .builder()
                 .id(entity.getId())
-                .source(getPointDescription(entity))
-                .reason(getReasonDescription(entity))
-                .target(getTargetDescription(entity))
+                .reason(getReason(entity))
+                .target(getTarget(entity))
+                .routes(getRoutes(entity))
                 .build();
     }
 
-    private PointDescriptionModel getPointDescription(
+    @NotNull
+    private ReasonModel getReason(
             @NotNull Game entity
     ) {
-        if (Objects.isNull(entity.getSourcePointId())) return null;
-
-        val pointDescription = pointDescriptionService.findByGameIdAndPointId(
-                entity.getId(),
-                entity.getSourcePointId()
-        ).orElseGet(() -> {
-            val point = pointApiService.findById(entity.getSourcePointId());
-            return pointDescriptionService.create(
-                    entity.getId(),
-                    entity.getSourcePointId(),
-                    point.getIntro(),
-                    service.introspect(BalabobaRequestResource.builder()
-                            .query(point.getIntro())
-                            .build()).orElseThrow(IllegalStateException::new).getText()
-            );
-        });
-        return PointDescriptionModel.builder()
-                .id(pointDescription.getId())
-                .intro(pointDescription.getIntro())
-                .description(pointDescription.getDescription())
-                .build();
+        return reasonModelAssembler.toModel(ReasonCtx.builder()
+                .gameId(entity.getId()).reasonId(entity.getReasonId()).build());
     }
 
-    private ReasonDescriptionModel getReasonDescription(
+    @NotNull
+    private PointModel getTarget(
             @NotNull Game entity
     ) {
-        val reasonDescription = reasonDescriptionService.findByGameIdAndPointId(
-                entity.getId(),
-                entity.getReasonId()
-        ).orElseGet(() -> {
-            val reason = reasonApiService.findById(entity.getReasonId());
-            return reasonDescriptionService.create(
-                    entity.getId(),
-                    entity.getReasonId(),
-                    reason.getIntro(),
-                    service.introspect(BalabobaRequestResource.builder()
-                            .query(reason.getIntro())
-                            .build()).orElseThrow(IllegalStateException::new).getText()
-            );
-        });
-        return ReasonDescriptionModel.builder()
-                .id(reasonDescription.getId())
-                .intro(reasonDescription.getIntro())
-                .description(reasonDescription.getDescription())
-                .build();
+        return pointModelAssembler.toModel(PointCtx.builder()
+                .gameId(entity.getId()).pointId(entity.getPointId()).build());
     }
 
-    private PointDescriptionModel getTargetDescription(
+    @NotNull
+    private List<RouteModel> getRoutes(
             @NotNull Game entity
     ) {
-        val pointDescription = pointDescriptionService.findByGameIdAndPointId(
-                entity.getId(),
-                entity.getTargetPointId()
-        ).orElseGet(() -> {
-            val point = pointApiService.findById(entity.getTargetPointId());
-            return pointDescriptionService.create(
-                    entity.getId(),
-                    entity.getTargetPointId(),
-                    point.getIntro(),
-                    service.introspect(BalabobaRequestResource.builder()
-                            .query(point.getIntro())
-                            .build()).orElseThrow(IllegalStateException::new).getText()
-            );
-        });
-        return PointDescriptionModel.builder()
-                .id(pointDescription.getId())
-                .intro(pointDescription.getIntro())
-                .description(pointDescription.getDescription())
-                .build();
+        return routeService.findAllByPoint(entity.getId(), entity.getPointId()).stream()
+                .map(route -> RouteCtx.builder().route(route).currentPoint(entity.getPointId()).build())
+                .map(routeModelAssembler::toModel)
+                .collect(Collectors.toList());
     }
 
 }

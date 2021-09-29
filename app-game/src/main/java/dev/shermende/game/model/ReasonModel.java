@@ -11,23 +11,19 @@ import org.springframework.hateoas.Links;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
-import java.util.List;
-
 @Data
 @Builder
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Relation(value = "item", collectionRelation = "data")
-public class GameModel extends RepresentationModel<GameModel> {
+public class ReasonModel extends RepresentationModel<ReasonModel> {
 
     private Long id;
 
-    private ReasonModel reason;
+    private String intro;
 
-    private PointModel target;
-
-    private List<RouteModel> routes;
+    private String description;
 
     @NotNull
     @Override

@@ -19,7 +19,7 @@ import java.util.Objects;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class GameRoute extends BaseEntity<Long> {
+public class Route extends BaseEntity<Long> {
     private static final long serialVersionUID = 1425335737055233411L;
 
     @NotNull
@@ -42,7 +42,7 @@ public class GameRoute extends BaseEntity<Long> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        GameRoute gameMap = (GameRoute) o;
+        Route gameMap = (Route) o;
         return Objects.equals(userId, gameMap.userId) && Objects.equals(gameId, gameMap.gameId) && Objects.equals(sourcePointId, gameMap.sourcePointId) && Objects.equals(reasonId, gameMap.reasonId) && Objects.equals(targetPointId, gameMap.targetPointId);
     }
 

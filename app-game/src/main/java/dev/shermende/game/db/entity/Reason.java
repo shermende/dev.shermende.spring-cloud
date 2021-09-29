@@ -18,11 +18,11 @@ import java.util.Objects;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class PointDescription extends BaseEntity<Long> {
+public class Reason extends BaseEntity<Long> {
 
     private Long gameId;
 
-    private Long pointId;
+    private Long reasonId;
 
     private String intro;
 
@@ -33,12 +33,12 @@ public class PointDescription extends BaseEntity<Long> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        PointDescription that = (PointDescription) o;
-        return Objects.equals(gameId, that.gameId) && Objects.equals(pointId, that.pointId) && Objects.equals(intro, that.intro) && Objects.equals(description, that.description);
+        Reason that = (Reason) o;
+        return Objects.equals(gameId, that.gameId) && Objects.equals(reasonId, that.reasonId) && Objects.equals(intro, that.intro) && Objects.equals(description, that.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), gameId, pointId, intro, description);
+        return Objects.hash(super.hashCode(), gameId, reasonId, intro, description);
     }
 }

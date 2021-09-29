@@ -1,6 +1,6 @@
 package dev.shermende.game.processor.gamecreateprocessor.step;
 
-import dev.shermende.game.db.entity.GameRoute;
+import dev.shermende.game.db.entity.Route;
 import dev.shermende.game.graph.service.GraphService;
 import dev.shermende.game.processor.gamecreateprocessor.GameCreateProcessorCtx;
 import dev.shermende.game.service.GameRouteService;
@@ -25,7 +25,7 @@ public class GameCreateProcessorRoutesStep implements Step<GameCreateProcessorCt
     ) {
         graphService.generateGraph(ctx.getPoints())
                 .forEach(graphEdge ->
-                        routeService.save(GameRoute.builder()
+                        routeService.save(Route.builder()
                                 .userId(ctx.getUser().getId())
                                 .gameId(ctx.getGame().getId())
                                 .sourcePointId(graphEdge.getSource())

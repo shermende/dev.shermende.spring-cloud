@@ -17,7 +17,7 @@ import org.springframework.hateoas.server.core.Relation;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Relation(value = "item", collectionRelation = "data")
-public class PointDescriptionModel extends RepresentationModel<PointDescriptionModel> {
+public class PointModel extends RepresentationModel<PointModel> {
 
     private Long id;
 

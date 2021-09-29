@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-reference
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: app-reference
+  template:
+    metadata:
+      name: app-reference
+      labels:
+        app.kubernetes.io/name: app-reference
+    spec:
+      containers:
+        - name: app-reference-container
+          image: app-reference:0.0.1
+          env:
+            - name: spring.profiles.active
+              value: kubernetes,jwt
+            - name: spring.security.oauth2.resourceserver.jwt.jwk-set-uri
+              value: http://envauthorizationservice:8000/.well-known/jwks.json

@@ -26,7 +26,7 @@ public class GameCreateProcessorGameStep implements Step<GameCreateProcessorCtx,
                                         .userId(ctx.getUser().getId())
                                         .scenarioId(ctx.getScenario().getId())
                                         .reasonId(ctx.getScenario().getReasonId())
-                                        .targetPointId(ctx.getScenario().getPointId())
+                                        .pointId(ctx.getScenario().getPointId())
                                         .build()
                         )
                 );

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-game
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: app-game
+  template:
+    metadata:
+      name: app-game
+      labels:
+        app.kubernetes.io/name: app-game
+    spec:
+      containers:
+        - name: app-game-container
+          image: app-game:0.0.1
+          env:
+            - name: spring.profiles.active
+              value: kubernetes,jwt
+            - name: spring.security.oauth2.resourceserver.jwt.jwk-set-uri
+              value: http://envauthorizationservice:8000/.well-known/jwks.json
+            - name: spring.flyway.enabled
+              value: "false"
+            - name: spring.jpa.hibernate.ddl-auto
+              value: update
