@@ -2,7 +2,6 @@
 version: @project.version@
 #
 server:
-  port: 8100
   error:
     include-binding-errors: always
 #

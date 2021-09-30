@@ -14,10 +14,16 @@ spec:
         app.kubernetes.io/name: app-reference
     spec:
       containers:
-        - name: app-reference-container
+        - name: app-reference
           image: app-reference:0.0.1
           env:
             - name: spring.profiles.active
               value: kubernetes,jwt
-            - name: spring.security.oauth2.resourceserver.jwt.jwk-set-uri
-              value: http://envauthorizationservice:8000/.well-known/jwks.json
+            - name: spring.cloud.kubernetes.enabled
+              value: "true"
+            - name: spring.cloud.kubernetes.config.enabled
+              value: "true"
+            - name: spring.cloud.kubernetes.secrets.enabled
+              value: "true"
+            - name: spring.cloud.kubernetes.discovery.enabled
+              value: "true"

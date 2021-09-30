@@ -6,6 +6,16 @@ spring:
   application:
     name: env-authorization
   cloud:
+    kubernetes:
+      enabled: false
+      discovery:
+        enabled: false
+      config:
+        enabled: false
+      secrets:
+        enabled: false
+      reload:
+        enabled: true
     # ribbon balancer disabled
     loadbalancer:
       ribbon:

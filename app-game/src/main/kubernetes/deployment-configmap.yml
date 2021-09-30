@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-game
+data:
+  application.properties: |-
+    spring.security.user.name=app-game
+    spring.security.user.password=app-game
+    spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://env-authorization:8000/.well-known/jwks.json
+    spring.datasource.driver-class-name=org.postgresql.Driver
+    spring.datasource.url=jdbc:postgresql://env-postgres-game:5432/game
+    spring.datasource.username=postgres
+    spring.datasource.password=postgres
+    spring.jpa.show-sql=true
+    spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true

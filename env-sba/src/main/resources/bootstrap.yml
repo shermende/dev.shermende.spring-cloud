@@ -1,8 +1,23 @@
 #
+server:
+  port: 8081
+#
 spring:
   application:
     name: env-sba
   cloud:
+    kubernetes:
+      enabled: false
+      config:
+        enabled: false
+      secrets:
+        enabled: false
+      discovery:
+        enabled: false
+        service-labels:
+          sba-client: true
+      reload:
+        enabled: true
     # ribbon balancer disabled
     loadbalancer:
       ribbon:
@@ -32,6 +47,8 @@ eureka:
       user.password: ${spring.security.user.password}
 #
 management:
+  server:
+    port: 7081
   endpoint:
     health:
       show-details: always

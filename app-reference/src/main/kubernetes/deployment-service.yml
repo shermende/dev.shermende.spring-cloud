@@ -2,6 +2,13 @@ apiVersion: v1
 kind: Service
 metadata:
   name: app-reference
+  labels:
+    #
+    sba-client: "true"
+    # pass metadata to sba
+    user.name: app-reference
+    user.password: app-reference
+    management.port: "7100"
 spec:
   type: LoadBalancer
   selector:

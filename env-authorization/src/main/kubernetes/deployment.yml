@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: env-authorization
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: env-authorization
+  template:
+    metadata:
+      name: env-authorization
+      labels:
+        app.kubernetes.io/name: env-authorization
+    spec:
+      containers:
+        - name: env-authorization-container
+          image: env-authorization:0.0.1
+          env:
+            - name: spring.profiles.active
+              value: kubernetes,jwt
+            - name: spring.cloud.kubernetes.enabled
+              value: "true"
+            - name: spring.cloud.kubernetes.config.enabled
+              value: "true"
+            - name: spring.cloud.kubernetes.secrets.enabled
+              value: "true"
+            - name: spring.cloud.kubernetes.discovery.enabled
+              value: "true"

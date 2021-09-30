@@ -1,6 +1,7 @@
 package dev.shermende.reference.configuration;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +28,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Collections;
 
+@Slf4j
 @Order(1)
 @Configuration
 @EnableSwagger2
@@ -65,7 +67,8 @@ public class SwaggerConfiguration extends WebSecurityConfigurerAdapter {
                                 new AntPathRequestMatcher("/swagger-ui.html")
                         ))
                 .authorizeRequests().anyRequest().authenticated()
-                .and().httpBasic();
+                .and().httpBasic()
+                .and().csrf().disable();
     }
 
     /**

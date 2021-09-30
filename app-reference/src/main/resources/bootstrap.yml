@@ -1,8 +1,21 @@
 #
+server:
+  port: 8100
+#
 spring:
   application:
     name: app-reference
   cloud:
+    kubernetes:
+      enabled: false
+      discovery:
+        enabled: false
+      config:
+        enabled: false
+      secrets:
+        enabled: false
+      reload:
+        enabled: true
     # ribbon balancer disabled
     loadbalancer:
       ribbon:
@@ -23,10 +36,12 @@ eureka:
     metadata-map:
       management.port: ${management.server.port}
       management.context-path: /actuator
-      user.name: ${spring.security.user.password}
+      user.name: ${spring.security.user.name}
       user.password: ${spring.security.user.password}
 # management settings
 management:
+  server:
+    port: 7100
   endpoint:
     health:
       show-details: always

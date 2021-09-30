@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-sba
+data:
+  application.properties: |-
+    spring.security.user.name=env-sba
+    spring.security.user.password=env-sba
