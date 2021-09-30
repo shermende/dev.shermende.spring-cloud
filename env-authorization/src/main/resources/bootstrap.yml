@@ -5,6 +5,10 @@ server:
 spring:
   application:
     name: env-authorization
+  sleuth:
+    enabled: false
+  zipkin:
+    enabled: false
   cloud:
     kubernetes:
       enabled: false
@@ -14,6 +18,7 @@ spring:
         enabled: false
       secrets:
         enabled: false
+        paths: /etc/secret
       reload:
         enabled: true
     # ribbon balancer disabled

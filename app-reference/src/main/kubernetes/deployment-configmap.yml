@@ -4,6 +4,7 @@ metadata:
   name: app-reference
 data:
   application.properties: |-
+    spring.jmx.enabled=true
     spring.security.user.name=app-reference
     spring.security.user.password=app-reference
     spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://env-authorization:8000/.well-known/jwks.json

@@ -27,3 +27,10 @@ spec:
               value: "true"
             - name: spring.cloud.kubernetes.discovery.enabled
               value: "true"
+          volumeMounts:
+            - name: env-authorization-secret
+              mountPath: /etc/secret
+      volumes:
+        - name: env-authorization-secret
+          secret:
+            secretName: env-authorization

@@ -4,6 +4,7 @@ metadata:
   name: app-game
 data:
   application.properties: |-
+    spring.jmx.enabled=true
     spring.security.user.name=app-game
     spring.security.user.password=app-game
     spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://env-authorization:8000/.well-known/jwks.json
@@ -13,3 +14,4 @@ data:
     spring.datasource.password=postgres
     spring.jpa.show-sql=true
     spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
+#    hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds=60000

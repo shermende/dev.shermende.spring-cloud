@@ -1,0 +1,31 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zipkin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: zipkin
+  template:
+    metadata:
+      name: zipkin
+      labels:
+        app.kubernetes.io/name: zipkin
+    spec:
+      containers:
+        - name: zipkin
+          image: openzipkin/zipkin
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zipkin
+spec:
+  type: LoadBalancer
+  selector:
+    app.kubernetes.io/name: zipkin
+  ports:
+    - port: 9411
+      nodePort: 30941
