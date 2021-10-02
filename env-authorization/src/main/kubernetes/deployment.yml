@@ -27,8 +27,16 @@ spec:
               value: "true"
             - name: spring.cloud.kubernetes.discovery.enabled
               value: "true"
-            - name: logging.config
-              value: /var/logback/logback.xml
+            - name: spring.zipkin.enabled
+              value: "true"
+            - name: spring.sleuth.enabled
+              value: "true"
+            - name: spring.zipkin.sender.type
+              value: kafka
+            - name: spring.kafka.bootstrap-servers
+              value: env-kafka:9091
+#            - name: logging.config
+#              value: /var/logback/logback.xml
           volumeMounts:
             - name: env-authorization-secret
               mountPath: /etc/secret
