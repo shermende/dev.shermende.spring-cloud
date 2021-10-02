@@ -27,10 +27,21 @@ spec:
               value: "true"
             - name: spring.cloud.kubernetes.discovery.enabled
               value: "true"
+            - name: logging.config
+              value: /var/logback/logback.xml
           volumeMounts:
             - name: env-authorization-secret
               mountPath: /etc/secret
+            - name: logback
+              mountPath: /var/logback/logback.xml
+              subPath: logback.xml
       volumes:
         - name: env-authorization-secret
           secret:
             secretName: env-authorization
+        - name: logback
+          configMap:
+            name: env-authorization
+            items:
+              - key: logback.xml
+                path: logback.xml

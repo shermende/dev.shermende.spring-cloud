@@ -9,3 +9,43 @@ data:
 #    spring.sleuth.sampler.probability=1.0
 #    spring.zipkin.enabled=true
 #    spring.zipkin.base-url=http://zipkin:9411/
+  logback.xml: |-
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!-- kafka appender for EFK (ES, Fluent, Kibana)-->
+    <configuration scan="true">
+        <contextName>${HOSTNAME}</contextName>
+        <springProperty scope="context" name="version" source="version"/>
+        <springProperty scope="context" name="profile" source="spring.profiles.active"/>
+        <springProperty scope="context" name="application" source="spring.application.name"/>
+
+        <!-- use Spring default values -->
+        <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+        <!-- console -->
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+                <charset>utf8</charset>
+            </encoder>
+        </appender>
+
+        <appender name="KAFKA" class="com.github.danielwegener.logback.kafka.KafkaAppender">
+            <topic>logback</topic>
+            <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy"/>
+            <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy"/>
+            <producerConfig>bootstrap.servers=env-kafka:9092</producerConfig>
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                <includeCallerData>true</includeCallerData>
+            </encoder>
+        </appender>
+
+        <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+            <includeCallerData>true</includeCallerData>
+            <appender-ref ref="KAFKA"/>
+        </appender>
+
+        <root level="info">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="ASYNC"/>
+        </root>
+
+    </configuration>
