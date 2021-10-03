@@ -5,6 +5,10 @@ metadata:
 data:
   application.properties: |-
     spring.jmx.enabled=true
+    spring.zipkin.enabled=true
+    spring.sleuth.enabled=true
+    spring.zipkin.sender.type=kafka
+    spring.kafka.bootstrap-servers=env-kafka:9091
     spring.security.user.name=app-reference
     spring.security.user.password=app-reference
     spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://env-authorization:8000/.well-known/jwks.json

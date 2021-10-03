@@ -5,8 +5,6 @@ server:
 spring:
   application:
     name: app-reference
-  sleuth:
-    enabled: false
   zipkin:
     enabled: false
   cloud:

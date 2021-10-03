@@ -5,6 +5,10 @@ metadata:
 data:
   application.properties: |-
     spring.jmx.enabled=true
+    spring.zipkin.enabled=true
+    spring.sleuth.enabled=true
+    spring.zipkin.sender.type=kafka
+    spring.kafka.bootstrap-servers=env-kafka:9091
     spring.security.user.name=app-game
     spring.security.user.password=app-game
     spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://env-authorization:8000/.well-known/jwks.json
@@ -14,4 +18,4 @@ data:
     spring.datasource.password=postgres
     spring.jpa.show-sql=true
     spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
-#    hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds=60000
+    hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds=60000

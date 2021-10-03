@@ -1,5 +1,4 @@
 #
-#
 server:
   port: 8200
   error:
@@ -8,8 +7,6 @@ server:
 spring:
   application:
     name: app-game
-  sleuth:
-    enabled: false
   zipkin:
     enabled: false
   cloud:

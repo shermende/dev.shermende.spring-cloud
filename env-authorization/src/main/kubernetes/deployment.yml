@@ -21,35 +21,16 @@ spec:
               value: kubernetes,jwt
             - name: spring.cloud.kubernetes.enabled
               value: "true"
+            - name: spring.cloud.kubernetes.discovery.enabled
+              value: "true"
             - name: spring.cloud.kubernetes.config.enabled
               value: "true"
             - name: spring.cloud.kubernetes.secrets.enabled
               value: "true"
-            - name: spring.cloud.kubernetes.discovery.enabled
-              value: "true"
-            - name: spring.zipkin.enabled
-              value: "true"
-            - name: spring.sleuth.enabled
-              value: "true"
-            - name: spring.zipkin.sender.type
-              value: kafka
-            - name: spring.kafka.bootstrap-servers
-              value: env-kafka:9091
-#            - name: logging.config
-#              value: /var/logback/logback.xml
           volumeMounts:
-            - name: env-authorization-secret
+            - name: volume-secret-env-authorization
               mountPath: /etc/secret
-            - name: logback
-              mountPath: /var/logback/logback.xml
-              subPath: logback.xml
       volumes:
-        - name: env-authorization-secret
+        - name: volume-secret-env-authorization
           secret:
             secretName: env-authorization
-        - name: logback
-          configMap:
-            name: env-authorization
-            items:
-              - key: logback.xml
-                path: logback.xml
