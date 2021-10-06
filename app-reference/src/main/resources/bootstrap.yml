@@ -18,10 +18,6 @@ spring:
         enabled: false
       reload:
         enabled: true
-    # ribbon balancer disabled
-    loadbalancer:
-      ribbon:
-        enabled: false
     # dynamic configuration
     config:
       enabled: false

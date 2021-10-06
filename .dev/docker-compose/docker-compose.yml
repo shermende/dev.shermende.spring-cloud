@@ -24,6 +24,18 @@ services:
       KAFKA_BROKERCONNECT: genv-kafka:9091
     depends_on:
       - genv-kafka
+  db-reference:
+    image: postgres
+    environment:
+      - POSTGRES_DB=reference
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  db-game:
+    image: postgres
+    environment:
+      - POSTGRES_DB=game
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
   env-eureka:
     build:
       context: ../../env-eureka/
@@ -72,6 +84,7 @@ services:
       - eureka.client.service-url.defaultZone=http://env-eureka:8761/eureka/
       - spring.cloud.config.enabled=true
       - spring.cloud.config.discovery.enabled=true
+      - hystrix.command.BalabobaService#introspect(BalabobaRequestResource).execution.isolation.thread.timeoutInMilliseconds=30000
     depends_on:
       - env-eureka
       - env-configuration

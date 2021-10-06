@@ -13,8 +13,8 @@ services:
   app-game:
     environment:
       - spring.profiles.active=docker,jwt
-      - spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://env-authorization:8082/.well-known/jwks.json
+      - spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://env-authorization:8000/.well-known/jwks.json
   app-reference:
     environment:
       - spring.profiles.active=docker,jwt
-      - spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://env-authorization:8082/.well-known/jwks.json
+      - spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://env-authorization:8000/.well-known/jwks.json

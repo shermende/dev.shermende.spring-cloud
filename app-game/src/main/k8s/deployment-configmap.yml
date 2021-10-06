@@ -18,4 +18,4 @@ data:
     spring.datasource.password=postgres
     spring.jpa.show-sql=true
     spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
-    hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds=60000
+    hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds=30000
