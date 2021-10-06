@@ -5,5 +5,3 @@ metadata:
 data:
   application.properties: |-
     spring.jmx.enabled=true
-    spring.security.user.name=env-sba
-    spring.security.user.password=env-sba

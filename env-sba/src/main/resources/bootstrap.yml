@@ -12,6 +12,7 @@ spring:
         enabled: false
       secrets:
         enabled: false
+        paths: /etc/secret
       discovery:
         enabled: false
         service-labels:

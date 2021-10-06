@@ -17,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * High priority protection
  */
 @Slf4j
-@Order(-50)
+@Order(1)
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {

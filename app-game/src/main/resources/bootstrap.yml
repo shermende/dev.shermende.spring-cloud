@@ -18,6 +18,7 @@ spring:
         enabled: false
       secrets:
         enabled: false
+        paths: /etc/secret
       reload:
         enabled: true
     # dynamic configuration

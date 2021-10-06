@@ -27,3 +27,10 @@ spec:
               value: "true"
             - name: spring.cloud.kubernetes.secrets.enabled
               value: "true"
+          volumeMounts:
+            - name: volume-secret-app-game
+              mountPath: /etc/secret
+      volumes:
+        - name: volume-secret-app-game
+          secret:
+            secretName: app-game

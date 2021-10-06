@@ -9,8 +9,6 @@ data:
     spring.sleuth.enabled=true
     spring.zipkin.sender.type=kafka
     spring.kafka.bootstrap-servers=env-kafka:9091
-    spring.security.user.name=app-game
-    spring.security.user.password=app-game
     spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://env-authorization:8000/.well-known/jwks.json
     spring.datasource.driver-class-name=org.postgresql.Driver
     spring.datasource.url=jdbc:postgresql://env-postgres-game:5432/game

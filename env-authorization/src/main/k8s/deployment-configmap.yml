@@ -6,6 +6,5 @@ data:
   application.properties: |-
     spring.jmx.enabled=true
     spring.zipkin.enabled=true
-    spring.sleuth.enabled=true
     spring.zipkin.sender.type=kafka
     spring.kafka.bootstrap-servers=env-kafka:9091
