@@ -65,7 +65,8 @@ public class SwaggerConfiguration extends WebSecurityConfigurerAdapter {
                                 new AntPathRequestMatcher("/swagger-ui.html")
                         ))
                 .authorizeRequests().anyRequest().authenticated()
-                .and().httpBasic();
+                .and().httpBasic()
+                .and().csrf().disable();
     }
 
     /**

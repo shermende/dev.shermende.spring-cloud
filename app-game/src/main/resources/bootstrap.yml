@@ -58,7 +58,7 @@ management:
         include: '*'
     web:
       exposure:
-        include: '*'
+        include: '*,jolokia'
   metrics:
     export:
       influx:
