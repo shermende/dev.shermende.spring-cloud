@@ -7,6 +7,9 @@ spring:
     name: env-authorization
   zipkin:
     enabled: false
+  sleuth:
+    scheduled:
+      skip-pattern: org.springframework.cloud.kubernetes.discovery.KubernetesCatalogWatch|org.springframework.cloud.netflix.hystrix.stream.HystrixStreamTask
   cloud:
     kubernetes:
       enabled: false

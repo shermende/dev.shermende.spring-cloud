@@ -7,11 +7,6 @@ import java.util.Set;
 
 public interface GraphService {
 
-//    List<GraphEdge> generateGraph(
-//            int peaksCount,
-//            int edgeChange
-//    );
-
     <T> Set<GraphEdge<T>> generateGraph(
             List<T> vertices
     );
