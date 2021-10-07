@@ -10,8 +10,11 @@ spring:
   cloud:
     kubernetes:
       enabled: false
+      loadbalancer:
+        enabled: false
       discovery:
         enabled: false
+        all-namespaces: true
       config:
         enabled: false
       secrets:
@@ -19,6 +22,10 @@ spring:
         paths: /etc/secret
       reload:
         enabled: true
+    #
+    loadbalancer:
+      ribbon:
+        enabled: false
     # dynamic configuration
     config:
       enabled: false

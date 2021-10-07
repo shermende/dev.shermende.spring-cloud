@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: env-sba
+  namespace: env-sba
 spec:
   replicas: 1
   selector:
@@ -21,16 +22,9 @@ spec:
               value: kubernetes,jwt
             - name: spring.cloud.kubernetes.enabled
               value: "true"
+            - name: spring.cloud.kubernetes.discovery.enabled
+              value: "true"
             - name: spring.cloud.kubernetes.config.enabled
               value: "true"
             - name: spring.cloud.kubernetes.secrets.enabled
               value: "true"
-            - name: spring.cloud.kubernetes.discovery.enabled
-              value: "true"
-          volumeMounts:
-            - name: volume-secret-env-sba
-              mountPath: /etc/secret
-      volumes:
-        - name: volume-secret-env-sba
-          secret:
-            secretName: env-sba

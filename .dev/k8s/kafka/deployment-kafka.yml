@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: env-kafka
+  namespace: env-kafka
 spec:
   replicas: 1
   selector:
@@ -29,7 +30,7 @@ spec:
             - name: KAFKA_INTER_BROKER_LISTENER_NAME
               value: LISTENER_INTERNAL
             - name: KAFKA_ADVERTISED_LISTENERS
-              value: LISTENER_INTERNAL://$(MY_POD_IP):9091,LISTENER_EXTERNAL://$(MY_POD_IP):9092
+              value: LISTENER_INTERNAL://$(MY_POD_IP):9091,LISTENER_EXTERNAL://$(MY_POD_IP):30092
             - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
               value: LISTENER_INTERNAL:PLAINTEXT,LISTENER_EXTERNAL:PLAINTEXT
             - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
@@ -39,14 +40,12 @@ apiVersion: v1
 kind: Service
 metadata:
   name: env-kafka
+  namespace: env-kafka
 spec:
   type: LoadBalancer
   selector:
     app.kubernetes.io/name: env-kafka
   ports:
-    - name: external
-      port: 9092
-      nodePort: 30092
     - name: internal
       port: 9091
       nodePort: 30091

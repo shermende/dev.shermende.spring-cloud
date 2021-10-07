@@ -10,8 +10,11 @@ spring:
   cloud:
     kubernetes:
       enabled: false
+      loadbalancer:
+        enabled: false
       discovery:
         enabled: false
+        all-namespaces: true
       config:
         enabled: false
       secrets:

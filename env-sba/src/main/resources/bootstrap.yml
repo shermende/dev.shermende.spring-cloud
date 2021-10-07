@@ -8,17 +8,24 @@ spring:
   cloud:
     kubernetes:
       enabled: false
+      loadbalancer:
+        enabled: false
       config:
         enabled: false
       secrets:
         enabled: false
-        paths: /etc/secret
+        enable-api: true
       discovery:
         enabled: false
+        all-namespaces: true
         service-labels:
           sba-client: true
       reload:
         enabled: true
+    #
+    loadbalancer:
+      ribbon:
+        enabled: false
     # dynamic configuration
     config:
       enabled: false
