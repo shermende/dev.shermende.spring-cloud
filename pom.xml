@@ -24,7 +24,7 @@
         <module>env-sba</module>
         <module>app-game</module>
         <module>app-reference</module>
-        <module>lib-api-reference</module>
+        <module>app-reference-api</module>
     </modules>
 
     <properties>
@@ -83,7 +83,7 @@
 
             <dependency>
                 <groupId>dev.shermende</groupId>
-                <artifactId>lib-api-reference</artifactId>
+                <artifactId>app-reference-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

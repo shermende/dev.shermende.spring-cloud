@@ -29,7 +29,7 @@
 
         <dependency>
             <groupId>dev.shermende</groupId>
-            <artifactId>lib-api-reference</artifactId>
+            <artifactId>app-reference-api</artifactId>
         </dependency>
 
         <dependency>

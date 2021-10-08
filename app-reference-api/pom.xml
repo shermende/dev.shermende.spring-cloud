@@ -8,7 +8,7 @@
         <groupId>dev.shermende</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>lib-api-reference</artifactId>
+    <artifactId>app-reference-api</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
