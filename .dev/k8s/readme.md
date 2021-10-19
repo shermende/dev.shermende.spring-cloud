@@ -2,7 +2,9 @@
 
 https://stackoverflow.com/questions/55498702/how-to-fix-forbiddenconfigured-service-account-doesnt-have-access-with-spark
 
-###### configure namespaces
+### configure namespaces
+
+##### run cluster-role.yml before
 
 kubectl create namespace env-authorization kubectl create clusterrolebinding
 microservices-kubernetes-namespace-reader-env-authorization --clusterrole=microservices-kubernetes-namespace-reader
@@ -21,5 +23,6 @@ kubectl create namespace env-sba kubectl create clusterrolebinding microservices
 kubectl create namespace env-kafka kubectl create clusterrolebinding microservices-kubernetes-namespace-reader-env-kafka
 --clusterrole=microservices-kubernetes-namespace-reader --serviceaccount=env-kafka:default
 
-####### remove none images
+###### # remove none images
+
 docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
