@@ -75,7 +75,7 @@ public class JwtAuthorizationServerBeansConfiguration {
     ) {
         final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         converter.setKeyPair(keyPair);
-        converter.setAccessTokenConverter(new JwtDefaultAccessTokenConverter(new JwtDefaultUserAuthenticationConverter()));
+        converter.setAccessTokenConverter(new JwtDefaultAccessTokenConverter("env-authorization", new JwtDefaultUserAuthenticationConverter()));
         return converter;
     }
 

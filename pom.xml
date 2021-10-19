@@ -41,6 +41,7 @@
         <logstash-logback-encoder.version>6.4</logstash-logback-encoder.version>
         <easy-random.version>4.0.0</easy-random.version>
         <springfox.version>2.9.2</springfox.version>
+        <spring-boot-grpc.version>2.12.0.RELEASE</spring-boot-grpc.version>
 
         <!--plugins-->
         <jacoco-maven-plugin.version>0.8.3</jacoco-maven-plugin.version>
@@ -85,6 +86,18 @@
                 <groupId>dev.shermende</groupId>
                 <artifactId>app-reference-api</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.devh</groupId>
+                <artifactId>grpc-server-spring-boot-starter</artifactId>
+                <version>${spring-boot-grpc.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.devh</groupId>
+                <artifactId>grpc-client-spring-boot-starter</artifactId>
+                <version>${spring-boot-grpc.version}</version>
             </dependency>
 
             <dependency>
