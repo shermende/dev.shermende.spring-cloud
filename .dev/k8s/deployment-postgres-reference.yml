@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: env-postgres-reference
+  namespace: env-postgres
 spec:
   replicas: 1
   selector:
@@ -24,11 +25,13 @@ spec:
               value: postgres
             - name: POSTGRES_PASSWORD
               value: postgres
+      serviceAccountName: env-postgres-sa
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: env-postgres-reference
+  namespace: env-postgres
 spec:
   type: LoadBalancer
   selector:

@@ -12,9 +12,50 @@ data:
     spring.kafka.bootstrap-servers=env-kafka.env-kafka.svc.cluster.local:9091
     spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://env-authorization.env-authorization.svc.cluster.local:8000/.well-known/jwks.json
     spring.datasource.driver-class-name=org.postgresql.Driver
-    spring.datasource.url=jdbc:postgresql://env-postgres-game.default.svc.cluster.local:5432/game
+    spring.datasource.url=jdbc:postgresql://env-postgres-game.env-postgres.svc.cluster.local:5432/game
     spring.datasource.username=postgres
     spring.datasource.password=postgres
     spring.jpa.show-sql=true
     spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
     hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds=30000
+    logging.config=logging.config=/etc/configmap/logback.xml
+  logback.xml: |-
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!-- kafka appender for EFK (ES, Fluent, Kibana)-->
+    <configuration scan="true">
+        <contextName>${HOSTNAME}</contextName>
+        <springProperty scope="context" name="version" source="version"/>
+        <springProperty scope="context" name="profile" source="spring.profiles.active"/>
+        <springProperty scope="context" name="application" source="spring.application.name"/>
+
+        <!-- use Spring default values -->
+        <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+        <!-- console -->
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+                <charset>utf8</charset>
+            </encoder>
+        </appender>
+
+        <appender name="KAFKA" class="com.github.danielwegener.logback.kafka.KafkaAppender">
+            <topic>logback</topic>
+            <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy"/>
+            <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy"/>
+            <producerConfig>bootstrap.servers=env-kafka.env-kafka.svc.cluster.local:9091</producerConfig>
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                <includeCallerData>true</includeCallerData>
+            </encoder>
+        </appender>
+
+        <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+            <includeCallerData>true</includeCallerData>
+            <appender-ref ref="KAFKA"/>
+        </appender>
+
+        <root level="info">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="ASYNC"/>
+        </root>
+
+    </configuration>

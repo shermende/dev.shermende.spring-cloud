@@ -39,6 +39,7 @@ spec:
               value: LISTENER_INTERNAL:PLAINTEXT,LISTENER_EXTERNAL:PLAINTEXT
             - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
               value: "1"
+      serviceAccountName: env-kafka-sa
 ---
 apiVersion: v1
 kind: Service

@@ -17,6 +17,11 @@ spec:
       containers:
         - name: app-game
           image: app-game:0.0.1
+          volumeMounts:
+            - name: volume-config-app-game
+              mountPath: /etc/configmap
+            - name: volume-secret-app-game
+              mountPath: /etc/secret
           env:
             - name: spring.profiles.active
               value: kubernetes,jwt
@@ -28,10 +33,13 @@ spec:
               value: "true"
             - name: spring.cloud.kubernetes.secrets.enabled
               value: "true"
-          volumeMounts:
-            - name: volume-secret-app-game
-              mountPath: /etc/secret
+#            - name: logging.config
+#              value: logging.config=/etc/configmap/logback.xml
       volumes:
         - name: volume-secret-app-game
           secret:
             secretName: app-game
+        - name: volume-config-app-game
+          configMap:
+            name: app-game
+      serviceAccountName: app-game-sa

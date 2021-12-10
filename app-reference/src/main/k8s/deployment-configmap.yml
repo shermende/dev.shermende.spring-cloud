@@ -12,7 +12,7 @@ data:
     spring.kafka.bootstrap-servers=env-kafka.env-kafka.svc.cluster.local:9091
     spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://env-authorization.env-authorization.svc.cluster.local:8000/.well-known/jwks.json
     spring.datasource.driver-class-name=org.postgresql.Driver
-    spring.datasource.url=jdbc:postgresql://env-postgres-reference.default.svc.cluster.local:5432/reference
+    spring.datasource.url=jdbc:postgresql://env-postgres-reference.env-postgres.svc.cluster.local:5432/reference
     spring.datasource.username=postgres
     spring.datasource.password=postgres
     spring.jpa.show-sql=true

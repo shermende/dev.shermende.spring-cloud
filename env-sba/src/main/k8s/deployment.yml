@@ -28,3 +28,4 @@ spec:
               value: "true"
             - name: spring.cloud.kubernetes.secrets.enabled
               value: "true"
+      serviceAccountName: env-sba-sa

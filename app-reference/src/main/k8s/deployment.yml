@@ -36,3 +36,4 @@ spec:
         - name: volume-secret-app-reference
           secret:
             secretName: app-reference
+      serviceAccountName: app-reference-sa

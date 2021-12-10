@@ -21,6 +21,7 @@ spec:
           env:
             - name: ZOOKEEPER_CLIENT_PORT
               value: "2181"
+      serviceAccountName: env-kafka-sa
 ---
 apiVersion: v1
 kind: Service

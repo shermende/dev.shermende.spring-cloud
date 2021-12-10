@@ -35,3 +35,4 @@ spec:
         - name: volume-secret-env-authorization
           secret:
             secretName: env-authorization
+      serviceAccountName: env-authorization-sa
