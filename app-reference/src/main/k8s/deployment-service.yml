@@ -15,5 +15,4 @@ spec:
   selector:
     app.kubernetes.io/name: app-reference
   ports:
-    - nodePort: 30810
-      port: 8100
+    - port: 8100

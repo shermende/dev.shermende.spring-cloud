@@ -15,5 +15,4 @@ spec:
   selector:
     app.kubernetes.io/name: env-authorization
   ports:
-    - nodePort: 30800
-      port: 8000
+    - port: 8000

@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: env-sba
+  namespace: env-sba
+spec:
+  rules:
+    - host: env-sba.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: env-sba
+                port:
+                  number: 8081

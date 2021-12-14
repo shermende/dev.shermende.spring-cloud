@@ -15,5 +15,4 @@ spec:
   selector:
     app.kubernetes.io/name: app-game
   ports:
-    - nodePort: 30820
-      port: 8200
+    - port: 8200
