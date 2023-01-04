@@ -3,7 +3,6 @@ package dev.shermende.game.service;
 import com.querydsl.core.types.Predicate;
 import dev.shermende.game.db.entity.Game;
 import dev.shermende.game.resource.GameCreateResource;
-import dev.shermende.game.resource.GameMoveResource;
 import dev.shermende.lib.dal.service.CrudService;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,13 +23,6 @@ public interface GameService extends CrudService<Game, Long> {
     Game create(
         @NotNull Authentication authentication,
         @NotNull GameCreateResource resource
-    );
-
-    @NotNull
-    Game move(
-        @NotNull Authentication authentication,
-        @NotNull Long gameId,
-        @NotNull GameMoveResource resource
     );
 
 }

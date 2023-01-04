@@ -1,11 +1,6 @@
 #
 version: @project.version@
 #
-server:
-  port: 8200
-  error:
-    include-binding-errors: always
-#
 spring:
   profiles:
     active: default
@@ -17,4 +12,4 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate

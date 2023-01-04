@@ -5,8 +5,27 @@ server:
 spring:
   application:
     name: env-sba
-  # cloud properties
   cloud:
+    kubernetes:
+      enabled: false
+      loadbalancer:
+        enabled: false
+      config:
+        enabled: false
+      secrets:
+        enabled: false
+        enable-api: true
+      discovery:
+        enabled: false
+        all-namespaces: true
+        service-labels:
+          sba-client: true
+      reload:
+        enabled: true
+    #
+    loadbalancer:
+      ribbon:
+        enabled: false
     # dynamic configuration
     config:
       enabled: false
@@ -14,10 +33,6 @@ spring:
       discovery:
         enabled: false
         service-id: env-configuration
-    # ribbon balancer disabled
-    loadbalancer:
-      ribbon:
-        enabled: false
   # force sba-client disable
   boot:
     admin:
@@ -32,6 +47,8 @@ eureka:
     metadata-map:
       management.port: ${management.server.port}
       management.context-path: /actuator
+      user.name: ${spring.security.user.password}
+      user.password: ${spring.security.user.password}
 #
 management:
   server:

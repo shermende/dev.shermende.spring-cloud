@@ -1,8 +1,34 @@
 #
+server:
+  port: 8100
+#
 spring:
   application:
     name: app-reference
+  zipkin:
+    enabled: false
+  sleuth:
+    scheduled:
+      skip-pattern: org.springframework.cloud.kubernetes.discovery.KubernetesCatalogWatch|org.springframework.cloud.netflix.hystrix.stream.HystrixStreamTask
   cloud:
+    kubernetes:
+      enabled: false
+      loadbalancer:
+        enabled: false
+      discovery:
+        enabled: false
+        all-namespaces: true
+      config:
+        enabled: false
+      secrets:
+        enabled: false
+        paths: /etc/secret
+      reload:
+        enabled: true
+    #
+    loadbalancer:
+      ribbon:
+        enabled: false
     # dynamic configuration
     config:
       enabled: false
@@ -19,8 +45,12 @@ eureka:
     metadata-map:
       management.port: ${management.server.port}
       management.context-path: /actuator
+      user.name: ${spring.security.user.name}
+      user.password: ${spring.security.user.password}
 # management settings
 management:
+  server:
+    port: 7100
   endpoint:
     health:
       show-details: always

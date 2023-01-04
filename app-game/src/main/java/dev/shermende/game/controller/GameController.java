@@ -13,6 +13,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,17 +31,17 @@ public class GameController {
 
     @GetMapping("/{id}")
     public GameModel findById(
-        @PathVariable Long id
+            @PathVariable Long id
     ) {
         return assembler.toModel(service.findById(id).orElseThrow(EntityNotFoundException::new));
     }
 
     @GetMapping
     public PagedModel<GameModel> findAll(
-        Authentication authentication,
-        @PageableDefault Pageable pageable,
-        @QuerydslPredicate(root = Game.class) Predicate predicate,
-        PagedResourcesAssembler<Game> pagedResourcesAssembler
+            @AuthenticationPrincipal Authentication authentication,
+            @PageableDefault Pageable pageable,
+            @QuerydslPredicate(root = Game.class) Predicate predicate,
+            PagedResourcesAssembler<Game> pagedResourcesAssembler
     ) {
         final Page<Game> games = service.findAll(authentication, predicate, pageable);
         return pagedResourcesAssembler.toModel(games, assembler);
