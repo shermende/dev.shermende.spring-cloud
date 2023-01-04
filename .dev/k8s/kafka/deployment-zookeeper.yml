@@ -20,7 +20,7 @@ spec:
           image: confluentinc/cp-zookeeper:5.3.1
           env:
             - name: ZOOKEEPER_CLIENT_PORT
-              value: "2181"
+              value: "12181"
       serviceAccountName: env-kafka-sa
 ---
 apiVersion: v1
@@ -32,5 +32,5 @@ spec:
   selector:
     app.kubernetes.io/name: env-zookeeper
   ports:
-    - port: 2181
+    - port: 12181
 

@@ -19,8 +19,10 @@ spec:
         - name: env-kafkadrop
           image: obsidiandynamics/kafdrop:3.23.0
           env:
+            - name: SERVER_PORT
+              value: "19000"
             - name: KAFKA_BROKERCONNECT
-              value: env-kafka:9091
+              value: env-kafka:19091
       serviceAccountName: env-kafka-sa
 ---
 apiVersion: v1
@@ -33,5 +35,5 @@ spec:
   selector:
     app.kubernetes.io/name: env-kafkadrop
   ports:
-    - port: 9000
-      nodePort: 30900
+    - port: 19000
+#      nodePort: 30900 # access through linux minikube

@@ -31,4 +31,4 @@ spec:
     app.kubernetes.io/name: env-zipkin
   ports:
     - port: 9411
-      nodePort: 30941
+#      nodePort: 30941 # access through linux minikube

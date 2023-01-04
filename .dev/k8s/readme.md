@@ -9,9 +9,7 @@ https://stackoverflow.com/questions/55498702/how-to-fix-forbiddenconfigured-serv
 ```
 kubectl create namespace env-kafka
 kubectl create serviceaccount env-kafka-sa -n env-kafka
-kubectl create clusterrolebinding env-kafka-rb \
---clusterrole=microservices-kubernetes-namespace-reader \
---serviceaccount=env-kafka:env-kafkfa-sa
+kubectl create clusterrolebinding env-kafka-rb --clusterrole=microservices-kubernetes-namespace-reader --serviceaccount=env-kafka:env-kafkfa-sa
 ```
 
 ```

@@ -5,8 +5,9 @@ metadata:
   name: env-authorization
 data:
   application.properties: |-
+    server.port=18000
     spring.cloud.kubernetes.loadbalancer.enabled=true
     spring.jmx.enabled=true
     spring.zipkin.enabled=true
     spring.zipkin.sender.type=kafka
-    spring.kafka.bootstrap-servers=env-kafka.env-kafka.svc.cluster.local:9091
+    spring.kafka.bootstrap-servers=env-kafka.env-kafka.svc.cluster.local:19091

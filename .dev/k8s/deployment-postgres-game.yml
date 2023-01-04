@@ -38,4 +38,4 @@ spec:
     app.kubernetes.io/name: env-postgres-game
   ports:
     - port: 5432
-      nodePort: 30543
+#      nodePort: 30543 # access through linux minikube
