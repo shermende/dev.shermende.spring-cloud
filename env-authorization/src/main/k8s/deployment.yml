@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: env-authorization-container
-          image: env-authorization:0.0.1
+          image: 192.168.0.109:5000/env-authorization:latest
           env:
             - name: spring.profiles.active
               value: kubernetes,jwt
