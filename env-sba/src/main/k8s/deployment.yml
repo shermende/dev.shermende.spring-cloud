@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: env-sba
-          image: env-sba:0.0.1
+          image: 192.168.0.109:5000/env-sba:latest
           env:
             - name: spring.profiles.active
               value: kubernetes,jwt

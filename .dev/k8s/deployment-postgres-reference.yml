@@ -38,4 +38,4 @@ spec:
     app.kubernetes.io/name: env-postgres-reference
   ports:
     - port: 5432
-      nodePort: 30544
+#      nodePort: 30544

@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: app-game
-          image: app-game:0.0.1
+          image: 192.168.0.109:5000/app-game:latest
           env:
             - name: spring.profiles.active
               value: kubernetes,jwt

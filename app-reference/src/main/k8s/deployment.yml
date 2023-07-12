@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: app-reference
-          image: app-reference:0.0.1
+          image: image-registry.local:5000/app-reference:latest
           env:
             - name: spring.profiles.active
               value: kubernetes,jwt
@@ -28,7 +28,6 @@ spec:
               value: "true"
             - name: spring.cloud.kubernetes.secrets.enabled
               value: "true"
-
           volumeMounts:
             - name: volume-secret-app-reference
               mountPath: /etc/secret
